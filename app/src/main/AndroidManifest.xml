@@ -3,23 +3,72 @@
     package="com.meishipintu.bankoa">
 
     <application
+        android:name=".OaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.activitys.MainActivity">
+
+        <!-- 登录界面 -->
+        <activity
+            android:name=".views.activitys.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.activitys.NoticActivity" />
-        <activity android:name=".views.activitys.TaskTriggerActivity" />
-        <activity android:name=".views.activitys.ClerkListActivity" />
-        <activity android:name=".views.activitys.LoginActivity" />
-        <activity android:name=".views.activitys.RegisterActivity"></activity>
+        <!-- 主动能页 -->
+        <activity
+            android:name=".views.activitys.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 消息页面 -->
+        <activity
+            android:name=".views.activitys.NoticActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 任务发起页面 -->
+        <activity
+            android:name=".views.activitys.TaskTriggerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".views.activitys.ClerkListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 注册页面 -->
+        <activity
+            android:name=".views.activitys.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 设置页面 -->
+        <activity
+            android:name=".views.activitys.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 任务页面 -->
+        <activity
+            android:name=".views.activitys.TaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 任务详情（小） -->
+        <activity
+            android:name=".views.activitys.TaskDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 申请页/任务详情（大） -->
+        <activity
+            android:name=".views.activitys.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--搜索页面-->
+        <activity android:name=".views.activitys.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

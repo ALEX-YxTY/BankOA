@@ -5,4 +5,5 @@ package com.meishipintu.bankoa.models.http;
  */
 
 public interface HttpService {
+
 }

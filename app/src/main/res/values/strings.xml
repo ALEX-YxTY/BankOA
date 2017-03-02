@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BankOA</string>
+    <string name="trigger">确认发起</string>
 </resources>
