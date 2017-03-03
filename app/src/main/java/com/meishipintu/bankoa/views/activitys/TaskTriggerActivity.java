@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.R;
+import com.meishipintu.bankoa.components.DaggerTaskTriggrtComponent;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
 import com.meishipintu.bankoa.presenters.TaskTriggetPresenterImp;
 
@@ -50,6 +51,8 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         setContentView(R.layout.activity_task_trigger);
         ButterKnife.bind(this);
         init();
+
+
     }
 
     private void init() {

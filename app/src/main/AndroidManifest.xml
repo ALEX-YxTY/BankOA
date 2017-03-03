@@ -65,10 +65,11 @@
             android:name=".views.activitys.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <!--搜索页面-->
-        <activity android:name=".views.activitys.SearchActivity"
+        <!-- 搜索页面 -->
+        <activity
+            android:name=".views.activitys.SearchActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

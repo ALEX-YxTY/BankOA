@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#ffffff</color>
 
+    <color name="colorPrimary">#574B90</color>
+    <color name="colorPrimaryDark">#303A52</color>
+    <color name="colorAccent">#FA4659</color>
+
+
+    <color name="white">#ffffff</color>
     <!--主题蓝色-->
     <color name="colorTheme">#3366aa</color>
 </resources>

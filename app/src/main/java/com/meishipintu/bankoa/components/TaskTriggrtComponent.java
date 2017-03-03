@@ -10,6 +10,6 @@ import dagger.Component;
  * 主要功能： Dagger TaskTrigger页的Component
  */
 
-@Component(modules = TaskTriggrtModule.class,dependencies = )
+@Component(modules = TaskTriggrtModule.class, dependencies = ApplicationComponent.class)
 public interface TaskTriggrtComponent {
 }
