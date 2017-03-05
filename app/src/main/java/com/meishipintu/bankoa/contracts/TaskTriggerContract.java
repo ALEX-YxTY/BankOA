@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/3/2.
  * <p>
- * 主要功能：
+ * 主要功能：TaskTrigger页的view和presenter接口管理
  */
 
 public interface TaskTriggerContract {

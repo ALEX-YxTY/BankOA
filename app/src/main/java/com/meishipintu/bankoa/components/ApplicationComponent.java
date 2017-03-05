@@ -14,5 +14,6 @@ import dagger.Component;
 
 @Component(modules = ApplicationModlue.class)
 public interface ApplicationComponent {
+
     Context getContext();
 }

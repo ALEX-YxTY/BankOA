@@ -30,7 +30,6 @@ dependencies {
     //RxJava&RxAndroid
     //Glide
     //Bugly
-    compile project(':library')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.jakewharton:butterknife:8.5.1'
@@ -47,4 +46,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    compile project(path: ':library')
 }

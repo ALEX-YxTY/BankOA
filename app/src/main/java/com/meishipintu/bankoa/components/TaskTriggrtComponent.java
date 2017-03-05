@@ -1,6 +1,7 @@
 package com.meishipintu.bankoa.components;
 
 import com.meishipintu.bankoa.modules.TaskTriggrtModule;
+import com.meishipintu.bankoa.views.activitys.TaskTriggerActivity;
 
 import dagger.Component;
 
@@ -12,4 +13,6 @@ import dagger.Component;
 
 @Component(modules = TaskTriggrtModule.class, dependencies = ApplicationComponent.class)
 public interface TaskTriggrtComponent {
+
+    void inject(TaskTriggerActivity triggerActivity);
 }

@@ -1,15 +1,16 @@
 package com.meishipintu.bankoa.views.activitys;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskTriggrtComponent;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
-import com.meishipintu.bankoa.presenters.TaskTriggetPresenterImp;
+import com.meishipintu.bankoa.modules.TaskTriggrtModule;
+import com.meishipintu.bankoa.presenters.TaskTriggerPresenterImp;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     EditText etRemark;
 
     @Inject
-    TaskTriggetPresenterImp presenter;
+    TaskTriggerPresenterImp presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,14 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         ButterKnife.bind(this);
         init();
 
-
+        //通过Dagger注入
+        DaggerTaskTriggrtComponent.builder()
+                //导入依赖Component
+                .applicationComponent(OaApplication.getInstance().getApplicationComponent())
+                //导入依赖Module
+                .taskTriggrtModule(new TaskTriggrtModule(this))
+                .build()
+                .inject(this);
     }
 
     private void init() {

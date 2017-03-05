@@ -14,10 +14,11 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Administrator on 2017/3/2.
  * <p>
- * 主要功能：
+ *
+ * 主要功能：TaskTrigger页的依赖Module
  */
 
-public class TaskTriggetPresenterImp implements TaskTriggerContract.IPresenter {
+public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     private TaskTriggerContract.IView view;
     private CompositeSubscription subscriptions;
@@ -25,11 +26,10 @@ public class TaskTriggetPresenterImp implements TaskTriggerContract.IPresenter {
     private PreferenceHelper preferenceHelper;
 
     @Inject
-    TaskTriggetPresenterImp(Context context, TaskTriggerContract.IView view) {
+    TaskTriggerPresenterImp(Context context, TaskTriggerContract.IView view) {
         this.view = view;
         httpApi = HttpApi.getInstance();
         this.subscriptions = new CompositeSubscription();
-
     }
 
     @Override
