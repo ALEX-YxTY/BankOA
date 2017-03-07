@@ -9,4 +9,9 @@
     <color name="white">#ffffff</color>
     <!--主题蓝色-->
     <color name="colorTheme">#3366aa</color>
+
+
+    <!--分隔色-->
+    <color name="divider">#eeeeee</color>
+
 </resources>
