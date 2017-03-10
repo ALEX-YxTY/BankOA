@@ -8,10 +8,21 @@
 
     <color name="white">#ffffff</color>
     <!--主题蓝色-->
-    <color name="colorTheme">#3366aa</color>
+    <color name="colorTheme">#25aaff</color>
+    <color name="colorTheme2">#5cc0ff</color>
 
 
     <!--分隔色-->
     <color name="divider">#eeeeee</color>
+
+    <color name="bg_color">#f9fbff</color>
+
+    <color name="hint_text">#dddddd</color>
+    <color name="edit_text_back">#ebebeb</color>
+    <color name="text_black">#4a4a4a</color>
+    <color name="text_gray">#999999</color>
+    <color name="text_gray2">#d8d8d8</color>
+    <color name="text_gray3">#c8c8c8</color>
+    <color name="text_gray4">#666666</color>
 
 </resources>

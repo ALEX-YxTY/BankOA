@@ -12,7 +12,7 @@
 
         <!-- 登录界面 -->
         <activity
-            android:name=".views.activitys.LoginActivity"
+            android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -23,51 +23,70 @@
         </activity>
         <!-- 主动能页 -->
         <activity
-            android:name=".views.activitys.MainActivity"
+            android:name=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 消息页面 -->
         <activity
-            android:name=".views.activitys.NoticActivity"
+            android:name=".views.activities.NoticActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 任务发起页面 -->
         <activity
-            android:name=".views.activitys.TaskTriggerActivity"
+            android:name=".views.activities.TaskTriggerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".views.activitys.ClerkListActivity"
+            android:name=".views.activities.ClerkListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 注册页面 -->
         <activity
-            android:name=".views.activitys.RegisterActivity"
+            android:name=".views.activities.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 设置页面 -->
         <activity
-            android:name=".views.activitys.SettingActivity"
+            android:name=".views.activities.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 任务页面 -->
         <activity
-            android:name=".views.activitys.TaskActivity"
+            android:name=".views.activities.TaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 任务详情（小） -->
         <activity
-            android:name=".views.activitys.TaskDetailActivity"
+            android:name=".views.activities.TaskDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 申请页/任务详情（大） -->
         <activity
-            android:name=".views.activitys.WebViewActivity"
+            android:name=".views.activities.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 搜索页面 -->
         <activity
-            android:name=".views.activitys.SearchActivity"
+            android:name=".views.activities.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 修改密码/修改手机号页面 -->
+        <activity
+            android:name=".views.activities.ForgetPswActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 提示成功页面 -->
+        <activity
+            android:name=".views.activities.ShowSuccessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 个人资料页面 -->
+        <activity
+            android:name=".views.activities.UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--改绑手机-->
+        <activity android:name=".views.activities.BindTelActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>

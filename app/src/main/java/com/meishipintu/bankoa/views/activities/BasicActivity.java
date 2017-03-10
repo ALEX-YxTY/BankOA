@@ -1,4 +1,4 @@
-package com.meishipintu.bankoa.views.activitys;
+package com.meishipintu.bankoa.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 

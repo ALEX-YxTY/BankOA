@@ -4,10 +4,136 @@
     android:id="@+id/activity_regist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.meishipintu.bankoa.views.activitys.RegisterActivity">
+    android:background="@color/white"
+    tools:context="com.meishipintu.bankoa.views.activities.RegisterActivity">
 
+    <include layout="@layout/titlebar_back" android:id="@+id/titlebar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titlebar"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="205dp"
+            android:layout_alignParentStart="true">
+            <com.meishipintu.library.view.CircleImageView
+                android:id="@+id/civ_head"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <!--获取验证码-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical">
+                <ImageView
+                    android:id="@+id/icon_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:id="@+id/et_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/icon_tel"
+                    android:layout_marginLeft="22dp"
+                    android:background="@null"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/verify_code_please"
+                    android:textColorHint="@color/hint_text"
+                    android:inputType="phone"
+                    android:textSize="16sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/edit_text_back"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_verify"
+                android:layout_width="100dp"
+                android:layout_height="33dp"
+                android:layout_alignParentRight="true"
+                android:text="@string/getVerifyCode"
+                android:textSize="14sp"
+                android:textColor="@drawable/selector_text_bt"
+                android:background="@drawable/selector_bt_border"/>
+        </LinearLayout>
+        <!--验证码输入-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="25dp">
+            <ImageView
+                android:id="@+id/icon_verify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"/>
+            <EditText
+                android:id="@+id/et_verify_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_verify"
+                android:layout_marginLeft="22dp"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:hint="@string/verify_code_please"
+                android:textColorHint="@color/hint_text"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/edit_text_back"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+        <!--新密码输入-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="25dp">
+            <ImageView
+                android:id="@+id/icon_psw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"/>
+            <EditText
+                android:id="@+id/et_psw_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_psw"
+                android:layout_marginLeft="22dp"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:hint="@string/psw_please"
+                android:textColorHint="@color/hint_text"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/edit_text_back"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/bt_register"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/shape_bt_theme"
+            android:layout_marginTop="28dp"
+            android:textSize="@dimen/title_text"
+            android:textColor="@color/white"
+            android:text="@string/register"/>
+    </LinearLayout>
 </RelativeLayout>

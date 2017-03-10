@@ -4,157 +4,212 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.meishipintu.bankoa.views.activitys.MainActivity">
-    <include layout="@layout/titlebar_setting_search"/>
+    android:background="@color/white"
+    tools:context="com.meishipintu.bankoa.views.activities.MainActivity">
+    <include layout="@layout/titlebar_setting_search"
+        android:id="@+id/titlebar"/>
+
     <LinearLayout
         android:id="@+id/head_part"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp"
+        android:layout_below="@id/titlebar"
         android:gravity="center_horizontal"
+        android:layout_margin="12dp"
+        android:background="@drawable/shape_head_bg"
         >
         <com.meishipintu.library.view.CircleImageView
             android:id="@+id/civ_head"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_width="83dp"
+            android:layout_height="83dp"
+            android:layout_marginTop="20dp"/>
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"/>
         <TextView
             android:id="@+id/tv_job_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"/>
         <TextView
             android:id="@+id/tv_number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="15dp"/>
 
     </LinearLayout>
 
-    <!--消息-->
-    <RelativeLayout
-        android:id="@+id/message"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/head_part"
-        android:padding="15dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:layout_below="@id/head_part">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--消息-->
+            <RelativeLayout
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="#f7fcff">
 
-        <ImageView
-            android:id="@+id/iv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_toRightOf="@id/iv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_message"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"/>
+                <LinearLayout
+                    android:layout_toRightOf="@id/iv_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/main_text"
+                        android:text="消息"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sub_main_text"
+                        android:text="提醒、通知"/>
+                </LinearLayout>
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <!--任务-->
-    <RelativeLayout
-        android:id="@+id/task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/message"
-        android:padding="15dp"
-        android:gravity="center_vertical">
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <!--任务-->
+            <RelativeLayout
+                android:id="@+id/task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/message"
+                android:padding="12dp">
 
-        <ImageView
-            android:id="@+id/iv_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_toRightOf="@id/iv_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_task"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"/>
+                <LinearLayout
+                    android:layout_toRightOf="@id/iv_task"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/main_text"
+                        android:text="任务"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sub_main_text"
+                        android:text="已完成未完成任务列表"/>
+                </LinearLayout>
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <!--发起任务-->
-    <RelativeLayout
-        android:id="@+id/task_trigger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/task"
-        android:padding="15dp"
-        android:gravity="center_vertical">
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <!--发起任务-->
+            <RelativeLayout
+                android:id="@+id/task_trigger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task"
+                android:padding="12dp"
+                android:background="#f7fcff">
 
-        <ImageView
-            android:id="@+id/iv_task_trigger"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_toRightOf="@id/iv_task_trigger"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_task_trigger"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"/>
+                <LinearLayout
+                    android:layout_toRightOf="@id/iv_task_trigger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/main_text"
+                        android:text="发起任务"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sub_main_text"
+                        android:text="用于发布或下达任务"/>
+                </LinearLayout>
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <!--监管-->
-    <RelativeLayout
-        android:id="@+id/check"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/task_trigger"
-        android:padding="15dp"
-        android:gravity="center_vertical">
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <!--监管-->
+            <RelativeLayout
+                android:id="@+id/check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/task_trigger"
+                android:padding="12dp">
 
-        <ImageView
-            android:id="@+id/iv_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_toRightOf="@id/iv_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_check"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <LinearLayout
+                    android:layout_toRightOf="@id/iv_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/main_text"
+                        android:text="监管"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/sub_main_text"
+                        android:text="部门主管查看业务近况"/>
+                </LinearLayout>
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

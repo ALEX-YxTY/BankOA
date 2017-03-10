@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+
+    <include layout="@layout/titlebar_back" />
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="130dp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/tv_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iv_icon"
+        android:layout_marginTop="33dp"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:textColor="@color/text_gray4"
+        />
+
+    <Button
+        android:id="@+id/bt_sure"
+        android:layout_height="42dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/shape_bt_theme"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="确定"/>
+
+
+</RelativeLayout>

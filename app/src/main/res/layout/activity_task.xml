@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</RelativeLayout>
+    <include layout="@layout/titlebar_back_withoutline" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+        <RadioButton
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:textSize="12sp"
+            android:checked="true"
+            android:text="提醒"
+            android:gravity="center"
+            android:button="@null"
+            android:background="@drawable/selector_bt_radio"
+            android:textColor="@drawable/selector_text_radio"/>
+        <RadioButton
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:textSize="12sp"
+            android:text="通知"
+            android:gravity="center"
+            android:button="@null"
+            android:background="@drawable/selector_bt_radio"
+            android:textColor="@drawable/selector_text_radio"/>
+    </RadioGroup>
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -1,6 +1,354 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9faff">
 
-</LinearLayout>
+    <include android:id="@+id/title" layout="@layout/titlebar_back" />
+    <RelativeLayout
+        android:id="@+id/rl_task_view"
+        android:layout_below="@id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            >
+            <!--流程线-->
+            <LinearLayout
+                android:id="@+id/ll_process_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="55dp">
+
+                <View
+                    android:id="@+id/process_line_left1"
+                    android:layout_width="80dp"
+                    android:layout_height="2dp"
+                    android:background="#bde5ff"
+                    />
+
+                <View
+                    android:id="@+id/process_line_left2"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="#bde5ff"
+                    />
+
+
+                <View
+                    android:id="@+id/process_line_right1"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="#bde5ff"
+                    />
+                <View
+                    android:id="@+id/process_line_right2"
+                    android:layout_width="80dp"
+                    android:layout_height="2dp"
+                    android:background="#bde5ff"
+                    />
+            </LinearLayout>
+            <!--主节点-->
+            <LinearLayout
+                android:id="@+id/ll_main_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:gravity="center_horizontal"
+                >
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_process_now"
+                    android:layout_marginTop="8dp"
+                    style="@style/main_process_text"
+                    android:text="现场调查"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <!--左节点-->
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="45dp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_process_left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_process_left"
+                    android:layout_marginTop="5dp"
+                    style="@style/sub_process_text_finish"
+                    android:text="收集客户资料"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <!--右节点-->
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="55dp"
+                android:layout_marginTop="45dp"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_process_right"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_process_right"
+                    android:layout_marginTop="5dp"
+                    style="@style/sub_process_text_unfinish"
+                    android:text="客户准入"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <!--完成按钮-->
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_bt_finish"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:text="完成"
+                />
+            <!--完成度-->
+            <LinearLayout
+                android:id="@+id/ll_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/ll_main_process"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_percentage"
+                    android:text="完成进度"/>
+                <TextView
+                    android:id="@+id/tv_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="40sp"
+                    android:text="10"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_percentage_theme"
+                    android:text="%"/>
+            </LinearLayout>
+            <!--剩余时间-->
+            <LinearLayout
+                android:id="@+id/ll_time_remain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/ll_percentage">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_percentage"
+                    android:text="距离此节点截止时间还有 "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#ff6c5d"
+                    android:text="2天10小时"/>
+            </LinearLayout>
+            <!--全部流程-->
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/ll_time_remain"
+                android:id="@+id/bt_see_all"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="浏览全程"
+                android:background="@drawable/shape_bt_theme_31dp_radius"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_below="@id/rl_task_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:background="@color/colorTheme" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="15sp"
+                    android:text="人员详情"
+                    android:textColor="@color/colorTheme"/>
+
+            </RelativeLayout>
+
+            <include layout="@layout/item_clerk_2" />
+
+            <RelativeLayout
+                android:id="@+id/rl_remark"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:background="@color/colorTheme" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="备注"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lv_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_comment"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:background="@color/white"
+                android:layout_marginTop="10dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:background="@color/colorTheme" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="15sp"
+                    android:text="评论"
+                    android:textColor="@color/colorTheme"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_rect_border"
+            >
+
+            <TextView
+                android:id="@+id/tv_add_remark"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorTheme"
+                android:textSize="14sp"
+                android:text="备注"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+            <EditText
+                android:id="@+id/et_remark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/tv_add_remark"
+                android:background="@null"
+                android:hint="请输入您的备注"
+                android:textColorHint="@color/text_gray3"
+                android:textSize="14sp"
+                android:textColor="@color/text_black"
+                android:paddingLeft="30dp"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

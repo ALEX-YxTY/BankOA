@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">BankOA</string>
     <string name="trigger">确认发起</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="tel_please">请输入您的手机号码</string>
+    <string name="psw_please">请设置您的登录密码</string>
+    <string name="forget_psw">忘记密码</string>
+    <string name="new_psw_please">请设置新的登录密码</string>
+    <string name="verify_code_please">请输入您的验证码</string>
+    <string name="getVerifyCode">获取验证码</string>
+    <string name="apply_for">申请</string>
+    <string name="ok">确定</string>
+    <string name="empty_notice">你还没有通知哦~</string>
+    <string name="process_now">项目进行到：</string>
+    <string name="process_percentage">完成进度：</string>
 </resources>

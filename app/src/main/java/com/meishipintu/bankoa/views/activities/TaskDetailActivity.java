@@ -1,21 +1,24 @@
-package com.meishipintu.bankoa.views.activitys;
+package com.meishipintu.bankoa.views.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.meishipintu.bankoa.R;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2017/3/1.
  *
- * 任务列表页面
+ * 功能介绍：任务详情页面（小）
  */
 
-public class TaskActivity extends BasicActivity {
+public class TaskDetailActivity extends BasicActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_task_detail);
+        ButterKnife.bind(this);
     }
 }

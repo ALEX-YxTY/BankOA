@@ -4,7 +4,7 @@
     android:id="@+id/activity_task_trigger"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.meishipintu.bankoa.views.activitys.TaskTriggerActivity">
+    tools:context="com.meishipintu.bankoa.views.activities.TaskTriggerActivity">
 
     <include layout="@layout/titlebar_back"
         android:id="@+id/titlebar"/>

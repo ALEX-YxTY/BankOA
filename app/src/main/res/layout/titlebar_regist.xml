@@ -2,26 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="55dp">
-    <ImageView
-        android:id="@+id/bt_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+
     <TextView
-        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:text="@string/login"
         android:textSize="@dimen/title_text"
         android:textColor="@color/colorTheme"/>
-    <ImageView
-        android:id="@+id/bt_search"
+
+    <TextView
+        android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:text="@string/register"
+        android:textSize="@dimen/subTitle_text"
+        android:textColor="@color/colorTheme2"/>
 
     <View
         android:layout_width="match_parent"

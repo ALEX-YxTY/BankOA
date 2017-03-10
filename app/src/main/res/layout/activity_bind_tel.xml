@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    tools:context="com.meishipintu.bankoa.views.activities.BindTelActivity">
+
+    <include layout="@layout/titlebar_back"  android:id="@+id/titlebar"/>
+
+    <!--当前手机号-->
+    <RelativeLayout
+        android:id="@+id/rl_tel"
+        android:layout_below="@id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="13dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:textColor="@color/text_gray4"
+            android:text="当前手机号"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            android:textColor="@color/text_gray"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:maxWidth="280dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="7.5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_tel"
+        android:textSize="14sp"
+        android:textColor="@color/text_gray"
+        android:text="更换手机后，下次登录可使用新手机号登录。"/>
+    
+    <Button
+        android:id="@+id/bt_change_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@id/tv_1"
+        android:layout_marginTop="27dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="修改手机号"
+        android:background="@drawable/shape_bt_red"/>
+
+</RelativeLayout>

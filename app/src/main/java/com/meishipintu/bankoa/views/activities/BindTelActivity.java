@@ -1,21 +1,15 @@
-package com.meishipintu.bankoa.views.activitys;
+package com.meishipintu.bankoa.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.meishipintu.bankoa.R;
 
-/**
- * Created 2017-3-2
- *
- * 主要功能：搜索页面
- */
-
-public class SearchActivity extends BasicActivity {
+public class BindTelActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_bind_tel);
     }
 }

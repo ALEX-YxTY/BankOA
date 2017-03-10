@@ -1,7 +1,7 @@
 package com.meishipintu.bankoa.components;
 
 import com.meishipintu.bankoa.modules.TaskTriggrtModule;
-import com.meishipintu.bankoa.views.activitys.TaskTriggerActivity;
+import com.meishipintu.bankoa.views.activities.TaskTriggerActivity;
 
 import dagger.Component;
 

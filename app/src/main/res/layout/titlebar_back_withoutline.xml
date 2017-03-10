@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="55dp">
     <ImageView
-        android:id="@+id/bt_setting"
+        android:id="@+id/bt_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -15,18 +15,17 @@
         android:layout_centerInParent="true"
         android:textSize="@dimen/title_text"
         android:textColor="@color/colorTheme"/>
-    <ImageView
-        android:id="@+id/bt_search"
+
+    <TextView
+        android:id="@+id/tv_subTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/divider"/>
+        android:layout_marginRight="15dp"
+        android:text="@string/apply_for"
+        android:textSize="@dimen/subTitle_text"
+        android:textColor="@color/colorTheme2"
+        android:visibility="gone"/>
 
 </RelativeLayout>
