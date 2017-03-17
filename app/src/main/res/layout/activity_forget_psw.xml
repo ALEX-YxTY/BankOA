@@ -12,10 +12,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/titlebar"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="205dp"
@@ -117,7 +118,7 @@
                 android:layout_marginLeft="22dp"
                 android:background="@null"
                 android:layout_centerVertical="true"
-                android:hint="@string/new_psw_please"
+                android:hint="@string/psw_new_please"
                 android:textColorHint="@color/hint_text"
                 android:textSize="16sp" />
             <View

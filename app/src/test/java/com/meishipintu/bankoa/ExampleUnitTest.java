@@ -1,5 +1,8 @@
 package com.meishipintu.bankoa;
 
+import com.meishipintu.bankoa.presenters.TaskDetailPresenterImp;
+import com.meishipintu.bankoa.presenters.TaskPresenterImp;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +15,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        TaskDetailPresenterImp presenterImp = new TaskDetailPresenterImp();
+        presenterImp.getTaskInfo("7");
+        Thread.sleep(2000);
+        System.out.println(presenterImp.nodeInfoNow);
     }
 }

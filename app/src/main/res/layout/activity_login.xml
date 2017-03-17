@@ -24,7 +24,8 @@
                 android:id="@+id/civ_head"
                 android:layout_width="83dp"
                 android:layout_height="83dp"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_avatar"/>
         </RelativeLayout>
         <!--号码输入-->
         <RelativeLayout
@@ -71,9 +72,10 @@
                 android:layout_marginLeft="22dp"
                 android:background="@null"
                 android:layout_centerVertical="true"
-                android:hint="@string/psw_please"
+                android:hint="@string/psw_enter_please"
                 android:textColorHint="@color/hint_text"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="textPassword"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -101,13 +103,16 @@
                 android:textColor="@color/colorTheme"
                 android:text="@string/forget_psw"
                 />
-            <TextView
+            <RadioButton
                 android:id="@+id/tv_save_psw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@color/text_gray"
                 android:text="@string/forget_psw"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/selector_save_radio"
                 android:layout_alignParentRight="true"
                 />
         </RelativeLayout>

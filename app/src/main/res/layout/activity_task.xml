@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/titlebar_back_withoutline" />
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +15,7 @@
         android:gravity="center"
         android:padding="10dp">
         <RadioButton
+            android:id="@+id/left"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:textSize="12sp"
@@ -21,24 +23,31 @@
             android:text="提醒"
             android:gravity="center"
             android:button="@null"
-            android:background="@drawable/selector_bt_radio"
+            android:background="@drawable/selector_bt_radio_left"
             android:textColor="@drawable/selector_text_radio"/>
+
         <RadioButton
+            android:id="@+id/right"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:textSize="12sp"
-            android:text="通知"
-            android:gravity="center"
+            android:background="@drawable/selector_bt_radio_right"
             android:button="@null"
-            android:background="@drawable/selector_bt_radio"
-            android:textColor="@drawable/selector_text_radio"/>
+            android:gravity="center"
+            android:text="通知"
+            android:textColor="@drawable/selector_text_radio"
+            android:textSize="12sp" />
     </RadioGroup>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider"/>
-    <android.support.v4.view.ViewPager
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/vp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

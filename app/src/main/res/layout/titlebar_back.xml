@@ -8,14 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/icon_back"/>
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/title_text"
-        android:textColor="@color/colorTheme"/>
+        style="@style/text_title_blue"/>
 
     <TextView
         android:id="@+id/tv_subTitle"

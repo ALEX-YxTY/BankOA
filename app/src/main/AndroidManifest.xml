@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.meishipintu.bankoa">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".OaApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -35,7 +37,8 @@
         <activity
             android:name=".views.activities.TaskTriggerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
         <activity
             android:name=".views.activities.ClerkListActivity"
             android:screenOrientation="portrait"
@@ -59,7 +62,8 @@
         <activity
             android:name=".views.activities.TaskDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
         <!-- 申请页/任务详情（大） -->
         <activity
             android:name=".views.activities.WebViewActivity"

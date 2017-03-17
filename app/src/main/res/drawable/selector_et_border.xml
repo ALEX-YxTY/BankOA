@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_hovered="true"
+        android:state_pressed="true" android:state_active="true"
+        android:drawable="@drawable/shape_bt_border_blue_3dp"/>
+    <item android:state_focused="false" android:state_hovered="false"
+        android:state_pressed="false" android:state_active="false"
+        android:drawable="@drawable/shape_bt_border_blue_3dp_grey"/>
+    <item android:drawable="@drawable/shape_bt_border_blue_3dp_grey" />
+
+</selector>

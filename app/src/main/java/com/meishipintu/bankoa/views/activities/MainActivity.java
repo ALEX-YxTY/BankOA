@@ -3,10 +3,18 @@ package com.meishipintu.bankoa.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.R;
+import com.meishipintu.bankoa.components.DaggerMainComponent;
+import com.meishipintu.bankoa.contracts.MainContract;
+import com.meishipintu.bankoa.models.entity.UserInfo;
+import com.meishipintu.bankoa.modules.MainModule;
+import com.meishipintu.bankoa.presenters.MainPresenterImp;
 import com.meishipintu.library.view.CircleImageView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,7 +26,7 @@ import butterknife.OnClick;
  * 主界面，功能模块展示
  */
 
-public class MainActivity extends BasicActivity {
+public class MainActivity extends BasicActivity implements MainContract.IView {
 
 
     @BindView(R.id.tv_title)
@@ -31,19 +39,30 @@ public class MainActivity extends BasicActivity {
     TextView tvJobTitle;
     @BindView(R.id.tv_number)
     TextView tvNumber;
+    @BindView(R.id.red_point)
+    View redPoint;
+    @BindView(R.id.check)
+    RelativeLayout rlCheck;
+
+    @Inject
+    MainPresenterImp mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        DaggerMainComponent.builder().mainModule(new MainModule(this))
+                .build().inject(this);
         initUI();
     }
 
-    //初始化界面
     private void initUI() {
-
+        tvTitle.setText(R.string.homePage);
+        mPresenter.getUserInfo();
     }
+
 
     @OnClick({R.id.message, R.id.task, R.id.task_trigger, R.id.check, R.id.bt_setting, R.id.bt_search})
     public void onClick(View view) {
@@ -64,7 +83,57 @@ public class MainActivity extends BasicActivity {
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 break;
             case R.id.bt_search:
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
         }
+    }
+
+    //from MainContract.IView
+    @Override
+    public void refreshUI(UserInfo userInfo) {
+        tvName.setText(userInfo.getUser_name());
+        tvNumber.setText("工号：" + userInfo.getJob_number());
+        String department, title;
+        switch (Integer.parseInt(userInfo.getDepartment_id())) {
+            case 1:
+                department = "信贷一部";
+                break;
+            case 2:
+                department = "信贷二部";
+                break;
+            case 3:
+                department = "信贷三部";
+                break;
+            case 4:
+                department = "信贷四部";
+                break;
+            default:
+                department = "信贷一部";
+                break;
+        }
+        switch (Integer.parseInt(userInfo.getLevel())) {
+            case 1:
+                title = "行长";
+                break;
+            case 2:
+                title = "主管";
+                break;
+            case 3:
+                title = "员工";
+                break;
+            default:
+                title = "员工";
+                break;
+        }
+        tvJobTitle.setText(department + " " + title);
+        if (Integer.parseInt(userInfo.getLevel()) < 3) {
+            rlCheck.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unSubscrib();
     }
 }

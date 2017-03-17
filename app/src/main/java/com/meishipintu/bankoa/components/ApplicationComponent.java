@@ -2,7 +2,7 @@ package com.meishipintu.bankoa.components;
 
 import android.content.Context;
 
-import com.meishipintu.bankoa.modules.ApplicationModlue;
+import com.meishipintu.bankoa.modules.ApplicationModule;
 
 import dagger.Component;
 
@@ -12,7 +12,7 @@ import dagger.Component;
  * 主要功能：
  */
 
-@Component(modules = ApplicationModlue.class)
+@Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
     Context getContext();

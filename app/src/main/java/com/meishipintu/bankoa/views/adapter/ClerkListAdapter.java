@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.meishipintu.bankoa.models.entity.ClerkInfo;
+import com.meishipintu.bankoa.views.adapter.viewHolder.ClerkInfoViewHolder;
 
 import java.util.List;
 
@@ -43,9 +44,4 @@ public class ClerkListAdapter extends RecyclerView.Adapter<ClerkInfoViewHolder> 
     }
 }
 
-class ClerkInfoViewHolder extends RecyclerView.ViewHolder {
 
-    public ClerkInfoViewHolder(View itemView) {
-        super(itemView);
-    }
-}

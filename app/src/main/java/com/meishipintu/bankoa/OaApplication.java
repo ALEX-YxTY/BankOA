@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.meishipintu.bankoa.components.ApplicationComponent;
 import com.meishipintu.bankoa.components.DaggerApplicationComponent;
-import com.meishipintu.bankoa.modules.ApplicationModlue;
+import com.meishipintu.bankoa.modules.ApplicationModule;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -23,7 +23,7 @@ public class OaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModlue(new ApplicationModlue(this))
+                .applicationModule(new ApplicationModule(this))
                 .build();
         instance = this;
     }

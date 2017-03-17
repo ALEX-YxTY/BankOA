@@ -1,5 +1,7 @@
 package com.meishipintu.bankoa.contracts;
 
+import com.meishipintu.bankoa.models.entity.NodeInfoNow;
+import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
 
@@ -13,17 +15,26 @@ public interface TaskDetailContract {
 
     interface IPresenter extends BasicPresenter {
 
-        void getTaskDetail();
+        void getTaskInfo(String taskId);
 
         void setTaskNodeFinished();
 
-        void addNodeRemarks(String remark);
+        void addNodeRemarks(String taskId, String taskLevel, String remark, String userId);
+
+        void addNodeComment(String supervisorId, String comment);
     }
 
 
     interface IView extends BasicView {
 
-        void showRemarks(String remark);
+        void showTaskDetail();
+
+        void showError(String errMsg);
+
+        void showGraphic(NodeInfoNow nodeInfoNow);
+
+        void showUserInfo(UserInfo userInfo);
+
     }
 
 }

@@ -4,136 +4,290 @@
     android:id="@+id/activity_task_trigger"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.meishipintu.bankoa.views.activities.TaskTriggerActivity">
 
     <include layout="@layout/titlebar_back"
         android:id="@+id/titlebar"/>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/titlebar"
-        android:orientation="vertical"
-        android:padding="20dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <!--贷款人姓名-->
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titlebar"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_loans_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="15dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginTop="3dp">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_information"/>
+                <TextView
+                    android:layout_toRightOf="@id/icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_subTitle_blue"
+                    android:text="@string/task_info"/>
+            </RelativeLayout>
+
+            <!--项目名称-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="项目名称*"/>
+                <EditText
+                    android:id="@+id/et_task_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:hint="请输入项目名称"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+            <!--客户名称-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="客户名称*"/>
+                <EditText
+                    android:id="@+id/et_loans_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:hint="请输入客户全称"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+            <!--申请金额-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="申请金额*"/>
+                <EditText
+                    android:id="@+id/et_loans_money"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:hint="请输入客户全称"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+
+            <!--中心支行-->
+            <LinearLayout
+                android:id="@+id/ll_center_branch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="推荐机构—中心支行*"/>
+                <TextView
+                    android:id="@+id/tv_center_branch"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:hint="请选择"
+                    android:text="中心支行1"
+                    android:textColorHint="@color/text_gray2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_choose"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
+
+            <!--支行-->
+            <LinearLayout
+                android:id="@+id/ll_branch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="推荐机构—支行*"/>
+                <TextView
+                    android:id="@+id/tv_branch"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:hint="请选择"
+                    android:text="支行2"
+                    android:textColorHint="@color/text_gray2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_choose"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
+            <!--推荐客户经理-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="推荐客户经理*"/>
+                <EditText
+                    android:id="@+id/et_recommend_manager"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:hint="请输入推荐客户经理全名"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+
+            <!--任务类型-->
+            <LinearLayout
+                android:id="@+id/ll_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="任务类型*"/>
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:hint="请选择"
+                    android:text="类型一"
+                    android:textColorHint="@color/text_gray2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_choose"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-        <!--贷款人公司-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_loans_company"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-        <!--申请额度-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_money"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-        <!--来源地区-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_district"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-        <!--支行-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_branch"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-        <!--备注-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:id="@+id/et_remark"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
     <Button
         android:id="@+id/bt_trigger"
         android:textColor="@color/white"
+        android:textSize="20sp"
         android:text="@string/trigger"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorTheme"/>
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/shape_bt_theme"/>
 
 
 </RelativeLayout>

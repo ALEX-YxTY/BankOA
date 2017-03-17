@@ -4,24 +4,26 @@
     android:layout_height="55dp">
     <ImageView
         android:id="@+id/bt_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/icon_setting"/>
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/title_text"
-        android:textColor="@color/colorTheme"/>
+        style="@style/text_title_blue"
+        android:text="@string/main"/>
     <ImageView
         android:id="@+id/bt_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:src="@drawable/icon_search_blue"/>
 
     <View
         android:layout_width="match_parent"

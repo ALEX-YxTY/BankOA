@@ -69,6 +69,7 @@
             android:text="所属部门"
             />
         <TextView
+            android:id="@+id/tv_department"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -105,6 +106,7 @@
             android:text="工号"
             />
         <TextView
+            android:id="@+id/tv_work_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -141,6 +143,7 @@
             android:text="信贷号"
             />
         <TextView
+            android:id="@+id/loan_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -187,6 +190,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

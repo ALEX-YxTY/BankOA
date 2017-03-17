@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f9faff">
+    android:background="#f9fbff">
 
     <include android:id="@+id/title" layout="@layout/titlebar_back" />
     <RelativeLayout
@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:background="@drawable/bg_head"
             >
             <!--流程线-->
             <LinearLayout
@@ -27,7 +28,7 @@
 
                 <View
                     android:id="@+id/process_line_left1"
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="2dp"
                     android:background="#bde5ff"
                     />
@@ -42,15 +43,15 @@
 
 
                 <View
-                    android:id="@+id/process_line_right1"
+                    android:id="@+id/process_line_right2"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_weight="1"
                     android:background="#bde5ff"
                     />
                 <View
-                    android:id="@+id/process_line_right2"
-                    android:layout_width="80dp"
+                    android:id="@+id/process_line_right1"
+                    android:layout_width="60dp"
                     android:layout_height="2dp"
                     android:background="#bde5ff"
                     />
@@ -66,14 +67,14 @@
                 android:gravity="center_horizontal"
                 >
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:src="@drawable/icon_arriving"
                     />
                 <TextView
                     android:id="@+id/tv_process_now"
                     android:layout_marginTop="8dp"
                     style="@style/main_process_text"
-                    android:text="现场调查"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -82,7 +83,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="35dp"
                 android:layout_marginTop="45dp"
                 android:gravity="center_horizontal">
 
@@ -90,12 +91,12 @@
                     android:id="@+id/iv_process_left"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:src="@drawable/icon_finish_green"
                     />
                 <TextView
                     android:id="@+id/tv_process_left"
                     android:layout_marginTop="5dp"
                     style="@style/sub_process_text_finish"
-                    android:text="收集客户资料"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -107,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="55dp"
+                android:layout_marginRight="35dp"
                 android:layout_marginTop="45dp"
                 android:gravity="center_horizontal">
 
@@ -115,21 +116,24 @@
                     android:id="@+id/iv_process_right"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:src="@drawable/icon_unget"
                     />
                 <TextView
                     android:id="@+id/tv_process_right"
                     android:layout_marginTop="5dp"
                     style="@style/sub_process_text_unfinish"
-                    android:text="客户准入"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <!--完成按钮-->
             <Button
+                android:id="@+id/bt_finish"
                 android:layout_width="40dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/shape_bt_finish"
                 android:textSize="10sp"
                 android:textColor="@color/white"
@@ -155,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTheme"
                     android:textSize="40sp"
-                    android:text="10"/>
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,17 +175,19 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/ll_percentage">
                 <TextView
+                    android:id="@+id/tv_isOutOfTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/text_percentage"
-                    android:text="距离此节点截止时间还有 "/>
+                    android:text="@string/time_remain"/>
 
                 <TextView
+                    android:id="@+id/tv_time_remain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="#ff6c5d"
-                    android:text="2天10小时"/>
+                    />
             </LinearLayout>
             <!--全部流程-->
             <Button
@@ -194,6 +200,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:text="浏览全程"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/shape_bt_theme_31dp_radius"
                 />
         </RelativeLayout>

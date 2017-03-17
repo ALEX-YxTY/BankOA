@@ -45,4 +45,14 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/colorTheme</item>
     </style>
+
+    <style name="text_subTitle_blue">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorTheme</item>
+    </style>
+
+    <style name="text_title_blue">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorTheme</item>
+    </style>
 </resources>

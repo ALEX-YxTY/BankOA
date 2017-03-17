@@ -8,5 +8,19 @@ package com.meishipintu.bankoa;
 
 public class Constans {
 
+    public static final String APP = "BankOA";
+
+    public static final int REGISTER_TYPE_NORMAL = 100;
+    public static final int REGISTER_TYPE_FORGET_PSW = 200;
+    public static final int REGISTER_TYPE_REBIND = 300;
+
     public static String BaseURL = "http://njbank.domobile.net/";
+    public static String APPLY_URL = "http://njbank.domobile.net/Home/Index/index";         //申请页面地址
+
+    public static final int APPLY_TYPE = 1;                           //webview类型，1.申请 2.主流程页面
+    public static final int PROCESS_TYPE = 2;                         //webview类型，1.申请 2.主流程页面
+
+    public static final int START_REGISTER = 10001;                  //requestCode 从主页启动注册
+    public static final int START_FORGET_PSW = 10002;                //requestCode 从主页启动重设密码
+
 }

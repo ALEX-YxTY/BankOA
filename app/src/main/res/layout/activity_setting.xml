@@ -125,6 +125,7 @@
             android:text="版本号"
             />
         <TextView
+            android:id="@+id/version_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
