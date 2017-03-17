@@ -1,6 +1,7 @@
 package com.meishipintu.bankoa.models.http;
 
 import com.meishipintu.bankoa.models.entity.HttpResult;
+import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -51,4 +52,8 @@ public interface HttpService {
     @POST("Home/Api/getNowTaskAllInfo")
     Observable<ResponseBody> getTaskInfoNowService(@Field("task_id") String taskId);
 
+    //添加评论接口
+    @FormUrlEncoded
+    @POST("Home/Api/doTaskRemark")
+    Observable<ResponseBody> addRemarkService(@Body RemarkInfo remarkInfo);
 }

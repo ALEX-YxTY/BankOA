@@ -1,9 +1,12 @@
 package com.meishipintu.bankoa.contracts;
 
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
+import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/5.
@@ -19,7 +22,7 @@ public interface TaskDetailContract {
 
         void setTaskNodeFinished();
 
-        void addNodeRemarks(String taskId, String taskLevel, String remark, String userId);
+        void addNodeRemarks(RemarkInfo remarkInfo);
 
         void addNodeComment(String supervisorId, String comment);
     }
@@ -27,7 +30,7 @@ public interface TaskDetailContract {
 
     interface IView extends BasicView {
 
-        void showTaskDetail();
+        void onAddRemarkSucess();
 
         void showError(String errMsg);
 
@@ -35,6 +38,7 @@ public interface TaskDetailContract {
 
         void showUserInfo(UserInfo userInfo);
 
+        void showRemarks(List<RemarkInfo> remarkInfoList);
     }
 
 }

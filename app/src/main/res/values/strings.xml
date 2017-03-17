@@ -32,7 +32,7 @@
     <string name="psw_enter_please">请输入您的登录密码</string>
     <string name="verify_code_please">请输入您的验证码</string>
     <string name="search_please">请输入您要查询的内容</string>
-    <string name="time_remain">距离此节点截止时间还有 </string>
+    <string name="time_remain"></string>
     <string name="comment_please">请输入您的评论</string>
 
 

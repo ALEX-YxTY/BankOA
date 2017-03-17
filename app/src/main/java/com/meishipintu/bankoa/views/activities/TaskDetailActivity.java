@@ -16,6 +16,7 @@ import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskDetailComponent;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
+import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.TaskDetailModule;
@@ -23,6 +24,8 @@ import com.meishipintu.bankoa.presenters.TaskDetailPresenterImp;
 import com.meishipintu.library.util.DateUtil;
 import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,10 +60,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     ImageView ivProcessRight;
     @BindView(R.id.tv_process_right)
     TextView tvProcessRight;
-
     @BindView(R.id.tv_process_now)
     TextView tvProcessNow;
-
     @BindView(R.id.tv_percentage)
     TextView tvPercentage;
     @BindView(R.id.tv_time_remain)
@@ -77,9 +78,9 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     ListView lvRemark;
     @BindView(R.id.rv_comment)
     RecyclerView rvComment;
+
     @BindView(R.id.tv_add_remark)
     TextView tvAddRemark;
-
     @BindView(R.id.et_remark)
     EditText etRemark;
 
@@ -130,7 +131,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 }
                 if (supervisorId == null) {
-                    mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
+                    mPresenter.addNodeRemarks(new RemarkInfo(taskId, taskLevelNow, input, sponsorId));
                 } else {
                     mPresenter.addNodeComment(supervisorId, input);
                 }
@@ -139,12 +140,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 onBackPressed();
                 break;
         }
-    }
-
-    //from TaskDetailContract.IView
-    @Override
-    public void showTaskDetail() {
-
     }
 
     //from TaskDetailContract.IView
@@ -230,6 +225,17 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
 
     }
 
+    //from TaskDetailContract.IView
+    @Override
+    public void showRemarks(List<RemarkInfo> remarkInfoList) {
+
+    }
+
+    //from TaskDetailContract.IView
+    @Override
+    public void onAddRemarkSucess() {
+        //TODO 刷新评论列表
+    }
     @Override
     protected void onDestroy() {
         mPresenter.unSubscrib();

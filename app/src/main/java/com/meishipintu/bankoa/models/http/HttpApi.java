@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.models.http;
 import com.google.gson.GsonBuilder;
 import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.models.entity.HttpResult;
+import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -113,6 +114,29 @@ public class HttpApi {
                     e.printStackTrace();
                 }
                 return null;
+            }
+        });
+    }
+
+    //添加备注方法
+    public Observable<Boolean> addRemark(RemarkInfo remarkInfo) {
+        return httpService.addRemarkService(remarkInfo).map(new Func1<ResponseBody, Boolean>() {
+            @Override
+            public Boolean call(ResponseBody responseBody) {
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") == 1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return false;
             }
         });
     }

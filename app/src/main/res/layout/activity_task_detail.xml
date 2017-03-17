@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/text_percentage"
-                    android:text="完成进度"/>
+                    android:text="完成进度 "/>
                 <TextView
                     android:id="@+id/tv_percentage"
                     android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/text_percentage_theme"
-                    android:text="%"/>
+                    android:text=" %"/>
             </LinearLayout>
             <!--剩余时间-->
             <LinearLayout
@@ -179,7 +179,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/text_percentage"
-                    android:text="@string/time_remain"/>
+                    android:text="距离此节点截止时间还有  "/>
 
                 <TextView
                     android:id="@+id/tv_time_remain"

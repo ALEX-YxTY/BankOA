@@ -4,21 +4,27 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
+import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
 import com.meishipintu.library.util.StringUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -84,6 +90,16 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                                 UserInfo userInfo = gson.fromJson(jsonObject.getString("userinfo"), UserInfo.class);
                                 iView.showUserInfo(userInfo);
                             }
+                            if (!jsonObject.isNull("now_level_remark")) {
+                                JSONArray remarks = jsonObject.getJSONArray("now_level_remark");
+                                if (remarks.length() > 0) {
+                                    List<RemarkInfo> remarkInfoList = gson.fromJson(remarks.toString()
+                                            , new TypeToken<List<RemarkInfo>>() {
+                                            }.getType());
+                                    iView.showRemarks(remarkInfoList);
+                                }
+
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             iView.showError("获取数据失败，请稍后重试");
@@ -98,8 +114,18 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
     }
 
     @Override
-    public void addNodeRemarks(String taskId, String taskLevel, String remark, String userId) {
-
+    public void addNodeRemarks(RemarkInfo remarkInfo) {
+        subscriptions.add(httpApi.addRemark(remarkInfo).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean success) {
+                        if (success) {
+                            iView.onAddRemarkSucess();
+                        } else {
+                            iView.showError("评论添加失败，请稍后重试");
+                        }
+                    }
+                }));
     }
 
     @Override
