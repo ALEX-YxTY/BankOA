@@ -56,4 +56,20 @@ public interface HttpService {
     @FormUrlEncoded
     @POST("Home/Api/doTaskRemark")
     Observable<ResponseBody> addRemarkService(@Body RemarkInfo remarkInfo);
+
+    //获取中心支行列表
+    @POST("Home/Api/getCenterBranch")
+    Observable<ResponseBody> getCenterBranchListService();
+
+    //获取支行列表
+    @POST("Home/Api/getBranch")
+    Observable<ResponseBody> getBranchListService();
+
+    //获取任务类型列表
+    @POST("Home/Api/getTaskType")
+    Observable<ResponseBody> getTaskTypeListService();
+
+    //获取任务节点数
+    @POST("Home/Api/getLastTask")
+    Observable<ResponseBody> getLastTaskService();
 }

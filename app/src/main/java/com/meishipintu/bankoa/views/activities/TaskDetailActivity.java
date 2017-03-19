@@ -1,14 +1,14 @@
 package com.meishipintu.bankoa.views.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
@@ -21,6 +21,7 @@ import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.TaskDetailModule;
 import com.meishipintu.bankoa.presenters.TaskDetailPresenterImp;
+import com.meishipintu.bankoa.views.adapter.RemarkAdapter;
 import com.meishipintu.library.util.DateUtil;
 import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
@@ -75,7 +76,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     TextView tvJobTitle;
 
     @BindView(R.id.lv_remark)
-    ListView lvRemark;
+    RecyclerView lvRemark;
     @BindView(R.id.rv_comment)
     RecyclerView rvComment;
 
@@ -89,6 +90,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     private String supervisorId;    //监管人id
     private String taskName;        //项目名
     private String taskLevelNow;
+    private RemarkAdapter remarkAdapter;        //备注Adapter
+
 
     @Inject
     TaskDetailPresenterImp mPresenter;
@@ -186,7 +189,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             tvProcessRight.setText(nodeInfoNow.getNodeAfterName());
         }
         if (System.currentTimeMillis() / 1000 >= Long.parseLong(nodeInfoNow.getTimeRemain())) {
-            tvOutOfTime.setText(R.string.out_of_time);
+            tvOutOfTime.setText("超时 ");
             tvOutOfTime.setTextColor(0xffff6c5d);
         } else {
             tvOutOfTime.setText(R.string.time_remain);
@@ -228,7 +231,18 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void showRemarks(List<RemarkInfo> remarkInfoList) {
-
+        Log.d(Constans.APP, "data size:" + remarkInfoList.size());
+        if (remarkAdapter == null) {
+            lvRemark.setItemAnimator(new DefaultItemAnimator());
+            lvRemark.setLayoutManager(new LinearLayoutManager(this));
+            remarkAdapter = new RemarkAdapter(this, remarkInfoList);
+            lvRemark.setAdapter(remarkAdapter);
+        } else {
+            List<RemarkInfo> dataList = remarkAdapter.getDataList();
+            dataList.clear();
+            dataList.addAll(remarkInfoList);
+            remarkAdapter.notifyDataSetChanged();
+        }
     }
 
     //from TaskDetailContract.IView

@@ -2,10 +2,12 @@ package com.meishipintu.bankoa.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerMainComponent;
 import com.meishipintu.bankoa.contracts.MainContract;

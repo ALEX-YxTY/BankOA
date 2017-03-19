@@ -1,5 +1,8 @@
 package com.meishipintu.library.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/3/17.
  * <p>
@@ -8,6 +11,7 @@ package com.meishipintu.library.util;
 
 public class DateUtil {
 
+    //显示剩余时间
     public static String showTimeRemain(String timeLong) {
         long now = System.currentTimeMillis() / 1000;
         long time = Long.parseLong(timeLong);
@@ -19,4 +23,12 @@ public class DateUtil {
             return hour + "小时 "+minutes+"分钟";
         }
     }
+
+    //显示时间格式为 MM-dd hh:mm
+    public static String getTimeFormart2(String remark_time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
+
+        return simpleDateFormat.format(new Date(Long.parseLong(remark_time)*1000));
+    }
+
 }

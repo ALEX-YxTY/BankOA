@@ -1,17 +1,12 @@
 package com.meishipintu.bankoa.presenters;
 
-import android.provider.Settings;
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
-import com.meishipintu.library.util.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

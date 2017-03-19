@@ -3,9 +3,14 @@ package com.meishipintu.bankoa.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.models.entity.UserInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -62,5 +67,46 @@ public class PreferenceHelper {
     public static String getLevel() {
         SharedPreferences sharedPreferences = getSharePreference();
         return sharedPreferences.getString("level", null);
+    }
+
+    public static void saveCenterBranch(String centerBranchList) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putString("centerBranch", centerBranchList);
+        editor.apply();
+    }
+
+    public static Map<String, String> getCenterBranch() {
+        SharedPreferences sharedPreferences = getSharePreference();
+        Map<String, String> result = new HashMap<>();
+        String centerBranch = sharedPreferences.getString("centerBranch", null);
+        if (centerBranch != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(centerBranch);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return result;
+        } else {
+            return result;
+        }
+    }
+
+    public static void saveBranch(String branchList) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putString("branch", branchList);
+        editor.apply();
+    }
+
+    public static void saveTaskType(String taskType) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putString("taskType", taskType);
+        editor.apply();
+    }
+
+    public static void saveTaskNum(Integer number) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putInt("nodeNumber", number);
+        editor.apply();
     }
 }

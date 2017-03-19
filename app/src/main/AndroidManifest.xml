@@ -12,9 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 登录界面 -->
-        <activity
-            android:name=".views.activities.LoginActivity"
+        <!--启动界面-->
+        <activity android:name=".views.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -22,6 +21,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <!-- 登录界面 -->
+        <activity
+            android:name=".views.activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
         <!-- 主动能页 -->
         <activity
@@ -38,7 +46,7 @@
             android:name=".views.activities.TaskTriggerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified" />
         <activity
             android:name=".views.activities.ClerkListActivity"
             android:screenOrientation="portrait"
@@ -63,7 +71,7 @@
             android:name=".views.activities.TaskDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified" />
         <!-- 申请页/任务详情（大） -->
         <activity
             android:name=".views.activities.WebViewActivity"
@@ -89,8 +97,9 @@
             android:name=".views.activities.UserInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <!--改绑手机-->
-        <activity android:name=".views.activities.BindTelActivity"
+        <!-- 改绑手机 -->
+        <activity
+            android:name=".views.activities.BindTelActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>

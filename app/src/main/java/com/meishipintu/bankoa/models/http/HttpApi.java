@@ -1,13 +1,12 @@
 package com.meishipintu.bankoa.models.http;
 
-import com.google.gson.GsonBuilder;
 import com.meishipintu.bankoa.Constans;
-import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,11 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -137,6 +132,119 @@ public class HttpApi {
                     e.printStackTrace();
                 }
                 return false;
+            }
+        });
+    }
+
+    //获取中心支行列表
+    public Observable<JSONObject> getCenterBranchList() {
+        return httpService.getCenterBranchListService().map(new Func1<ResponseBody, JSONObject>() {
+            @Override
+            public JSONObject call(ResponseBody responseBody) {
+                JSONObject resultJson = new JSONObject();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject data = dataArray.getJSONObject(i);
+                            resultJson.put(data.getString("id"), data.getString("branch"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    return resultJson;
+                }
+            }
+        });
+    }
+
+    //获取支行列表
+    public Observable<JSONObject> getBranchList() {
+        return httpService.getBranchListService().map(new Func1<ResponseBody, JSONObject>() {
+            @Override
+            public JSONObject call(ResponseBody responseBody) {
+                JSONObject resultJson = new JSONObject();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject data = dataArray.getJSONObject(i);
+                            resultJson.put(data.getString("id"), data.getString("branch"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    return resultJson;
+                }
+            }
+        });
+    }
+
+    //获取任务类型列表
+    public Observable<JSONObject> getTaskTypeList() {
+        return httpService.getTaskTypeListService().map(new Func1<ResponseBody, JSONObject>() {
+            @Override
+            public JSONObject call(ResponseBody responseBody) {
+                JSONObject resultJson = new JSONObject();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            JSONObject data = dataArray.getJSONObject(i);
+                            resultJson.put(data.getString("id"), data.getString("type_name"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    return resultJson;
+                }
+            }
+        });
+    }
+
+    //获取任务节点数
+    public Observable<Integer> getTaskNodeNum() {
+        return httpService.getLastTaskService().map(new Func1<ResponseBody, Integer>() {
+            @Override
+            public Integer call(ResponseBody responseBody) {
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        return jsonObject.getJSONObject("data").getInt("level");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return 0;
             }
         });
     }
