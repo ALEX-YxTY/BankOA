@@ -278,16 +278,9 @@
     </ScrollView>
     <Button
         android:id="@+id/bt_trigger"
-        android:textColor="@color/white"
-        android:textSize="20sp"
         android:text="@string/trigger"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_bt_theme"/>
+        style="@style/bt_enter"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

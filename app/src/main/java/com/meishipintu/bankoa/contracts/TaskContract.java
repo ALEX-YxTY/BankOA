@@ -19,6 +19,9 @@ public interface TaskContract {
     }
 
     interface IView extends BasicView {
-        void showTask(List<Task> taskList);
+
+        void showTask(List<Task> taskList, int type);
+
+        void showError(String message);
     }
 }

@@ -20,7 +20,7 @@ public interface TaskDetailContract {
 
         void getTaskInfo(String taskId);
 
-        void setTaskNodeFinished();
+        void setTaskNodeFinished(String taskId);
 
         void addNodeRemarks(RemarkInfo remarkInfo);
 
@@ -29,6 +29,8 @@ public interface TaskDetailContract {
 
 
     interface IView extends BasicView {
+
+        void onFinishNode();
 
         void onAddRemarkSucess();
 

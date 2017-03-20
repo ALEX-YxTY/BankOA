@@ -9,6 +9,7 @@
     <include layout="@layout/titlebar_back_withoutline" />
 
     <RadioGroup
+        android:id="@+id/rg_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

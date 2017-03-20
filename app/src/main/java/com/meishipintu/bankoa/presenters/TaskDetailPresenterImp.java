@@ -2,6 +2,7 @@ package com.meishipintu.bankoa.presenters;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
@@ -103,8 +104,26 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
     }
 
     @Override
-    public void setTaskNodeFinished() {
+    public void setTaskNodeFinished(String taskId) {
+        subscriptions.add(httpApi.finishNode(OaApplication.getUser().getId(), taskId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer == 1) {
+                            iView.onFinishNode();
+                        }
+                    }
+                }));
     }
 
     @Override

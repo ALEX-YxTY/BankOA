@@ -1,9 +1,11 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
@@ -61,6 +63,21 @@ public class SplashActivity extends AppCompatActivity {
                         PreferenceHelper.saveTaskNum(number);
                     }
                 }));
+        subscriptions.add(httpApi.getDepartmentList().subscribeOn(Schedulers.io())
+                .subscribe(new Action1<JSONObject>() {
+                    @Override
+                    public void call(JSONObject jsonObject) {
+                        PreferenceHelper.saveDepartmentList(jsonObject.toString());
+                    }
+                }));
+        subscriptions.add(httpApi.getNodeNameList().subscribeOn(Schedulers.io())
+                .subscribe(new Action1<JSONObject>() {
+                    @Override
+                    public void call(JSONObject jsonObject) {
+                        PreferenceHelper.saveNodeNameList(jsonObject.toString());
+                    }
+                }));
+        myHandler.sendEmptyMessageDelayed(0, 3000);
     }
 
     @Override
@@ -81,7 +98,16 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
+            if (msg.what == 0) {
+                SplashActivity activity = reference.get();
+                if (PreferenceHelper.isAutoLogin() && PreferenceHelper.getSharePreference().contains("id")
+                        && PreferenceHelper.getUserInfo().getId() != null) {
+                    activity.startActivity(new Intent(activity, MainActivity.class));
+                } else {
+                    activity.startActivity(new Intent(activity, LoginActivity.class));
+                }
+                activity.finish();
+            }
         }
     }
 }

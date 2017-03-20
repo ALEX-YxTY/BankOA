@@ -47,7 +47,7 @@ public class SettingActivity extends BasicActivity implements SettingContract.IV
                 .build().inject(this);
     }
 
-    @OnClick({R.id.bt_back, R.id.rl_userInfo, R.id.rl_clear_cache})
+    @OnClick({R.id.bt_back, R.id.rl_userInfo, R.id.rl_clear_cache, R.id.bt_logout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_back:
@@ -59,12 +59,15 @@ public class SettingActivity extends BasicActivity implements SettingContract.IV
             case R.id.rl_clear_cache:
                 mPresenter.clearCache();
                 break;
+            case R.id.bt_logout:
+                mPresenter.logout();
+                break;
         }
     }
 
     //from SettingContract.IView
     @Override
-    public void showResult() {
-
+    public void onLogoutSuccess() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

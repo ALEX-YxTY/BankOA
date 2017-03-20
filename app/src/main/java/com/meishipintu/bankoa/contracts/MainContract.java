@@ -21,6 +21,7 @@ public interface MainContract {
     interface IView extends BasicView {
 
         void refreshUI(UserInfo userInfo);
+
     }
 
 }

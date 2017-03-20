@@ -22,7 +22,6 @@ import rx.subscriptions.CompositeSubscription;
 public class SettingPresenterImp implements SettingContract.IPresenter {
 
     private SettingContract.IView view;
-    private PreferenceHelper preferenceHelper;
 
     @Inject
     SettingPresenterImp(SettingContract.IView view) {
@@ -32,8 +31,12 @@ public class SettingPresenterImp implements SettingContract.IPresenter {
     @Override
     public void clearCache() {
         //TODO 清理缓存
+    }
 
-        view.showResult();
+    @Override
+    public void logout() {
+        PreferenceHelper.clear();
+        view.onLogoutSuccess();
     }
 
     //from BasicPresenter

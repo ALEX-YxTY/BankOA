@@ -55,4 +55,16 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorTheme</item>
     </style>
+
+    <style name="bt_enter" >
+        <item name="android:textColor" >@color/white</item>
+        <item name="android:textSize" >20sp</item>
+        <item name="android:layout_width" >match_parent</item>
+        <item name="android:layout_height" >42dp</item>
+        <item name="android:layout_marginLeft" >12dp</item>
+        <item name="android:layout_marginRight" >12dp</item>
+        <item name="android:layout_marginBottom" >27dp</item>
+        <item name="android:background" >@drawable/shape_bt_theme</item>
+        <item name="android:layout_alignParentBottom" >true</item>
+    </style>
 </resources>

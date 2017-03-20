@@ -16,10 +16,12 @@ public interface SettingContract {
 
         void clearCache();
 
+        void logout();
+
     }
 
     interface IView extends BasicView {
 
-        void showResult();
+        void onLogoutSuccess();
     }
 }

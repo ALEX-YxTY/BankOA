@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.presenters;
 
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.MainContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -23,8 +24,10 @@ public class MainPresenterImp implements MainContract.IPresenter {
 
     @Override
     public void getUserInfo() {
-        UserInfo userInfo = PreferenceHelper.getUserInfo();
-        iView.refreshUI(userInfo);
+        UserInfo userInfo = OaApplication.getUser();
+        if (userInfo != null && userInfo.getId() != null) {
+            iView.refreshUI(userInfo);
+        }
     }
 
     //from BasicPresenter.IPresenter

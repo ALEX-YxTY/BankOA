@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerMainComponent;
 import com.meishipintu.bankoa.contracts.MainContract;
@@ -93,35 +94,21 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
     //from MainContract.IView
     @Override
     public void refreshUI(UserInfo userInfo) {
+        Log.d(Constans.APP, "userInfo login:" + userInfo.toString());
         tvName.setText(userInfo.getUser_name());
         tvNumber.setText("工号：" + userInfo.getJob_number());
-        String department, title;
-        switch (Integer.parseInt(userInfo.getDepartment_id())) {
-            case 1:
-                department = "信贷一部";
-                break;
-            case 2:
-                department = "信贷二部";
-                break;
-            case 3:
-                department = "信贷三部";
-                break;
-            case 4:
-                department = "信贷四部";
-                break;
-            default:
-                department = "信贷一部";
-                break;
+        String department,title;
+        if (userInfo.getLevel().equals("1")) {
+            department = "";
+        } else {
+            department = userInfo.getDepartment_name();
         }
         switch (Integer.parseInt(userInfo.getLevel())) {
             case 1:
                 title = "行长";
                 break;
             case 2:
-                title = "主管";
-                break;
-            case 3:
-                title = "员工";
+                title = "经理";
                 break;
             default:
                 title = "员工";
@@ -132,6 +119,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
             rlCheck.setVisibility(View.VISIBLE);
         }
     }
+
 
     @Override
     protected void onDestroy() {

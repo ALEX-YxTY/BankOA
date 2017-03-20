@@ -1,5 +1,7 @@
 package com.meishipintu.bankoa.models.http;
 
+import android.widget.ListView;
+
 import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.Task;
@@ -7,6 +9,8 @@ import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -24,7 +28,7 @@ public interface HttpService {
     //登录接口
     @FormUrlEncoded
     @POST("Home/Api/login")
-    Observable<HttpResult<UserInfo>> loginService(@Field("mobile") String tel, @Field("password") String psw);
+    Observable<ResponseBody> loginService(@Field("mobile") String tel, @Field("password") String psw);
 
     //检查审核是否通过接口
     @FormUrlEncoded
@@ -65,6 +69,10 @@ public interface HttpService {
     @POST("Home/Api/getBranch")
     Observable<ResponseBody> getBranchListService();
 
+    //获取部门列表
+    @POST("Home/Api/getDepartmentList")
+    Observable<ResponseBody> getDepartmentListService();
+
     //获取任务类型列表
     @POST("Home/Api/getTaskType")
     Observable<ResponseBody> getTaskTypeListService();
@@ -72,4 +80,18 @@ public interface HttpService {
     //获取任务节点数
     @POST("Home/Api/getLastTask")
     Observable<ResponseBody> getLastTaskService();
+
+    //获取节点名称列表
+    @POST("Home/Api/getAllTask")
+    Observable<ResponseBody> getNodeListService();
+
+    //获取用户的任务列表
+    @FormUrlEncoded
+    @POST("Home/Api/getUserTask")
+    Observable<HttpResult<List<Task>>> getTaskList(@Field("user_id") String uid, @Field("type") String type);
+
+    //完成当前节点
+    @FormUrlEncoded
+    @POST("Home/Api/startOtherStepTask")
+    Observable<ResponseBody> finishNodeService(@Field("user_id") String uid, @Field("task_id") String taskID);
 }

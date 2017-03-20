@@ -16,6 +16,7 @@ public class Constans {
 
     public static String BaseURL = "http://njbank.domobile.net/";
     public static String APPLY_URL = "http://njbank.domobile.net/Home/Index/index";         //申请页面地址
+    public static String PROCESS_URL = "http://njbank.domobile.net/Home/Index/remark";      //浏览全程地址
 
     public static final int APPLY_TYPE = 1;                           //webview类型，1.申请 2.主流程页面
     public static final int PROCESS_TYPE = 2;                         //webview类型，1.申请 2.主流程页面

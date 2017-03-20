@@ -94,7 +94,6 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     @Override
     public void startMain(UserInfo userInfo) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("userInfo", userInfo);
         startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -33,14 +34,16 @@ public class WebViewActivity extends BasicActivity {
     @BindView(R.id.tv_subTitle)
     TextView tvSubTitle;
 
-    private int type;
+    private int type;          //Constans.APPLY_TYPE 注册申请， Constants.PROCESS_TYPE 查看全程
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         ButterKnife.bind(this);
-        type = getIntent().getIntExtra("type", Constans.PROCESS_TYPE);
+        intent = getIntent();
+        type = intent.getIntExtra("type", Constans.PROCESS_TYPE);
         initWebView();
     }
 
@@ -58,6 +61,7 @@ public class WebViewActivity extends BasicActivity {
             }
         });
         wb.getSettings().setJavaScriptEnabled(true);
+        wb.getSettings().setDomStorageEnabled(true);
         if (type == Constans.APPLY_TYPE) {
             wb.loadUrl(Constans.APPLY_URL);
             tvTitle.setText(R.string.apply);
@@ -65,7 +69,9 @@ public class WebViewActivity extends BasicActivity {
             tvSubTitle.setVisibility(View.VISIBLE);
         } else {
             //TODO 加载任务详情页面
-            wb.loadUrl("");
+            tvTitle.setText(R.string.whole_process);
+            wb.loadUrl(Constans.PROCESS_URL + "?task_id=" + intent.getStringExtra("task_id") + "&uid="
+                    + intent.getStringExtra("uid"));
             tvTitle.setText(R.string.whole_process);
         }
 
@@ -82,5 +88,13 @@ public class WebViewActivity extends BasicActivity {
                 this.finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        //onPause时重载，可避免webView页消失后声音继续播放
+        wb.reload();
+        wb.onPause();
+        super.onPause();
     }
 }

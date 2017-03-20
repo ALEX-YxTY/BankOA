@@ -3,6 +3,7 @@
     <string name="main">主页</string>
     <string name="trigger">确认发起</string>
     <string name="login">登录</string>
+    <string name="task">任务</string>
     <string name="register">注册</string>
     <string name="setting">设置</string>
     <string name="apply_for">申请</string>
@@ -13,7 +14,10 @@
     <string name="comment">评论</string>
     <string name="out_of_time">超时 </string>
 
+    <string name="finish">已完成</string>
+    <string name="unfinish">未完成</string>
     <string name="apply">提交申请</string>
+    <string name="logout">退出登录</string>
     <string name="change_tel">修改手机号</string>
     <string name="trigger_task">发起任务</string>
     <string name="forget_psw">忘记密码</string>
@@ -32,7 +36,7 @@
     <string name="psw_enter_please">请输入您的登录密码</string>
     <string name="verify_code_please">请输入您的验证码</string>
     <string name="search_please">请输入您要查询的内容</string>
-    <string name="time_remain"></string>
+    <string name="time_remain">距离此节点截止时间还有 </string>
     <string name="comment_please">请输入您的评论</string>
 
 
@@ -41,5 +45,6 @@
     <string name="err_empty_input">输入项不能为空</string>
     <string name="err_code">验证码不正确</string>
     <string name="err_search_empty">搜索内容不能为空</string>
+
 
 </resources>

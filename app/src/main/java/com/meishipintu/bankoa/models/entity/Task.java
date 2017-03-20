@@ -21,12 +21,42 @@ public class Task implements Serializable{
     private String task_name;
     private String sponsor_id;
     private String sponsor_level;
+    private String level;               //当前
     private String create_time;         //任务生成时间
     private String check_money;         //最终审批金额
     private String result_money;        //最终贷款金额
     private String finish_time;         //任务完成时间
     private String loan_time;           //发放贷款时间
+    private String is_finish;
+    private String credit_manager;
 
+    public static long getSerialVerisionUID() {
+        return serialVerisionUID;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getIs_finish() {
+        return is_finish;
+    }
+
+    public void setIs_finish(String is_finish) {
+        this.is_finish = is_finish;
+    }
+
+    public String getCredit_manager() {
+        return credit_manager;
+    }
+
+    public void setCredit_manager(String credit_manager) {
+        this.credit_manager = credit_manager;
+    }
 
     public String getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -125,8 +126,13 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_finish:
+                mPresenter.setTaskNodeFinished(taskId);
                 break;
             case R.id.bt_see_all:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("task_id", taskId);
+                intent.putExtra("uid", supervisorId == null ? sponsorId : supervisorId);
+                startActivity(intent);
                 break;
             case R.id.tv_add_remark:
                 String input = etRemark.getText().toString();
@@ -192,7 +198,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             tvOutOfTime.setText("超时 ");
             tvOutOfTime.setTextColor(0xffff6c5d);
         } else {
-            tvOutOfTime.setText(R.string.time_remain);
+            tvOutOfTime.setText("距离此节点截止时间还有 ");
             tvOutOfTime.setTextColor(0xff9ca7b2);
         }
         tvProcessNow.setText(nodeInfoNow.getNodeNowName());
@@ -250,6 +256,14 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     public void onAddRemarkSucess() {
         //TODO 刷新评论列表
     }
+
+    //from TaskDetailContract.IView
+    @Override
+    public void onFinishNode() {
+        ToastUtils.show(this, "当前步骤已完成", true);
+        mPresenter.getTaskInfo(taskId);
+    }
+
     @Override
     protected void onDestroy() {
         mPresenter.unSubscrib();

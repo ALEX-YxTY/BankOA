@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.presenters;
 import android.util.Log;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.LoginContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -53,10 +54,12 @@ public class LoginPresenterImp implements LoginContract.IPresenter {
                     public void onNext(UserInfo userInfo) {
                         Log.d(Constans.APP, userInfo.toString());
                         view.startMain(userInfo);
+                        PreferenceHelper.saveUserName(userInfo.getUser_name());
                         //TODO 保存Cookies用户信息及密码
                         if (savePsw) {
-                            PreferenceHelper.savePsw(psw);
+                            PreferenceHelper.saveAutoLogin(true);
                             PreferenceHelper.saveUserInfo(userInfo);
+                            OaApplication.getInstance().setUser(userInfo);
                         }
                     }
                 });
