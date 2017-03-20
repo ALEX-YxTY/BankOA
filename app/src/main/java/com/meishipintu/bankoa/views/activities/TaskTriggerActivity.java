@@ -1,7 +1,9 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,11 +11,8 @@ import android.widget.TextView;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskTriggrtComponent;
-import com.meishipintu.bankoa.contracts.TaskDetailContract;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
-import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
-import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.modules.TaskTriggrtModule;
 import com.meishipintu.bankoa.presenters.TaskTriggerPresenterImp;
 import com.meishipintu.library.util.StringUtils;
@@ -71,6 +70,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 .taskTriggrtModule(new TaskTriggrtModule(this))
                 .build()
                 .inject(this);
+
     }
 
     private void init() {
@@ -84,6 +84,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 onBackPressed();
                 break;
             case R.id.ll_center_branch:
+
 //                mPresenter.getCenteralBranches();
                 break;
             case R.id.ll_branch:

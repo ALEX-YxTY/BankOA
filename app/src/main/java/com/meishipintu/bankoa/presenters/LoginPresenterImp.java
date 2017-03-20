@@ -52,15 +52,14 @@ public class LoginPresenterImp implements LoginContract.IPresenter {
 
                     @Override
                     public void onNext(UserInfo userInfo) {
-                        Log.d(Constans.APP, userInfo.toString());
-                        view.startMain(userInfo);
-                        PreferenceHelper.saveUserName(userInfo.getUser_name());
-                        //TODO 保存Cookies用户信息及密码
+                        Log.d(Constans.APP, "login info: "+userInfo.toString());
+                        PreferenceHelper.saveMobile(userInfo.getMobile());
                         if (savePsw) {
                             PreferenceHelper.saveAutoLogin(true);
                             PreferenceHelper.saveUserInfo(userInfo);
-                            OaApplication.getInstance().setUser(userInfo);
                         }
+                        OaApplication.getInstance().setUser(userInfo);
+                        view.startMain();
                     }
                 });
         subscriptions.add(subscription);

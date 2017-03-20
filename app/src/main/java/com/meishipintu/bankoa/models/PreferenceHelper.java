@@ -3,14 +3,11 @@ package com.meishipintu.bankoa.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import android.util.Log;
 
-import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.library.util.StringUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
@@ -19,8 +16,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -95,27 +90,6 @@ public class PreferenceHelper {
         return userInfo;
     }
 
-    public static void savePsw(String psw) {
-        SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("special", psw);
-        editor.apply();
-    }
-
-    public static String getId() {
-        SharedPreferences sharedPreferences = getSharePreference();
-        return sharedPreferences.getString("id", null);
-    }
-
-    //以后正式使用是替换为uid
-    public static String getUid() {
-        SharedPreferences sharedPreferences = getSharePreference();
-        return sharedPreferences.getString("id", null);
-    }
-
-    public static String getLevel() {
-        SharedPreferences sharedPreferences = getSharePreference();
-        return sharedPreferences.getString("level", null);
-    }
 
     public static void saveCenterBranch(String centerBranchList) {
         SharedPreferences.Editor editor = getSharePreference().edit();
@@ -129,7 +103,7 @@ public class PreferenceHelper {
         try {
             JSONObject result = new JSONObject(centerBranchList);
             return result;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -147,7 +121,7 @@ public class PreferenceHelper {
         try {
             JSONObject result = new JSONObject(branchList);
             return result;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -165,7 +139,7 @@ public class PreferenceHelper {
         try {
             JSONObject result = new JSONObject(taskTypeList);
             return result;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -195,12 +169,11 @@ public class PreferenceHelper {
         try {
             JSONObject result = new JSONObject(departmentList);
             return result;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
     public static void saveNodeNameList(String nodeNameList) {
         SharedPreferences.Editor editor = getSharePreference().edit();
@@ -214,7 +187,7 @@ public class PreferenceHelper {
         try {
             JSONObject result = new JSONObject(nodeNameList);
             return result;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -224,7 +197,8 @@ public class PreferenceHelper {
         SharedPreferences sharePreference = PreferenceHelper.getSharePreference();
         SharedPreferences.Editor editor = sharePreference.edit();
         editor.remove("user");
-        editor.remove("special");
+        editor.remove("auto_login");
+        editor.remove("mobile");
         editor.apply();
     }
 
@@ -239,14 +213,15 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean("auto_login", false);
     }
 
-    public static void saveUserName(String user_name) {
+    public static void saveMobile(String mobile) {
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("user_name", user_name);
+        editor.putString("mobile", mobile);
         editor.apply();
     }
 
-    public static String getUserName() {
+    public static String getMobile() {
         SharedPreferences sharedPreferences = getSharePreference();
-        return sharedPreferences.getString("user_name", null);
+        return sharedPreferences.getString("mobile", null);
     }
+
 }

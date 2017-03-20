@@ -1,11 +1,10 @@
 package com.meishipintu.bankoa.presenters;
 
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskContract;
-import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,7 +35,7 @@ public class TaskPresenterImp implements TaskContract.IPresenter {
 
     @Override
     public void getTask(final int type) {
-        subsriptions.add(httpApi.getTaskList(PreferenceHelper.getUid(),type)
+        subsriptions.add(httpApi.getTaskList(OaApplication.getUser().getId(),type)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<Task>>() {
             @Override

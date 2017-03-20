@@ -1,6 +1,5 @@
 package com.meishipintu.bankoa.contracts;
 
-import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
 
@@ -19,7 +18,7 @@ public interface LoginContract {
 
     interface IView extends BasicView {
 
-        void startMain(UserInfo userInfo);
+        void startMain();
 
         void showError(String errMsg);
     }

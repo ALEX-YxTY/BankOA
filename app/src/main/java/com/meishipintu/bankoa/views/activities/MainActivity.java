@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
-import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerMainComponent;
 import com.meishipintu.bankoa.contracts.MainContract;
@@ -63,6 +62,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
 
     private void initUI() {
         tvTitle.setText(R.string.homePage);
+        UserInfo userInfo = (UserInfo) getIntent().getExtras().get("user");
         mPresenter.getUserInfo();
     }
 

@@ -2,6 +2,7 @@ package com.meishipintu.bankoa.presenters;
 
 import android.content.Context;
 
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
@@ -56,7 +57,8 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
             , String taskType, String taskName, final String recommendManager) {
         subscriptions.add(httpApi.triggerTask(new TaskTriggerInfo(loanerName, loanMoney
                 , centerBranchType, branchType, taskType, taskName
-                , recommendManager, PreferenceHelper.getId(), PreferenceHelper.getLevel()))
+                , recommendManager, OaApplication.getUser().getId()
+                , OaApplication.getUser().getLevel()))
         .observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Task>() {
             @Override

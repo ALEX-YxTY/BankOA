@@ -2,7 +2,6 @@ package com.meishipintu.bankoa.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -11,7 +10,7 @@ import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerLoginComponent;
 import com.meishipintu.bankoa.contracts.LoginContract;
-import com.meishipintu.bankoa.models.entity.UserInfo;
+import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.modules.LoginModule;
 import com.meishipintu.bankoa.presenters.LoginPresenterImp;
 import com.meishipintu.library.util.Encoder;
@@ -56,6 +55,10 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
         //通过Dagger注入
         DaggerLoginComponent.builder().loginModule(new LoginModule(this))
                 .build().inject(this);
+
+        if (PreferenceHelper.getMobile() != null) {
+            etTel.setText(PreferenceHelper.getMobile());
+        }
     }
 
 
@@ -92,9 +95,10 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
 
     //from LoginContract.IView
     @Override
-    public void startMain(UserInfo userInfo) {
+    public void startMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        this.finish();
     }
 
     //from LoginContract.IView
@@ -107,9 +111,15 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constans.START_REGISTER && requestCode == RESULT_OK) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            this.finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //使返回按钮无效
     }
 
     @Override
