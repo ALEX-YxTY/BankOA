@@ -5,4 +5,6 @@ package com.meishipintu.bankoa.views;
  */
 
 public interface BasicView {
+
+    void showError(String errMsg);
 }

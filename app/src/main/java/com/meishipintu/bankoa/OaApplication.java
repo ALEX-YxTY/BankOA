@@ -1,6 +1,7 @@
 package com.meishipintu.bankoa;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.meishipintu.bankoa.components.ApplicationComponent;
 import com.meishipintu.bankoa.components.DaggerApplicationComponent;
@@ -20,10 +21,7 @@ public class OaApplication extends Application {
     private static OaApplication instance;
     private static UserInfo user;
     public static JSONObject nodeNameList;
-    public static JSONObject taskTypeList;
     public static JSONObject departmentList;
-    public static JSONObject centerBranchList;
-    public static JSONObject branchList;
     public static int nodeNumber;
 
     public static OaApplication getInstance() {
@@ -49,9 +47,6 @@ public class OaApplication extends Application {
         nodeNameList = PreferenceHelper.getNodeNameList();
         nodeNumber = PreferenceHelper.getNodeNum();
         departmentList = PreferenceHelper.getDepartmentList();
-        taskTypeList = PreferenceHelper.getTakTypeList();
-        centerBranchList = PreferenceHelper.getCeterBranchList();
-        branchList = PreferenceHelper.getBranchList();
     }
 
     public ApplicationComponent getApplicationComponent() {

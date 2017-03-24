@@ -15,13 +15,12 @@ import java.util.List;
 public interface TaskContract {
 
     interface IPresenter extends BasicPresenter {
-        void getTask(int type);
+        void getTask(String uid, int type);
     }
 
     interface IView extends BasicView {
 
-        void showTask(List<Task> taskList, int type);
+        void showTask(List<Task> taskList);
 
-        void showError(String message);
     }
 }

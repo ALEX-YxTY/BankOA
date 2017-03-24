@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskComponent;
 import com.meishipintu.bankoa.contracts.TaskContract;
@@ -56,19 +58,28 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     private List<Task> dataList;
     private int checkNow;
 
+    private String uid;                 //当前显示对象的uid
+    private String supervisorId;        //当前监管者的uid
+    private String supervisorLevel;     //当前监管者的level
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
 
-        DaggerTaskComponent.builder().taskModule(new TaskModule(this))
+        DaggerTaskComponent.builder()
+                .taskModule(new TaskModule(this))
                 .build().inject(this);
         initUI();
         initVP();
     }
 
     private void initUI() {
+        uid = getIntent().getStringExtra("uid");
+        supervisorId = getIntent().getStringExtra("supervisor_id");
+        supervisorLevel = getIntent().getStringExtra("supervisor_level");
+
         tvTitle.setText(R.string.task);
         left.setText(R.string.unfinish);
         right.setText(R.string.finish);
@@ -78,7 +89,10 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
         vp.setItemAnimator(new DefaultItemAnimator());
         vp.setLayoutManager(new LinearLayoutManager(this));
         checkNow = R.id.left;
-        mPresenter.getTask(1);
+        if (supervisorId == null) {
+            uid = OaApplication.getUser().getUid();
+        }
+        mPresenter.getTask(uid, 1);
     }
 
     @OnClick({R.id.bt_back, R.id.left, R.id.right})
@@ -90,13 +104,13 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
             case R.id.left:
                 if (checkNow != R.id.left) {
                     checkNow = R.id.left;
-                    mPresenter.getTask(1);
+                    mPresenter.getTask(uid, 1);
                 }
                 break;
             case R.id.right:
                 if (checkNow != R.id.right) {
                     checkNow = R.id.right;
-                    mPresenter.getTask(2);
+                    mPresenter.getTask(uid, 2);
                 }
                 break;
         }
@@ -104,11 +118,11 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
 
     //from TaskContract.IView
     @Override
-    public void showTask(List<Task> taskList, int type) {
+    public void showTask(List<Task> taskList) {
         Log.d(Constans.APP, "show Task:" + taskList.size());
         if (adapter == null) {
             dataList = taskList;
-            adapter = new TaskListAdapter(this, dataList, type);
+            adapter = new TaskListAdapter(this, dataList, supervisorId,supervisorLevel);
             vp.setAdapter(adapter);
         } else {
             dataList.clear();
@@ -121,6 +135,14 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     @Override
     public void showError(String message) {
         ToastUtils.show(this, message, true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constans.PAYMENT && resultCode == RESULT_OK) {
+            //刷新界面
+            mPresenter.getTask(uid, checkNow == R.id.left ? 1 : 2);
+        }
     }
 
     @Override

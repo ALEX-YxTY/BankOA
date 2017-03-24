@@ -1,6 +1,5 @@
 package com.meishipintu.bankoa.contracts;
 
-import com.meishipintu.bankoa.models.entity.ClerkInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
@@ -17,11 +16,12 @@ public interface ClerkContract {
 
     interface IPresenter extends BasicPresenter {
 
-        void getClerk(String uid);
+        void getClerk(String uid, String level);
     }
 
     interface IView extends BasicView {
 
-        void showCLerk(List<ClerkInfo> clerkInfos);
+        void showCLerk(List<UserInfo> clerkInfos);
+
     }
 }

@@ -13,6 +13,7 @@ import com.meishipintu.bankoa.contracts.SettingContract;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.SettingModule;
 import com.meishipintu.bankoa.presenters.SettingPresenterImp;
+import com.meishipintu.library.util.ToastUtils;
 
 import javax.inject.Inject;
 
@@ -69,5 +70,11 @@ public class SettingActivity extends BasicActivity implements SettingContract.IV
     @Override
     public void onLogoutSuccess() {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
     }
 }

@@ -101,7 +101,7 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
         this.finish();
     }
 
-    //from LoginContract.IView
+    //from BasicView.IView
     @Override
     public void showError(String errMsg) {
         ToastUtils.show(this, errMsg, true);

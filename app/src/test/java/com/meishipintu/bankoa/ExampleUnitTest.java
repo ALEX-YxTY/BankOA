@@ -2,6 +2,7 @@ package com.meishipintu.bankoa;
 
 import com.meishipintu.bankoa.presenters.TaskDetailPresenterImp;
 import com.meishipintu.bankoa.presenters.TaskPresenterImp;
+import com.meishipintu.library.util.DateUtil;
 
 import org.junit.Test;
 
@@ -15,9 +16,8 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        TaskDetailPresenterImp presenterImp = new TaskDetailPresenterImp();
-        presenterImp.getTaskInfo("7");
-        Thread.sleep(2000);
-        System.out.println(presenterImp.nodeInfoNow);
+        String timeStamp = 1490088248 + "";
+        String format = DateUtil.formart2(timeStamp);
+        System.out.println(DateUtil.deformar2(format));
     }
 }

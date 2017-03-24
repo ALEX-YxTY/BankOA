@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.meishipintu.bankoa.views.activities.PaymentEnterActivity">
+
+    <include layout="@layout/titlebar_back" android:id="@+id/title" />
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_below="@id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="72dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="17dp">
+
+            <!--head-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_information"/>
+                <TextView
+                    android:layout_toRightOf="@id/icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_subTitle_blue"
+                    android:text="@string/payment_info"/>
+            </RelativeLayout>
+
+            <!--授信审批金额*-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="授信审批金额*"/>
+                <EditText
+                    android:id="@+id/et_check_money"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
+                    android:hint="请输入金额"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+
+            <!--实际放款金额*-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="实际放款金额*"/>
+                <EditText
+                    android:id="@+id/et_real_money"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:hint="请输入金额"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@color/text_gray2"/>
+
+            </LinearLayout>
+
+            <!--放款时间*-->
+            <LinearLayout
+                android:id="@+id/ll_loan_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:paddingTop="9dp"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@drawable/selector_et_border">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/text_comment"
+                    android:text="放款时间*"/>
+                <TextView
+                    android:id="@+id/tv_loan_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    style="@style/text_comment"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:hint="请选择"
+                    android:textColorHint="@color/text_gray2"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_choose"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
+
+            <!--付款包裹框-->
+            <LinearLayout
+                android:id="@+id/ll_payment_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <include layout="@layout/item_add" />
+
+            <include layout="@layout/item_remove" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bt_input"
+        android:text="@string/payment_input"
+        style="@style/bt_enter"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

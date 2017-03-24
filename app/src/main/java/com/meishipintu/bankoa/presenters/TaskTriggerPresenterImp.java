@@ -1,16 +1,22 @@
 package com.meishipintu.bankoa.presenters;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
-import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -54,27 +60,27 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     @Override
     public void triggerTask(String loanerName, String loanMoney, String centerBranchType, String branchType
-            , String taskType, String taskName, final String recommendManager) {
-        subscriptions.add(httpApi.triggerTask(new TaskTriggerInfo(loanerName, loanMoney
-                , centerBranchType, branchType, taskType, taskName
-                , recommendManager, OaApplication.getUser().getId()
-                , OaApplication.getUser().getLevel()))
-        .observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Task>() {
-            @Override
-            public void onCompleted() {
-            }
+            , String taskType, final String taskName, final String recommendManager,String uid,String level) {
 
-            @Override
-            public void onError(Throwable e) {
-                view.showTriggerResult(e.getMessage(), false, null);
-            }
+        subscriptions.add(httpApi.triggerTask(loanerName, loanMoney, centerBranchType, branchType
+                , taskType, taskName, recommendManager, uid, level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Task>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            @Override
-            public void onNext(Task task) {
-                view.showTriggerResult("", true, task);
-            }
-        }));
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showTriggerResult(e.getMessage(), false, null);
+                    }
+
+                    @Override
+                    public void onNext(Task task) {
+                        view.showTriggerResult("", true, task);
+                    }
+                }));
     }
 
     //from BasicPresenter

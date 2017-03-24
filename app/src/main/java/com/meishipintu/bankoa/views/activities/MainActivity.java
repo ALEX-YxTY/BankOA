@@ -8,13 +8,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerMainComponent;
 import com.meishipintu.bankoa.contracts.MainContract;
+import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.MainModule;
 import com.meishipintu.bankoa.presenters.MainPresenterImp;
+import com.meishipintu.library.util.ToastUtils;
 import com.meishipintu.library.view.CircleImageView;
+
+import org.json.JSONException;
 
 import javax.inject.Inject;
 
@@ -57,12 +62,16 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
 
         DaggerMainComponent.builder().mainModule(new MainModule(this))
                 .build().inject(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initUI();
     }
 
     private void initUI() {
         tvTitle.setText(R.string.homePage);
-        UserInfo userInfo = (UserInfo) getIntent().getExtras().get("user");
         mPresenter.getUserInfo();
     }
 
@@ -94,14 +103,18 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
     //from MainContract.IView
     @Override
     public void refreshUI(UserInfo userInfo) {
-        Log.d(Constans.APP, "userInfo login:" + userInfo.toString());
         tvName.setText(userInfo.getUser_name());
         tvNumber.setText("工号：" + userInfo.getJob_number());
         String department,title;
         if (userInfo.getLevel().equals("1")) {
             department = "";
         } else {
-            department = userInfo.getDepartment_name();
+            try {
+                department = OaApplication.departmentList.getString(userInfo.getDepartment_id());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                department = "";
+            }
         }
         switch (Integer.parseInt(userInfo.getLevel())) {
             case 1:
@@ -111,7 +124,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
                 title = "经理";
                 break;
             default:
-                title = "员工";
+                title = "业务员";
                 break;
         }
         tvJobTitle.setText(department + " " + title);
@@ -125,5 +138,13 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unSubscrib();
+    }
+
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
+        startActivity(new Intent(this, LoginActivity.class));
+        this.finish();
     }
 }

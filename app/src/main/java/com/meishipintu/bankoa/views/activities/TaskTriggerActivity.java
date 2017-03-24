@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.CharacterPickerDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskTriggrtComponent;
@@ -55,6 +57,9 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     @Inject
     TaskTriggerPresenterImp mPresenter;
 
+    private String sponsorId;
+    private String sponsorLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,12 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     }
 
     private void init() {
+        sponsorId = getIntent().getStringExtra("uid");
+        sponsorLevel = getIntent().getStringExtra("user_level");
+        if (sponsorId == null) {
+            sponsorId = OaApplication.getUser().getUid();
+            sponsorLevel = OaApplication.getUser().getLevel();
+        }
         tvTitle.setText(R.string.trigger_task);
     }
 
@@ -84,7 +95,6 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 onBackPressed();
                 break;
             case R.id.ll_center_branch:
-
 //                mPresenter.getCenteralBranches();
                 break;
             case R.id.ll_branch:
@@ -105,7 +115,8 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                         , centerBranch, branch, type})) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 } else {
-                    mPresenter.triggerTask(loanerName,loanMoney, "1","1" ,"1",taskName,recommendManager);
+                    mPresenter.triggerTask(loanerName, loanMoney, "1", "1", "1", taskName
+                            , recommendManager, sponsorId, sponsorLevel);
                 }
                 break;
         }
@@ -136,6 +147,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         if (!success) {
             ToastUtils.show(this, result, true);
         } else {
+            Log.d(Constans.APP, "task triggered:" + task.toString());
             Intent intent = new Intent(TaskTriggerActivity.this, TaskDetailActivity.class);
             intent.putExtra("task", task);
             startActivity(intent);
@@ -147,5 +159,11 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     protected void onDestroy() {
         mPresenter.unSubscrib();
         super.onDestroy();
+    }
+
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
     }
 }

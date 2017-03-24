@@ -1,10 +1,7 @@
 package com.meishipintu.bankoa.contracts;
 
-import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/13.

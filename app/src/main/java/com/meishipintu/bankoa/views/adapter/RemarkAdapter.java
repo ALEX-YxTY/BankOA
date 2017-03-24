@@ -37,8 +37,8 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkViewHolder> {
     @Override
     public void onBindViewHolder(RemarkViewHolder holder, int position) {
         RemarkInfo info = remarkInfos.get(position);
-        holder.tvContent.setText("asdfgdfghjhf");
-        holder.tvTime.setText(DateUtil.getTimeFormart2(info.getRemark_time()));
+        holder.tvContent.setText(info.getRemark_content());
+        holder.tvTime.setText(DateUtil.formart3(info.getRemark_time()));
     }
 
     @Override

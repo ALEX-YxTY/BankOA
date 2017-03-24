@@ -34,24 +34,25 @@ public class TaskPresenterImp implements TaskContract.IPresenter {
     }
 
     @Override
-    public void getTask(final int type) {
-        subsriptions.add(httpApi.getTaskList(OaApplication.getUser().getId(),type)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<Task>>() {
-            @Override
-            public void onCompleted() {
-            }
+    public void getTask(String uid, int type) {
+        subsriptions.add(httpApi.getTaskList(uid,type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Task>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                iView.showError(e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showError(e.getMessage());
+                    }
 
-            @Override
-            public void onNext(List<Task> taskList) {
-                iView.showTask(taskList,type);
-            }
-        }));
+                    @Override
+                    public void onNext(List<Task> taskList) {
+                        iView.showTask(taskList);
+                    }
+                }));
 
     }
 

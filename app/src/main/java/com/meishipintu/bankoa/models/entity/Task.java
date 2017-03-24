@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 public class Task implements Serializable{
 
-    private static final long serialVerisionUID = 10L;          //序列化验证码
+    private static final long serialVersionUID = 10L;          //序列化验证码
 
     private String id;                  //taskId
-    private String credi_name;
+    private String credit_name;
     private String apply_money;
     private String credit_center_branch;
     private String credit_branch;
@@ -27,11 +27,24 @@ public class Task implements Serializable{
     private String result_money;        //最终贷款金额
     private String finish_time;         //任务完成时间
     private String loan_time;           //发放贷款时间
-    private String is_finish;
+    private String is_finish;           //标注任务是否已完成
     private String credit_manager;
+    private String repayment_status;    //标准任务还款是否已还完
 
-    public static long getSerialVerisionUID() {
-        return serialVerisionUID;
+    public String getCredit_name() {
+        return credit_name;
+    }
+
+    public void setCredit_name(String credit_name) {
+        this.credit_name = credit_name;
+    }
+
+    public String getRepayment_status() {
+        return repayment_status;
+    }
+
+    public void setRepayment_status(String repayment_status) {
+        this.repayment_status = repayment_status;
     }
 
     public String getLevel() {
@@ -67,11 +80,11 @@ public class Task implements Serializable{
     }
 
     public String getCredi_name() {
-        return credi_name;
+        return credit_name;
     }
 
     public void setCredi_name(String credi_name) {
-        this.credi_name = credi_name;
+        this.credit_name = credi_name;
     }
 
     public String getApply_money() {
@@ -168,5 +181,28 @@ public class Task implements Serializable{
 
     public void setLoan_time(String loan_time) {
         this.loan_time = loan_time;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", credit_name='" + credit_name + '\'' +
+                ", apply_money='" + apply_money + '\'' +
+                ", credit_center_branch='" + credit_center_branch + '\'' +
+                ", credit_branch='" + credit_branch + '\'' +
+                ", task_type='" + task_type + '\'' +
+                ", task_name='" + task_name + '\'' +
+                ", sponsor_id='" + sponsor_id + '\'' +
+                ", sponsor_level='" + sponsor_level + '\'' +
+                ", level='" + level + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", check_money='" + check_money + '\'' +
+                ", result_money='" + result_money + '\'' +
+                ", finish_time='" + finish_time + '\'' +
+                ", loan_time='" + loan_time + '\'' +
+                ", is_finish='" + is_finish + '\'' +
+                ", credit_manager='" + credit_manager + '\'' +
+                '}';
     }
 }

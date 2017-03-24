@@ -14,6 +14,8 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
+import com.meishipintu.bankoa.views.activities.PaymentDetailActivity;
+import com.meishipintu.bankoa.views.activities.TaskActivity;
 import com.meishipintu.bankoa.views.activities.TaskDetailActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.TaskListViewHolder;
 
@@ -36,15 +38,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
 
     private List<Task> dataList;
     private Context mContext;
-    private int type;               //标注已完成和未完成
     private int nodeNum;                    // 节点数量
+    private String supervisorId = null;     //监管人的uid
+    private String supervisorLevel = null;     //监管人的level
 
-    public TaskListAdapter(Context context, List<Task> list, int type) {
+
+    public TaskListAdapter(Context context, List<Task> list,String s_uid,String s_level) {
         this.dataList = list;
         this.mContext = context;
-        this.type = type;
-
+        this.supervisorId = s_uid;
         this.nodeNum = PreferenceHelper.getNodeNum();
+        this.supervisorLevel = s_level;
     }
 
     @Override
@@ -54,8 +58,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
 
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, final int position) {
-        Task task = dataList.get(position);
-        holder.icon.setImageResource(type == 2 ? R.drawable.icon_task_finished : R.drawable.icon_task_unfinished);
+        final Task task = dataList.get(position);
+        if ("1".equals(task.getIs_finish())) {
+            holder.icon.setImageResource(R.drawable.icon_task_finished);
+        } else {
+            holder.icon.setImageResource(R.drawable.icon_task_unfinished);
+        }
         holder.tvTaskName.setText(task.getTask_name());
         JSONObject nodeNameList = OaApplication.nodeNameList;
         if (nodeNameList != null) {
@@ -65,13 +73,34 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
                 e.printStackTrace();
             }
         }
-        holder.tvPercentage.setText((Integer.parseInt(task.getLevel())*100/nodeNum)+"%");
+        if ("1".equals(task.getIs_finish()) && "1".equals(task.getRepayment_status())) {
+            //已还款完毕
+            holder.tvPercentage.setText("100%");
+        } else if ("1".equals(task.getIs_finish())) {
+            //还款未完毕，任务已结束
+            holder.tvPercentage.setText("99%");
+        } else {
+            holder.tvPercentage.setText(((Integer.parseInt(task.getLevel())-1)*100/nodeNum)+"%");
+        }
         holder.btCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, TaskDetailActivity.class);
-                intent.putExtra("task", dataList.get(position));
-                mContext.startActivity(intent);
+                Intent intent;
+                if ("0".equals(task.getIs_finish())) {
+                    intent = new Intent(mContext, TaskDetailActivity.class);
+                    intent.putExtra("task", task);
+
+                } else {
+                    intent = new Intent(mContext, PaymentDetailActivity.class);
+                    intent.putExtra("task_id", task.getId());
+                    intent.putExtra("repayment_status", task.getRepayment_status());
+                }
+                if (supervisorId != null) {
+                    intent.putExtra("supervisor_id", supervisorId);
+                    intent.putExtra("supervisor_level", supervisorLevel);
+                }
+                TaskActivity activity = (TaskActivity) mContext;
+                activity.startActivityForResult(intent,Constans.PAYMENT);
             }
         });
     }

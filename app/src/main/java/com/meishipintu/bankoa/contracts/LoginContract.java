@@ -20,6 +20,5 @@ public interface LoginContract {
 
         void startMain();
 
-        void showError(String errMsg);
     }
 }

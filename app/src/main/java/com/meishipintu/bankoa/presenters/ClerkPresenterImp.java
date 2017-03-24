@@ -5,8 +5,11 @@ import com.meishipintu.bankoa.contracts.LoginContract;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -33,8 +36,24 @@ public class ClerkPresenterImp implements ClerkContract.IPresenter {
     }
 
     @Override
-    public void getClerk(String uid) {
-        //TODO 调用获取员工列表接口
+    public void getClerk(String uid, String level) {
+        subscriptions.add(httpApi.getClerkList(uid,level).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<UserInfo>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<UserInfo> userInfos) {
+                        view.showCLerk(userInfos);
+                    }
+                }));
     }
 
     //from BasicPresenter

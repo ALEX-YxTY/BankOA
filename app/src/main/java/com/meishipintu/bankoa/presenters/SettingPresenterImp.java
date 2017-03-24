@@ -1,16 +1,9 @@
 package com.meishipintu.bankoa.presenters;
 
-import android.content.Context;
-
 import com.meishipintu.bankoa.contracts.SettingContract;
-import com.meishipintu.bankoa.contracts.TaskTriggerContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
-import com.meishipintu.bankoa.models.entity.TaskTriggerInfo;
-import com.meishipintu.bankoa.models.http.HttpApi;
 
 import javax.inject.Inject;
-
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Administrator on 2017/3/2.

@@ -1,7 +1,14 @@
 package com.meishipintu.library.util;
 
+import android.provider.SyncStateContract;
+import android.util.Log;
+
+import java.lang.reflect.Constructor;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.ConsoleHandler;
 
 /**
  * Created by Administrator on 2017/3/17.
@@ -31,4 +38,37 @@ public class DateUtil {
         return simpleDateFormat.format(new Date(Long.parseLong(remark_time)*1000));
     }
 
+    //显示时间格式为yyy年MM月dd日
+    public static String formart2(String timeStamp) {
+        if (timeStamp == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String format = simpleDateFormat.format(new Date(Long.parseLong(timeStamp) * 1000));
+        return format;
+    }
+
+    //将格式为 yyyy年MM月dd日字串转化为时间戳
+    public static String deformar2(String time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        Date parse = null;
+        try {
+            parse = simpleDateFormat.parse(time);
+            parse.setHours(12);
+            return (parse.getTime()) / 1000 + "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //显示时间格式为yyyy-MM-dd mm:ss
+    public static String formart3 (String comment_time) {
+        if (comment_time == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd mm:ss");
+        String format = simpleDateFormat.format(new Date(Long.parseLong(comment_time) * 1000));
+        return format;
+    }
 }

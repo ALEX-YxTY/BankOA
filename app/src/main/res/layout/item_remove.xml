@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_remove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/shape_blue_fillet">
+            <TextView
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#33b0ff"
+                android:text="删除还款时间"
+                android:layout_centerInParent="true"
+                android:textSize="13sp"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_01"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_toRightOf="@id/bt_return_loan_time"/>-->
+    </RelativeLayout>
+
+</LinearLayout>

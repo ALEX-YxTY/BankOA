@@ -78,4 +78,10 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
     public void showResult(List<Task> taskList) {
         //TODO 刷新界面
     }
+
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
+    }
 }

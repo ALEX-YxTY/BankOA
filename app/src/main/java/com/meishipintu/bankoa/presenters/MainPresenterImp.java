@@ -27,15 +27,15 @@ public class MainPresenterImp implements MainContract.IPresenter {
     @Override
     public void getUserInfo() {
         UserInfo userInfo = OaApplication.getUser();
-        Log.d(Constans.APP, "user Load:" + userInfo.toString());
         if (userInfo != null && userInfo.getId() != null) {
             iView.refreshUI(userInfo);
+        }else {
+            iView.showError("获取信息失败，请重新登录");
         }
     }
 
     //from BasicPresenter.IPresenter
     @Override
     public void unSubscrib() {
-
     }
 }

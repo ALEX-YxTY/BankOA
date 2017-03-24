@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DialogNoAction" parent="Theme.AppCompat.Light.Dialog" >
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="main_text">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/text_black</item>
@@ -64,7 +68,7 @@
         <item name="android:layout_marginLeft" >12dp</item>
         <item name="android:layout_marginRight" >12dp</item>
         <item name="android:layout_marginBottom" >27dp</item>
-        <item name="android:background" >@drawable/shape_bt_theme</item>
+        <item name="android:background" >@drawable/selector_bt_clickable</item>
         <item name="android:layout_alignParentBottom" >true</item>
     </style>
 </resources>

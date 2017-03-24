@@ -184,6 +184,12 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
         handler.removeMessages(0);
     }
 
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
+    }
+
     //handler设为内部静态类，防止handler持有activity对象导致内存泄漏
     private static class MyHandler extends Handler {
         private final WeakReference<RegisterActivity> reference;

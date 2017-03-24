@@ -7,6 +7,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.http.HttpApi;
@@ -61,6 +63,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void call(Integer number) {
                         PreferenceHelper.saveTaskNum(number);
+                        OaApplication.nodeNumber = number;
                     }
                 }));
         subscriptions.add(httpApi.getDepartmentList().subscribeOn(Schedulers.io())
@@ -68,6 +71,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void call(JSONObject jsonObject) {
                         PreferenceHelper.saveDepartmentList(jsonObject.toString());
+                        OaApplication.departmentList = jsonObject;
                     }
                 }));
         subscriptions.add(httpApi.getNodeNameList().subscribeOn(Schedulers.io())
@@ -75,6 +79,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void call(JSONObject jsonObject) {
                         PreferenceHelper.saveNodeNameList(jsonObject.toString());
+                        OaApplication.nodeNameList = jsonObject;
                     }
                 }));
         myHandler.sendEmptyMessageDelayed(0, 3000);
@@ -100,8 +105,7 @@ public class SplashActivity extends AppCompatActivity {
             super.handleMessage(msg);
             if (msg.what == 0) {
                 SplashActivity activity = reference.get();
-                if (PreferenceHelper.isAutoLogin() && PreferenceHelper.getSharePreference().contains("id")
-                        && PreferenceHelper.getUserInfo().getId() != null) {
+                if (PreferenceHelper.isAutoLogin() && PreferenceHelper.getUserInfo()!= null) {
                     activity.startActivity(new Intent(activity, MainActivity.class));
                 } else {
                     activity.startActivity(new Intent(activity, LoginActivity.class));

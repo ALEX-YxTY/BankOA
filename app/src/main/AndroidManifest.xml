@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--启动界面-->
-        <activity android:name=".views.activities.SplashActivity"
+        <!-- 启动界面 -->
+        <activity
+            android:name=".views.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -23,20 +24,21 @@
             </intent-filter>
         </activity>
 
-
         <!-- 登录界面 -->
         <activity
             android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 主动能页 -->
         <activity
             android:name=".views.activities.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--监管者看到的员工主功能界面-->
+        <activity android:name=".views.activities.SupervisorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 消息页面 -->
         <activity
             android:name=".views.activities.NoticActivity"
@@ -47,7 +49,7 @@
             android:name=".views.activities.TaskTriggerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustUnspecified" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".views.activities.ClerkListActivity"
             android:screenOrientation="portrait"
@@ -101,6 +103,17 @@
         <!-- 改绑手机 -->
         <activity
             android:name=".views.activities.BindTelActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 输入付款信息 -->
+        <activity
+            android:name=".views.activities.PaymentEnterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <!-- 查看付款详情 -->
+        <activity
+            android:name=".views.activities.PaymentDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>

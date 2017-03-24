@@ -153,7 +153,7 @@ public class PreferenceHelper {
 
     public static int getNodeNum() {
         SharedPreferences sharedPreferences = getSharePreference();
-        int nodeNum = sharedPreferences.getInt("nodeNumber", 24);
+        int nodeNum = sharedPreferences.getInt("nodeNumber", -1);
         return nodeNum;
     }
 

@@ -7,6 +7,7 @@
 
     <include android:id="@+id/title" layout="@layout/titlebar_back" />
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_below="@id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -215,6 +216,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

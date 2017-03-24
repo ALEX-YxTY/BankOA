@@ -38,7 +38,8 @@ public class LoginPresenterImp implements LoginContract.IPresenter {
 
     @Override
     public void login(String tel, final String psw, final boolean savePsw) {
-        Subscription subscription = httpApi.login(tel, psw).subscribeOn(Schedulers.io())
+        Subscription subscription = httpApi.login(tel, psw)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserInfo>() {
                     @Override
@@ -58,7 +59,7 @@ public class LoginPresenterImp implements LoginContract.IPresenter {
                             PreferenceHelper.saveAutoLogin(true);
                             PreferenceHelper.saveUserInfo(userInfo);
                         }
-                        OaApplication.getInstance().setUser(userInfo);
+                        OaApplication.setUser(userInfo);
                         view.startMain();
                     }
                 });

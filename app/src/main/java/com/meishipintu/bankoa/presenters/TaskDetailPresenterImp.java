@@ -1,9 +1,13 @@
 package com.meishipintu.bankoa.presenters;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
+import com.meishipintu.bankoa.models.entity.CommentDetail;
+import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -31,6 +35,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
+    private static final String TAG = "BankOA-TaskDetailImp";
     private TaskDetailContract.IView iView;
     private HttpApi httpApi;
     private CompositeSubscription subscriptions;
@@ -50,8 +55,10 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
     @Override
     public void getTaskInfo(String taskId) {
-        subscriptions.add(httpApi.getTaskInfoNow(taskId).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<JSONObject>() {
+        subscriptions.add(httpApi.getTaskInfoNow(taskId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<JSONObject>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -63,6 +70,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
                     @Override
                     public void onNext(JSONObject jsonObject) {
+                        Log.d(TAG, "TaskDetail received:" + jsonObject.toString());
                         Gson gson = new Gson();
                         try {
                             JSONObject nowInfo = jsonObject.getJSONObject("now_task_info");
@@ -95,6 +103,15 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                                 }
 
                             }
+                            if (!jsonObject.isNull("now_level_comment")) {
+                                JSONArray comments = jsonObject.getJSONArray("now_level_comment");
+                                if (comments.length() > 0) {
+                                    List<CommentDetail> commentList = gson.fromJson(comments.toString()
+                                            , new TypeToken<List<CommentDetail>>() {
+                                            }.getType());
+                                    iView.showComments(commentList);
+                                }
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             iView.showError("获取数据失败，请稍后重试");
@@ -104,9 +121,10 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
     }
 
     @Override
-    public void setTaskNodeFinished(String taskId) {
-        subscriptions.add(httpApi.finishNode(OaApplication.getUser().getId(), taskId)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+    public void setTaskNodeFinished(String uid, String taskId) {
+        subscriptions.add(httpApi.finishNode(uid, taskId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
@@ -127,23 +145,43 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
     }
 
     @Override
-    public void addNodeRemarks(RemarkInfo remarkInfo) {
-        subscriptions.add(httpApi.addRemark(remarkInfo).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+    public void addNodeRemarks(String taskId, String taskLevel, String taskContent, String userId) {
+        subscriptions.add(httpApi.addRemark(taskId,taskLevel,taskContent,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean success) {
                         if (success) {
-                            iView.onAddRemarkSucess();
+                            iView.onAddSuccess(0);
                         } else {
-                            iView.showError("评论添加失败，请稍后重试");
+                            iView.showError("备注添加失败，请稍后重试");
                         }
                     }
                 }));
     }
 
     @Override
-    public void addNodeComment(String supervisorId, String comment) {
+    public void addNodeComment(CommentInfo info) {
+        subscriptions.add(httpApi.addComment(info).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showError("评论添加失败，请稍后重试");
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            iView.onAddSuccess(1);
+                        }
+                    }
+                }));
     }
 
     //from TaskDetailContract.IPresenter

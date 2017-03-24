@@ -5,13 +5,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerClerkComponent;
 import com.meishipintu.bankoa.contracts.ClerkContract;
-import com.meishipintu.bankoa.models.entity.ClerkInfo;
+import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.ClerkModule;
 import com.meishipintu.bankoa.presenters.ClerkPresenterImp;
 import com.meishipintu.bankoa.views.adapter.ClerkListAdapter;
+import com.meishipintu.library.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,9 @@ public class ClerkListActivity extends BasicActivity implements ClerkContract.IV
     @Inject
     ClerkPresenterImp mPresenter;
 
+    private List<UserInfo> dataList;
+    private ClerkListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +56,8 @@ public class ClerkListActivity extends BasicActivity implements ClerkContract.IV
     }
 
     private void init() {
-        mPresenter.getClerk("uid");
+        tvTitle.setText(R.string.clerk_list);
+        mPresenter.getClerk(OaApplication.getUser().getUid(),OaApplication.getUser().getLevel());
     }
 
     @OnClick(R.id.bt_back)
@@ -58,8 +65,32 @@ public class ClerkListActivity extends BasicActivity implements ClerkContract.IV
         onBackPressed();
     }
 
+    //from ClerkListContract.IView
     @Override
-    public void showCLerk(List<ClerkInfo> clerkInfos) {
+    public void showCLerk(List<UserInfo> clerkInfos) {
+        if (adapter == null) {
+            dataList = new ArrayList<>();
+            dataList.addAll(clerkInfos);
+            adapter = new ClerkListAdapter(this, dataList);
+            rvClerk.setLayoutManager(new LinearLayoutManager(this));
+            rvClerk.setItemAnimator(new DefaultItemAnimator());
+            rvClerk.setAdapter(adapter);
+        } else {
+            dataList.clear();
+            dataList.addAll(clerkInfos);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
+    //from BasicView
+    @Override
+    public void showError(String errMsg) {
+        ToastUtils.show(this, errMsg, true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.unSubscrib();
+        super.onDestroy();
     }
 }

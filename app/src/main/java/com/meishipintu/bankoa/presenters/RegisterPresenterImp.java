@@ -40,7 +40,8 @@ public class RegisterPresenterImp implements RegisterContract.IPresenter {
     @Override
     public void getVerifyCode(final String tel) {
         //TODO 先调用检查是否通过审核接口
-        subscriptions.add(httpApi.getRegisterStatus(tel).subscribeOn(Schedulers.io())
+        subscriptions.add(httpApi.getRegisterStatus(tel)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
@@ -83,8 +84,10 @@ public class RegisterPresenterImp implements RegisterContract.IPresenter {
     @Override
     public void register(String tel, String verifyCode, String psw) {
         //TODO 调用注册接口
-        subscriptions.add(httpApi.register(tel,verifyCode,psw).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<UserInfo>() {
+        subscriptions.add(httpApi.register(tel,verifyCode,psw)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserInfo>() {
                     @Override
                     public void onCompleted() {
                     }

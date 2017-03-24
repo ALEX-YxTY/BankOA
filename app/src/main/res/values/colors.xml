@@ -10,6 +10,7 @@
     <!--主题蓝色-->
     <color name="colorTheme">#25aaff</color>
     <color name="colorTheme2">#5cc0ff</color>
+    <color name="colorThemeDark">#1a76b1</color>
 
 
     <!--分隔色-->

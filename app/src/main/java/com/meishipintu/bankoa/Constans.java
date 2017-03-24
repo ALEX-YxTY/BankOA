@@ -24,4 +24,7 @@ public class Constans {
     public static final int START_REGISTER = 10001;                  //requestCode 从主页启动注册
     public static final int START_FORGET_PSW = 10002;                //requestCode 从主页启动重设密码
 
+    public static final int FINISH_AND_INPUT = 10003;                //requestCode 从任务详情跳转信息录入界面
+    public static final int PAYMENT = 10004;                         //requestCode 从任务列表页面跳转进入录入或付款
+
 }
