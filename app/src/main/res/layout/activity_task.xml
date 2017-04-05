@@ -48,9 +48,23 @@
         <!--android:id="@+id/vp"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/vp"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/text_gray2"
+            android:text="@string/no_notice"
+            android:gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 
 </LinearLayout>

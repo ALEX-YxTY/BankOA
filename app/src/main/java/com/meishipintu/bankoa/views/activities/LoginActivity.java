@@ -2,11 +2,13 @@ package com.meishipintu.bankoa.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerLoginComponent;
 import com.meishipintu.bankoa.contracts.LoginContract;
@@ -23,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -45,6 +48,8 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     LoginPresenterImp mPresenter;
 
     private boolean savePsw;
+    private long exitTime = 0;              //记录退出时间
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +87,11 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
                 break;
             case R.id.bt_login:
                 String tel = etTel.getText().toString();
-                String psw = etPsw.getText().toString();
+                String psw = etPsw.getText().toString().trim();
                 if (StringUtils.isNullOrEmpty(tel) || StringUtils.isNullOrEmpty(psw)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 }
-                mPresenter.login(tel, Encoder.md5(psw), savePsw);
+                mPresenter.login(tel, psw, savePsw);
                 break;
         }
         if (intent != null) {
@@ -96,6 +101,8 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     //from LoginContract.IView
     @Override
     public void startMain() {
+        //Jpush 注册alias
+        JPushInterface.setAlias(this, OaApplication.getUser().getUid(), null);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         this.finish();
@@ -110,16 +117,21 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constans.START_REGISTER && requestCode == RESULT_OK) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            this.finish();
+            startMain();
         }
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override
     public void onBackPressed() {
-        //使返回按钮无效
+        long clickTime = System.currentTimeMillis();
+        if ((clickTime - exitTime) > 1000) {
+            //两次点击超过0.5秒则不视为退出
+            ToastUtils.show(this, R.string.exit, true);
+            exitTime = clickTime;
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

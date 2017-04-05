@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.models;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
+import android.util.Log;
 
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.models.entity.UserInfo;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.util.List;
+
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -24,6 +27,8 @@ import java.io.StreamCorruptedException;
  */
 
 public class PreferenceHelper {
+
+    public static String TAG = "BankOA-PreferenceHelper";
 
     public static SharedPreferences getSharePreference() {
         return OaApplication.getInstance().getSharedPreferences(OaApplication.class.getPackage().getName()
@@ -91,58 +96,73 @@ public class PreferenceHelper {
     }
 
 
-    public static void saveCenterBranch(String centerBranchList) {
+    public static void saveCenterBranch(List<String> centerBranchList) {
+        StringBuffer sbf = new StringBuffer();
+        for(int i=0;i<centerBranchList.size();i++) {
+            sbf.append(centerBranchList.get(i));
+            if (i != centerBranchList.size() - 1) {
+                sbf.append(",");
+            }
+        }
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("centerBranch", centerBranchList);
+        editor.putString("centerBranch", sbf.toString());
         editor.apply();
     }
 
-    public static JSONObject getCeterBranchList() {
+    public static String[] getCeterBranchList() {
         SharedPreferences sharedPreferences = getSharePreference();
         String centerBranchList = sharedPreferences.getString("centerBranch", null);
-        try {
-            JSONObject result = new JSONObject(centerBranchList);
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (centerBranchList != null) {
+            return centerBranchList.split(",");
+        } else {
+            return null;
         }
-        return null;
     }
 
-    public static void saveBranch(String branchList) {
+    public static void saveBranch(List<String> branchList) {
+        StringBuffer sbf = new StringBuffer();
+        for(int i=0;i<branchList.size();i++) {
+            sbf.append(branchList.get(i));
+            if (i != branchList.size() - 1) {
+                sbf.append(",");
+            }
+        }
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("branch", branchList);
+        editor.putString("branch", sbf.toString());
         editor.apply();
     }
 
-    public static JSONObject getBranchList() {
+    public static String[] getBranchList() {
         SharedPreferences sharedPreferences = getSharePreference();
         String branchList = sharedPreferences.getString("branch", null);
-        try {
-            JSONObject result = new JSONObject(branchList);
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (branchList != null) {
+            return branchList.split(",");
+        } else {
+            return null;
         }
-        return null;
     }
 
-    public static void saveTaskType(String taskType) {
+    public static void saveTaskType(List<String> taskType) {
+        StringBuffer sbf = new StringBuffer();
+        for(int i=0;i<taskType.size();i++) {
+            sbf.append(taskType.get(i));
+            if (i != taskType.size() - 1) {
+                sbf.append(",");
+            }
+        }
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("taskType", taskType);
+        editor.putString("taskType", sbf.toString());
         editor.apply();
     }
 
-    public static JSONObject getTakTypeList() {
+    public static String[] getTakTypeList() {
         SharedPreferences sharedPreferences = getSharePreference();
         String taskTypeList = sharedPreferences.getString("taskType", null);
-        try {
-            JSONObject result = new JSONObject(taskTypeList);
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (taskTypeList != null) {
+            return taskTypeList.split(",");
+        } else {
+            return null;
         }
-        return null;
     }
 
     public static void saveTaskNum(Integer number) {
@@ -199,6 +219,8 @@ public class PreferenceHelper {
         editor.remove("user");
         editor.remove("auto_login");
         editor.remove("mobile");
+        editor.remove("newest_remind");
+        editor.remove("newest_notice");
         editor.apply();
     }
 
@@ -224,4 +246,25 @@ public class PreferenceHelper {
         return sharedPreferences.getString("mobile", null);
     }
 
+    public static int getNewestNotice() {
+        SharedPreferences sharedPreferences = getSharePreference();
+        return sharedPreferences.getInt("newest_notice", 0);
+    }
+
+    public static void saveNewestNotice(int integer) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putInt("newest_notice", integer);
+        editor.apply();
+    }
+
+    public static int getNewestRemind() {
+        SharedPreferences sharedPreferences = getSharePreference();
+        return sharedPreferences.getInt("newest_remind", 0);
+    }
+
+    public static void saveNewestRemind(int integer) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putInt("newest_remind", integer);
+        editor.apply();
+    }
 }

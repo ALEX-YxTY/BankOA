@@ -50,6 +50,8 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     RecyclerView vp;
     @BindView(R.id.rg_tab)
     RadioGroup rgTab;
+    @BindView(R.id.tv_empty)
+    TextView tvEmpty;
 
     @Inject
     TaskPresenterImp mPresenter;
@@ -81,6 +83,7 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
         supervisorLevel = getIntent().getStringExtra("supervisor_level");
 
         tvTitle.setText(R.string.task);
+        tvEmpty.setText(R.string.no_task);
         left.setText(R.string.unfinish);
         right.setText(R.string.finish);
     }
@@ -104,12 +107,16 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
             case R.id.left:
                 if (checkNow != R.id.left) {
                     checkNow = R.id.left;
+                    tvEmpty.setVisibility(View.GONE);
+                    vp.removeAllViews();
                     mPresenter.getTask(uid, 1);
                 }
                 break;
             case R.id.right:
                 if (checkNow != R.id.right) {
                     checkNow = R.id.right;
+                    tvEmpty.setVisibility(View.GONE);
+                    vp.removeAllViews();
                     mPresenter.getTask(uid, 2);
                 }
                 break;
@@ -129,6 +136,9 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
             dataList.addAll(taskList);
             adapter.notifyDataSetChanged();
         }
+        if (taskList.size() == 0) {
+            tvEmpty.setVisibility(View.VISIBLE);
+        }
     }
 
     //from TaskContract.IView
@@ -139,7 +149,7 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constans.PAYMENT && resultCode == RESULT_OK) {
+        if (requestCode == Constans.PAYMENT) {
             //刷新界面
             mPresenter.getTask(uid, checkNow == R.id.left ? 1 : 2);
         }

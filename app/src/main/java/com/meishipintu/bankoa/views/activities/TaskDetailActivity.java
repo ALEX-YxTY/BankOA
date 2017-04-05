@@ -52,7 +52,7 @@ import butterknife.OnClick;
  * 功能介绍：任务详情页面（小）
  */
 
-public class TaskDetailActivity extends BasicActivity implements TaskDetailContract.IView{
+public class TaskDetailActivity extends BasicActivity implements TaskDetailContract.IView {
 
     private static final String TAG = "BankOA-taskDetail";
     @BindView(R.id.tv_title)
@@ -101,17 +101,20 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     EditText etRemark;
     @BindView(R.id.scroll)
     ScrollView scrollView;
+    @BindView(R.id.tv_subTitle)
+    TextView tvSubTitle;
 
     private String sponsorId;       //发起人id
     private String supervisorId;    //监管人id
     private String supervisorLevel;    //监管人level
 
 
-    private String taskName;        //项目名
     private String taskId;          //任务id
     private String taskLevelNow;
     private RemarkAdapter remarkAdapter;        //备注Adapter
+    private List<RemarkInfo> remarkList;        //备注数据
     private CommentsAdapter commentsAdapter;    //评论Adapter
+    private List<CommentDetail> commentList;    //评论数据
     private String pid = "0";         //默认评论父节点为0
     private InputMethodManager inputService;     //软键盘管理者
 
@@ -126,7 +129,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         ButterKnife.bind(this);
         Task task = (Task) getIntent().getSerializableExtra("task");
         taskId = task.getId();
-        taskName = task.getTask_name();
         sponsorId = task.getSponsor_id();
         supervisorId = getIntent().getStringExtra("supervisor_id");
         supervisorLevel = getIntent().getStringExtra("supervisor_level");
@@ -149,15 +151,17 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     }
 
     private void initUI() {
-        tvTitle.setText(taskName);
         mPresenter.getTaskInfo(taskId);
-        if (supervisorId != null) {
+        if (supervisorId != null && !supervisorId.equals(sponsorId)) {
             tvAddRemark.setText(R.string.comment);
             etRemark.setHint(R.string.comment_please);
         }
+        tvSubTitle.setText(R.string.del);
+        tvSubTitle.setVisibility(View.VISIBLE);
+        tvSubTitle.setTextColor(0xffff6c5d);
     }
 
-    @OnClick({R.id.bt_back,R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark})
+    @OnClick({R.id.bt_back, R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark, R.id.tv_subTitle})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_finish:
@@ -166,7 +170,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 } else {
                     Intent intent = new Intent(this, PaymentEnterActivity.class);
                     intent.putExtra("task_id", taskId);
-                    startActivityForResult(intent,Constans.FINISH_AND_INPUT);
+                    startActivityForResult(intent, Constans.FINISH_AND_INPUT);
                 }
                 break;
             case R.id.bt_see_all:
@@ -180,15 +184,18 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 if (StringUtils.isNullOrEmpty(input)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 }
-                if (supervisorId == null) {
+                if (supervisorId == null || supervisorId.equals(sponsorId)) {
                     mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
                 } else {
-                    mPresenter.addNodeComment(new CommentInfo(supervisorId, supervisorLevel, taskId
-                            , taskLevelNow, input, pid));
+                    mPresenter.addNodeComment(new CommentInfo(sponsorId, supervisorId, supervisorLevel
+                            , taskId, taskLevelNow, input, pid));
                 }
                 break;
             case R.id.bt_back:
                 onBackPressed();
+                break;
+            case R.id.tv_subTitle:
+                //TODO 删除该任务
                 break;
         }
     }
@@ -199,7 +206,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             inputService.hideSoftInputFromWindow(etRemark.getWindowToken(), 0);
         }
         if (!close) {
-            inputService.showSoftInput(etRemark,InputMethodManager.SHOW_FORCED);
+            inputService.showSoftInput(etRemark, InputMethodManager.SHOW_FORCED);
         }
     }
 
@@ -248,6 +255,9 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         }
         if (nodeInfoNow.getNodeBeforeName() != null) {
             tvProcessLeft.setText(nodeInfoNow.getNodeBeforeName());
+            ivProcessLeft.setImageResource(nodeInfoNow.isNodeBeforeCs() ? R.drawable.icon_overtime
+                    : R.drawable.icon_finish_green);
+            tvProcessLeft.setTextColor(nodeInfoNow.isNodeBeforeCs() ? 0xffff6c5d : 0xff15d5c8);
         }
         if (nodeInfoNow.getNodeAfterName() != null) {
             tvProcessRight.setText(nodeInfoNow.getNodeAfterName());
@@ -260,15 +270,16 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             tvOutOfTime.setTextColor(0xff9ca7b2);
         }
         tvProcessNow.setText(nodeInfoNow.getNodeNowName());
+        tvTitle.setText(nodeInfoNow.getTaskname());
         Log.d(Constans.APP, "time:" + DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
         tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
-        tvPercentage.setText("" + ((level-1) * 100 / 24));
+        tvPercentage.setText("" + ((level - 1) * 100 / 24));
     }
 
     //from TaskDetailContract.IView
     @Override
     public void showUserInfo(UserInfo userInfo) {
-        tvName.setText(userInfo.getUser_name()+" (工号： "+userInfo.getJob_number()+")");
+        tvName.setText(userInfo.getUser_name() + " (工号： " + userInfo.getJob_number() + ")");
         String title;
         switch (Integer.parseInt(userInfo.getLevel())) {
             case 1:
@@ -295,15 +306,16 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void showRemarks(List<RemarkInfo> remarkInfoList) {
+        Log.d(TAG, "this node remark size:" + remarkInfoList.size());
         if (remarkAdapter == null) {
             lvRemark.setItemAnimator(new DefaultItemAnimator());
             lvRemark.setLayoutManager(new LinearLayoutManager(this));
-            remarkAdapter = new RemarkAdapter(this, remarkInfoList);
+            remarkList = remarkInfoList;
+            remarkAdapter = new RemarkAdapter(this, remarkList);
             lvRemark.setAdapter(remarkAdapter);
         } else {
-            List<RemarkInfo> dataList = remarkAdapter.getDataList();
-            dataList.clear();
-            dataList.addAll(remarkInfoList);
+            remarkList.clear();
+            remarkList.addAll(remarkInfoList);
             remarkAdapter.notifyDataSetChanged();
         }
     }
@@ -311,6 +323,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void showComments(List<CommentDetail> commentDetailList) {
+        Log.d(TAG, "this node remark size:" + commentDetailList.size());
+
         List<CommentDetail> commentDetailData = new ArrayList<>();
         //遍历数组后将线性结构转换为树状结构
         for (CommentDetail commentDetail : commentDetailList) {
@@ -328,7 +342,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         if (commentsAdapter == null) {
             rvComment.setItemAnimator(new DefaultItemAnimator());
             rvComment.setLayoutManager(new LinearLayoutManager(this));
-            commentsAdapter = new CommentsAdapter(this, commentDetailData, new ReplyClickListener() {
+            commentList = commentDetailData;
+            commentsAdapter = new CommentsAdapter(this, commentList, new ReplyClickListener() {
                 @Override
                 public void onClick(String id) {
                     pid = id;
@@ -338,9 +353,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             });
             rvComment.setAdapter(commentsAdapter);
         } else {
-            List<CommentDetail> dataList = commentsAdapter.getDataList();
-            dataList.clear();
-            dataList.addAll(commentDetailData);
+            commentList.clear();
+            commentList.addAll(commentDetailData);
             commentsAdapter.notifyDataSetChanged();
         }
     }
@@ -381,6 +395,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //点击返回键取消输入框的焦点并重设pid
         if (keyCode == KeyEvent.KEYCODE_BACK && etRemark.hasFocus()) {
             etRemark.clearFocus();
             return true;

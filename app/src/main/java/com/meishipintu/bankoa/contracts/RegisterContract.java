@@ -15,11 +15,13 @@ public interface RegisterContract {
 
         void getVerifyCode(String tel);
 
+        void getVerifyCodeDerectly(String tel);
+
         void register(String tel, String verifyCode, String psw);
 
         void changePsw(String tel, String verifyCode, String pswNew);
 
-        void rebingTel(String telNew, String verifyCode, String psw);
+        void rebingTel(String telNew, String verifyCode,String uid, String psw);
     }
 
 
@@ -27,9 +29,8 @@ public interface RegisterContract {
 
         void showBtEnableTime(String codeGet, boolean sucess);
 
-        void showResult(String result);
+        void showResult(String result, boolean relogin);
 
-        void showToast(String toast);
     }
 
 }

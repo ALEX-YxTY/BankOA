@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerRegisterComponent;
 import com.meishipintu.bankoa.contracts.RegisterContract;
@@ -95,6 +96,7 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
                 tvTitle.setText(R.string.change_tel);
                 btRegister.setText(R.string.ok);
                 etTel.setHint(R.string.tel_new_please);
+                etPswNew.setHint(R.string.psw_input_please);
                 break;
         }
     }
@@ -117,23 +119,25 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
                 } else {
                     if (btVerify.isEnabled()) {
                         remainTime = 60;
-                        mPresenter.getVerifyCode(etTel.getText().toString());
                         btVerify.setEnabled(false);
+                        if (registerType == Constans.REGISTER_TYPE_REBIND) {
+                            mPresenter.getVerifyCodeDerectly(etTel.getText().toString().trim());
+                        } else {
+                            mPresenter.getVerifyCode(etTel.getText().toString().trim());
+                        }
                     }
                 }
                 break;
             case R.id.bt_register:
                 tel = etTel.getText().toString();
                 String codeInput = etVerifyCode.getText().toString();
-                String psw = Encoder.md5(etPswNew.getText().toString());
+                String psw = etPswNew.getText().toString().trim();
                 if (StringUtils.isNullOrEmpty(tel) || StringUtils.isNullOrEmpty(codeInput)
                         || StringUtils.isNullOrEmpty(psw)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
-                }
-//                else if (!codeInput.equals(verifyCodeGet)) {
-//                    ToastUtils.show(this, R.string.err_code, true);
-//                }
-                else {
+                } else if (!codeInput.equals(verifyCodeGet)) {
+                    ToastUtils.show(this, R.string.err_code, true);
+                } else {
                     switch (registerType) {
                         case Constans.REGISTER_TYPE_NORMAL:
                             mPresenter.register(tel, codeInput, psw);
@@ -142,7 +146,7 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
                             mPresenter.changePsw(tel, codeInput, psw);
                             break;
                         case Constans.REGISTER_TYPE_REBIND:
-                            mPresenter.rebingTel(tel, codeInput, psw);
+                            mPresenter.rebingTel(tel, codeInput, OaApplication.getUser().getUid(), psw);
                             break;
                     }
                 }
@@ -155,7 +159,7 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
     public void showBtEnableTime(String codeGet, boolean success) {
         if (success) {
             verifyCodeGet = codeGet;
-            //TODO 启动60秒等待线程
+            //启动60秒等待线程
             handler.sendEmptyMessageDelayed(0, 1000);
         } else {
             btVerify.setEnabled(true);
@@ -165,16 +169,17 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
 
     //from RegisterContract.IView
     @Override
-    public void showResult(String result) {
+    public void showResult(String result, boolean reLogin) {
         ToastUtils.show(this, result, true);
-        setResult(RESULT_OK);
+        if (!reLogin) {
+            setResult(RESULT_OK);
+        } else {
+            //重新登錄
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("result", Constans.LOGOUT);
+            startActivity(intent);
+        }
         this.finish();
-    }
-
-    //from RegisterContract.IView
-    @Override
-    public void showToast(String toast) {
-        ToastUtils.show(this, toast, true);
     }
 
     @Override
@@ -204,9 +209,10 @@ public class RegisterActivity extends BasicActivity implements RegisterContract.
             RegisterActivity activity = reference.get();
             if (activity.remainTime > 0) {
                 this.sendEmptyMessageDelayed(0, 1000);
-                activity.btVerify.setText(""+(--activity.remainTime));
+                activity.btVerify.setText(""+(--activity.remainTime)+"s");
             } else {
                 activity.btVerify.setEnabled(true);
+                activity.btVerify.setText(R.string.getVerifyCode);
             }
         }
     }

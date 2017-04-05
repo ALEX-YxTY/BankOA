@@ -29,11 +29,11 @@ public interface TaskTriggerContract {
 
     interface IView extends BasicView {
 
-        void showCenteralBranches(List<String> districts);
+        void showCenteralBranches(String[] districts);
 
-        void showBranches(List<String> branches);
+        void showBranches(String[] branches);
 
-        void showTaskType(List<String> type);
+        void showTaskType(String[] types);
 
         void showTriggerResult(String result, boolean success,Task task);
     }

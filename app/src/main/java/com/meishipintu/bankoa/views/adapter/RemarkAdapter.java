@@ -46,8 +46,4 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkViewHolder> {
         return remarkInfos.size();
     }
 
-    public List<RemarkInfo> getDataList() {
-        return this.remarkInfos;
-    }
-
 }

@@ -12,6 +12,7 @@ public class CommentInfo implements Serializable {
 
     private static final long serialVersionUID = 10L;          //序列化验证码
 
+    private String taskOwner;
     private String userId;
     private String userLevel;
     private String task_id;
@@ -19,7 +20,16 @@ public class CommentInfo implements Serializable {
     private String comment_content;
     private String pid;                 //父节点id，默认为0
 
-    public CommentInfo(String userId, String userLevel, String task_id, String task_level, String comment_content, String pid) {
+    public String getTaskOwner() {
+        return taskOwner;
+    }
+
+    public void setTaskOwner(String taskOwner) {
+        this.taskOwner = taskOwner;
+    }
+
+    public CommentInfo(String taskOwner, String userId, String userLevel, String task_id, String task_level, String comment_content, String pid) {
+        this.taskOwner = taskOwner;
         this.userId = userId;
         this.userLevel = userLevel;
         this.task_id = task_id;

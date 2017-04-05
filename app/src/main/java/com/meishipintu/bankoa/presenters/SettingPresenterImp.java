@@ -5,6 +5,8 @@ import com.meishipintu.bankoa.models.PreferenceHelper;
 
 import javax.inject.Inject;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Administrator on 2017/3/2.
  * <p>
@@ -23,7 +25,9 @@ public class SettingPresenterImp implements SettingContract.IPresenter {
 
     @Override
     public void clearCache() {
-        //TODO 清理缓存
+        //清理缓存
+        PreferenceHelper.clear();
+        view.showError("内存清理成功");
     }
 
     @Override

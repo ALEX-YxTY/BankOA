@@ -18,6 +18,8 @@ import java.util.logging.ConsoleHandler;
 
 public class DateUtil {
 
+    private static final String TAG = "BankOA - DateUtil";
+
     //显示剩余时间
     public static String showTimeRemain(String timeLong) {
         long now = System.currentTimeMillis() / 1000;
@@ -67,7 +69,7 @@ public class DateUtil {
         if (comment_time == null) {
             return "";
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String format = simpleDateFormat.format(new Date(Long.parseLong(comment_time) * 1000));
         return format;
     }

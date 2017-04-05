@@ -4,16 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/shape_bg"
     tools:context="com.meishipintu.bankoa.views.activities.SplashActivity">
 
-    <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@drawable/icon_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:src="@mipmap/app_icon"
-        android:scaleType="centerCrop"/>
+        android:layout_marginTop="150dp"/>
+
+    <TextView
+        android:layout_below="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/white"
+        android:text="掌上进程"
+        android:textSize="18sp"/>
 
 
 </RelativeLayout>

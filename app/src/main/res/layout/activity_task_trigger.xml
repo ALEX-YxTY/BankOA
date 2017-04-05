@@ -133,6 +133,7 @@
                 android:id="@+id/ll_center_branch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:layout_marginTop="17dp"
                 android:paddingTop="9dp"
                 android:paddingBottom="9dp"
@@ -176,6 +177,7 @@
                 android:paddingTop="9dp"
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"
+                android:clickable="true"
                 android:paddingRight="12dp"
                 android:background="@drawable/selector_et_border">
                 <TextView
@@ -241,6 +243,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
+                android:clickable="true"
                 android:paddingTop="9dp"
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"

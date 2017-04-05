@@ -14,7 +14,6 @@ public class Task implements Serializable{
 
     private String id;                  //taskId
     private String credit_name;
-    private String apply_money;
     private String credit_center_branch;
     private String credit_branch;
     private String task_type;
@@ -23,6 +22,7 @@ public class Task implements Serializable{
     private String sponsor_level;
     private String level;               //当前
     private String create_time;         //任务生成时间
+    private String apply_money;
     private String check_money;         //最终审批金额
     private String result_money;        //最终贷款金额
     private String finish_time;         //任务完成时间
@@ -30,6 +30,11 @@ public class Task implements Serializable{
     private String is_finish;           //标注任务是否已完成
     private String credit_manager;
     private String repayment_status;    //标准任务还款是否已还完
+
+    public Task(String id, String sponsor_id) {
+        this.id = id;
+        this.sponsor_id = sponsor_id;
+    }
 
     public String getCredit_name() {
         return credit_name;

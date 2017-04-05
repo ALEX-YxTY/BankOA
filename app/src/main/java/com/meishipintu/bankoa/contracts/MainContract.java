@@ -16,11 +16,20 @@ public interface MainContract {
 
         void getUserInfo();
 
+        void getNewestNotice();
+
+        void getNewestRemind(String uid);
+
+        void getVersionInfo();
     }
 
     interface IView extends BasicView {
 
         void refreshUI(UserInfo userInfo);
+
+        void dealNewestNotice(int number);
+
+        void dealNewestRemind(int number);
 
     }
 

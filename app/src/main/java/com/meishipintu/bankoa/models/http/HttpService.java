@@ -3,7 +3,9 @@ package com.meishipintu.bankoa.models.http;
 import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
+import com.meishipintu.bankoa.models.entity.SysNotic;
 import com.meishipintu.bankoa.models.entity.Task;
+import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 
 import org.json.JSONArray;
@@ -35,7 +37,7 @@ public interface HttpService {
     //检查审核是否通过接口
     @FormUrlEncoded
     @POST("Home/Api/getRegistStatus")
-    Observable<HttpResult<JSONObject>> getRegisterStatusService(@Field("mobile") String mobile);
+    Observable<ResponseBody> getRegisterStatusService(@Field("mobile") String mobile);
 
     //获取验证码接口
     @FormUrlEncoded
@@ -45,7 +47,7 @@ public interface HttpService {
     //注册接口
     @FormUrlEncoded
     @POST("Home/Api/user_regist_step_finish")
-    Observable<HttpResult<UserInfo>> registerService(@Field("mobile") String mobile
+    Observable<ResponseBody> registerService(@Field("mobile") String mobile
             , @Field("verify") String verifyCode, @Field("password") String psw);
 
     //发起任务
@@ -71,7 +73,7 @@ public interface HttpService {
     //添加评论接口
     @FormUrlEncoded
     @POST("Home/Api/doTaskComment")
-    Observable<ResponseBody> addCommentService(@Field("comment_user_id") String userId, @Field("comment_user_level") String user_level
+    Observable<ResponseBody> addCommentService(@Field("user_id") String sponsorId, @Field("comment_user_id") String userId, @Field("comment_user_level") String user_level
             , @Field("task_id") String taskId, @Field("task_level") String level, @Field("comment_content") String cotent
             , @Field("pid") String pid);
 
@@ -134,4 +136,32 @@ public interface HttpService {
     @FormUrlEncoded
     @POST("Home/Api/getUserInfoById")
     Observable<ResponseBody> getUserInfoByIdService(@Field("uid") String uid);
+
+    //获取用户提醒
+    @FormUrlEncoded
+    @POST("Home/Api/getNotice")
+    Observable<HttpResult<List<UpClassRemind>>> getRemindService(@Field("user_id") String uid);
+
+    //获取系统通知
+    @POST("Home/Api/getSystemNotice")
+    Observable<HttpResult<List<SysNotic>>> getSysNoticeService();
+
+    //获取用户提醒
+    @FormUrlEncoded
+    @POST("Home/Api/searchUserTask")
+    Observable<HttpResult<List<Task>>> searchTaskService(@Field("level") String level
+            , @Field("department_id") String departmentId, @Field("user_id") String uid
+            , @Field("content") String content);
+
+    //改绑手机号服务
+    @FormUrlEncoded
+    @POST("Home/Api/forgetMobile")
+    Observable<ResponseBody> changeMobileService(@Field("mobile") String mobile, @Field("verify") String verifyCode
+            ,@Field("uid") String uid,@Field("password") String password);
+
+    //修改密码服务
+    @FormUrlEncoded
+    @POST("Home/Api/forgetPwd")
+    Observable<ResponseBody> changePswService(@Field("mobile") String mobile, @Field("verify") String verifyCode
+            ,@Field("password") String password);
 }

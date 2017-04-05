@@ -7,6 +7,7 @@ import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.Constans;
@@ -19,6 +20,7 @@ import com.meishipintu.bankoa.modules.TaskTriggrtModule;
 import com.meishipintu.bankoa.presenters.TaskTriggerPresenterImp;
 import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
+import com.meishipintu.library.view.CustomNumPickeDialog;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ import butterknife.OnClick;
 
 public class TaskTriggerActivity extends BasicActivity implements TaskTriggerContract.IView {
 
+    private static final String TAG = "BankOA-TaskTrigger";
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.et_task_name)
@@ -60,6 +63,15 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     private String sponsorId;
     private String sponsorLevel;
 
+    private String supervisorId;    //监管人id
+    private String supervisorLevel;    //监管人level
+
+    private Dialog dialog;
+
+    private String centerBranch = "1";
+    private String branch = "1";
+    private String type = "1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +93,8 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     private void init() {
         sponsorId = getIntent().getStringExtra("uid");
         sponsorLevel = getIntent().getStringExtra("user_level");
+        supervisorId = getIntent().getStringExtra("supervisor_id");
+        supervisorLevel = getIntent().getStringExtra("supervisor_level");
         if (sponsorId == null) {
             sponsorId = OaApplication.getUser().getUid();
             sponsorLevel = OaApplication.getUser().getLevel();
@@ -95,27 +109,24 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 onBackPressed();
                 break;
             case R.id.ll_center_branch:
-//                mPresenter.getCenteralBranches();
+                mPresenter.getCenteralBranches();
                 break;
             case R.id.ll_branch:
-//                mPresenter.getBranches();
+                mPresenter.getBranches();
                 break;
             case R.id.ll_type:
-//                mPresenter.getTaskType();
+                mPresenter.getTaskType();
                 break;
             case R.id.bt_trigger:
                 String taskName = etTaskName.getText().toString();
                 String loanerName = etLoansName.getText().toString();
                 String loanMoney = etLoansMoney.getText().toString();
                 String recommendManager = etRecommendManager.getText().toString();
-                String centerBranch = tvCenterBranch.getText().toString();
-                String branch = tvBranch.getText().toString();
-                String type = tvType.getText().toString();
                 if (StringUtils.isNullOrEmpty(new String[]{taskName, loanerName, loanMoney, recommendManager
                         , centerBranch, branch, type})) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 } else {
-                    mPresenter.triggerTask(loanerName, loanMoney, "1", "1", "1", taskName
+                    mPresenter.triggerTask(loanerName, loanMoney, centerBranch, branch, type, taskName
                             , recommendManager, sponsorId, sponsorLevel);
                 }
                 break;
@@ -125,20 +136,45 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
 
     //from TaskTriggerContract.IView
     @Override
-    public void showCenteralBranches(List<String> districts) {
-
+    public void showCenteralBranches(final String[] districts) {
+        dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, districts, new CustomNumPickeDialog.OnOkClickListener() {
+            @Override
+            public void onOkClick(int vlueChoose) {
+                centerBranch = (vlueChoose + 1) + "";
+                tvCenterBranch.setText(districts[vlueChoose]);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     //from TaskTriggerContract.IView
     @Override
-    public void showBranches(List<String> branches) {
+    public void showBranches(final String[] branches) {
+        dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, branches, new CustomNumPickeDialog.OnOkClickListener() {
+            @Override
+            public void onOkClick(int vlueChoose) {
+                branch = (vlueChoose + 1) + "";
+                tvBranch.setText(branches[vlueChoose]);
+                dialog.dismiss();
+            }
+        });
 
+        dialog.show();
     }
 
     //from TaskTriggerContract.IView
     @Override
-    public void showTaskType(List<String> type) {
-
+    public void showTaskType(final String[] types) {
+        dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, types, new CustomNumPickeDialog.OnOkClickListener() {
+            @Override
+            public void onOkClick(int vlueChoose) {
+                type = (vlueChoose + 1) + "";
+                tvType.setText(types[vlueChoose]);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     //from TaskTriggerContract.IView
@@ -150,6 +186,10 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
             Log.d(Constans.APP, "task triggered:" + task.toString());
             Intent intent = new Intent(TaskTriggerActivity.this, TaskDetailActivity.class);
             intent.putExtra("task", task);
+            if (supervisorId != null) {
+                intent.putExtra("supervisor_id", supervisorId);
+                intent.putExtra("supervisor_level", supervisorLevel);
+            }
             startActivity(intent);
             this.finish();
         }
@@ -158,6 +198,10 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     @Override
     protected void onDestroy() {
         mPresenter.unSubscrib();
+        if (dialog != null&&dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        dialog = null;
         super.onDestroy();
     }
 

@@ -9,9 +9,12 @@ import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.PaymentDetailItem;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
+import com.meishipintu.bankoa.models.entity.SysNotic;
 import com.meishipintu.bankoa.models.entity.Task;
+import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.entity.paymentItem;
+import com.meishipintu.library.util.Encoder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +69,7 @@ public class HttpApi {
     //登录
     public Observable<UserInfo> login(String tel, String psw) {
         final Gson gson = new Gson();
-        return httpService.loginService(tel, psw).map(new Func1<ResponseBody, UserInfo>() {
+        return httpService.loginService(tel, Encoder.md5(psw)).map(new Func1<ResponseBody, UserInfo>() {
             @Override
             public UserInfo call(ResponseBody responseBody) {
                 String result = null;
@@ -90,19 +93,25 @@ public class HttpApi {
 
     //获取申请状态
     public Observable<Boolean> getRegisterStatus(String tel) {
-        return httpService.getRegisterStatusService(tel).map(new ResultFunction<JSONObject>())
-                .map(new Func1<JSONObject, Boolean>() {
-                    @Override
-                    public Boolean call(JSONObject s) {
-                        try {
-                            Boolean is_pass = s.getBoolean("is_pass");
-                            return is_pass;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            return false;
-                        }
+        return httpService.getRegisterStatusService(tel).map(new Func1<ResponseBody, Boolean>() {
+            @Override
+            public Boolean call(ResponseBody responseBody) {
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") == 1) {
+                        return jsonObject.getJSONObject("data").getInt("is_pass") == 1;
+                    } else {
+                        throw new RuntimeException(jsonObject.getString("msg"));
                     }
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
     }
 
     //获取验证码接口
@@ -110,14 +119,46 @@ public class HttpApi {
         return httpService.getVerifyCodeService(tel).map(new Func1<ResponseBody, String>() {
             @Override
             public String call(ResponseBody responseBody) {
-                return responseBody.toString();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") == 1) {
+                        return jsonObject.getString("data");
+                    } else {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
         });
     }
 
     //注册方法
     public Observable<UserInfo> register(String tel, String verifyCode, String psw) {
-        return httpService.registerService(tel, verifyCode, psw).map(new ResultFunction<UserInfo>());
+        return httpService.registerService(tel, verifyCode, Encoder.md5(psw)).map(new Func1<ResponseBody, UserInfo>() {
+            @Override
+            public UserInfo call(ResponseBody responseBody) {
+                Gson gson = new Gson();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") == 1) {
+                        return gson.fromJson(jsonObject.getString("data"), UserInfo.class);
+                    } else {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
     }
 
     //发起任务
@@ -180,7 +221,7 @@ public class HttpApi {
 
     //添加评论方法
     public Observable<Boolean> addComment(CommentInfo info) {
-        return httpService.addCommentService(info.getUserId(), info.getUserLevel(), info.getTask_id(), info.getTask_level()
+        return httpService.addCommentService(info.getTaskOwner(),info.getUserId(), info.getUserLevel(), info.getTask_id(), info.getTask_level()
                 , info.getComment_content(), info.getPid()).map(new Func1<ResponseBody, Boolean>() {
             @Override
             public Boolean call(ResponseBody responseBody) {
@@ -201,22 +242,22 @@ public class HttpApi {
             }
         });
     }
+
     //获取中心支行列表
-    public Observable<JSONObject> getCenterBranchList() {
-        return httpService.getCenterBranchListService().map(new Func1<ResponseBody, JSONObject>() {
+    public Observable<List<String>> getCenterBranchList() {
+        return httpService.getCenterBranchListService().map(new Func1<ResponseBody, List<String>>() {
             @Override
-            public JSONObject call(ResponseBody responseBody) {
-                JSONObject resultJson = new JSONObject();
+            public List<String> call(ResponseBody responseBody) {
+                List<String> result = new ArrayList<>();
                 try {
-                    String result = responseBody.string();
-                    JSONObject jsonObject = new JSONObject(result);
+                    String resultString = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(resultString);
                     if (jsonObject.getInt("status") != 1) {
                         throw new RuntimeException(jsonObject.getString("msg"));
                     } else {
                         JSONArray dataArray = jsonObject.getJSONArray("data");
                         for (int i = 0; i < dataArray.length(); i++) {
-                            JSONObject data = dataArray.getJSONObject(i);
-                            resultJson.put(data.getString("id"), data.getString("branch"));
+                            result.add(dataArray.getJSONObject(i).getString("branch"));
                         }
                     }
                 } catch (JSONException e) {
@@ -225,18 +266,18 @@ public class HttpApi {
                     e.printStackTrace();
                 }
                 finally {
-                    return resultJson;
+                    return result;
                 }
             }
         });
     }
 
     //获取支行列表
-    public Observable<JSONObject> getBranchList() {
-        return httpService.getBranchListService().map(new Func1<ResponseBody, JSONObject>() {
+    public Observable<List<String>> getBranchList() {
+        return httpService.getBranchListService().map(new Func1<ResponseBody, List<String>>() {
             @Override
-            public JSONObject call(ResponseBody responseBody) {
-                JSONObject resultJson = new JSONObject();
+            public List<String> call(ResponseBody responseBody) {
+                List<String> resultList = new ArrayList<String>();
                 try {
                     String result = responseBody.string();
                     JSONObject jsonObject = new JSONObject(result);
@@ -245,8 +286,7 @@ public class HttpApi {
                     } else {
                         JSONArray dataArray = jsonObject.getJSONArray("data");
                         for (int i = 0; i < dataArray.length(); i++) {
-                            JSONObject data = dataArray.getJSONObject(i);
-                            resultJson.put(data.getString("id"), data.getString("branch"));
+                            resultList.add(dataArray.getJSONObject(i).getString("branch"));
                         }
                     }
                 } catch (JSONException e) {
@@ -255,7 +295,36 @@ public class HttpApi {
                     e.printStackTrace();
                 }
                 finally {
-                    return resultJson;
+                    return resultList;
+                }
+            }
+        });
+    }
+
+    //获取任务类型列表
+    public Observable<List<String>> getTaskTypeList() {
+        return httpService.getTaskTypeListService().map(new Func1<ResponseBody, List<String>>() {
+            @Override
+            public List<String> call(ResponseBody responseBody) {
+                List<String> resultList = new ArrayList<>();
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < dataArray.length(); i++) {
+                            resultList.add(dataArray.getJSONObject(i).getString("type_name"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    return resultList;
                 }
             }
         });
@@ -278,36 +347,6 @@ public class HttpApi {
                         for (int i = 0; i < dataArray.length(); i++) {
                             JSONObject data = dataArray.getJSONObject(i);
                             resultJson.put(data.getString("id"), data.getString("department_name"));
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    return resultJson;
-                }
-            }
-        });
-    }
-
-    //获取任务类型列表
-    public Observable<JSONObject> getTaskTypeList() {
-        return httpService.getTaskTypeListService().map(new Func1<ResponseBody, JSONObject>() {
-            @Override
-            public JSONObject call(ResponseBody responseBody) {
-                JSONObject resultJson = new JSONObject();
-                try {
-                    String result = responseBody.string();
-                    JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getInt("status") != 1) {
-                        throw new RuntimeException(jsonObject.getString("msg"));
-                    } else {
-                        JSONArray dataArray = jsonObject.getJSONArray("data");
-                        for (int i = 0; i < dataArray.length(); i++) {
-                            JSONObject data = dataArray.getJSONObject(i);
-                            resultJson.put(data.getString("id"), data.getString("type_name"));
                         }
                     }
                 } catch (JSONException e) {
@@ -522,6 +561,100 @@ public class HttpApi {
             }
         });
     }
- }
+
+    //获取提醒
+    public Observable<List<UpClassRemind>> getRemind(String uid) {
+        return httpService.getRemindService(uid).map(new ResultFunction<List<UpClassRemind>>());
+    }
+
+    //获取最新系统通知id数
+    public Observable<Integer> getNewestRemindNumber(String uid) {
+        return httpService.getRemindService(uid).map(new ResultFunction<List<UpClassRemind>>())
+                .map(new Func1<List<UpClassRemind>, Integer>() {
+                    @Override
+                    public Integer call(List<UpClassRemind> noticList) {
+                        if (noticList.size() == 0) {
+                            return 0;
+                        } else {
+                            return Integer.parseInt(noticList.get(0).getId());
+                        }
+                    }
+                });
+    }
+
+    //获取系统通知
+    public Observable<List<SysNotic>> getSysNotice() {
+        return httpService.getSysNoticeService().map(new ResultFunction<List<SysNotic>>());
+    }
+
+    //获取最新系统通知id数
+    public Observable<Integer> getNewestNoticeNumber() {
+        return httpService.getSysNoticeService().map(new ResultFunction<List<SysNotic>>())
+                .map(new Func1<List<SysNotic>, Integer>() {
+                    @Override
+                    public Integer call(List<SysNotic> noticList) {
+                        if (noticList.size() == 0) {
+                            return 0;
+                        } else {
+                            return Integer.parseInt(noticList.get(0).getId());
+                        }
+                    }
+                });
+    }
+
+    //获取搜索结果
+    public Observable<List<Task>> getSearchInfo(String level, String departmentId, String uid, String content) {
+        return httpService.searchTaskService(level, departmentId, uid, content).map(new ResultFunction<List<Task>>());
+    }
+
+    //修改密码
+    public Observable<Integer> changePsw(String mobile, String verifyCode, String pswNew) {
+        Log.d(TAG, "change psw:" + Encoder.md5(pswNew));
+        return httpService.changePswService(mobile,verifyCode, Encoder.md5(pswNew)).map(new Func1<ResponseBody, Integer>() {
+            @Override
+            public Integer call(ResponseBody responseBody) {
+                try {
+                    String result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        return 1;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
+    }
+
+    //重绑手机
+    public Observable<Integer> changeMobile(String mobile, String verifyCode, String uid,String psw) {
+        return httpService.changeMobileService(mobile, verifyCode, uid, Encoder.md5(psw))
+                .map(new Func1<ResponseBody, Integer>() {
+                    @Override
+                    public Integer call(ResponseBody responseBody) {
+                        try {
+                            String result = responseBody.string();
+                            Log.d(TAG, "change mobile:" + result);
+                            JSONObject jsonObject = new JSONObject(result);
+                            if (jsonObject.getInt("status") != 1) {
+                                throw new RuntimeException(jsonObject.getString("msg"));
+                            } else {
+                                return 1;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+        });
+    }
+}
 
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:paddingLeft="15dp"
+    android:background="@color/white"
     android:paddingRight="15dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,8 @@
             android:id="@+id/icon"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_system_notice"/>
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -33,19 +35,21 @@
                 android:layout_below="@id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:textSize="12sp"
                 android:textColor="@color/text_gray"
                 android:maxLines="2"
                 android:ellipsize="end"/>
         </RelativeLayout>
+
         <Button
             android:id="@+id/bt_check"
             android:layout_width="42dp"
             android:layout_height="24dp"
             android:background="@drawable/selector_bt_check"
-            android:textSize="12sp"
+            android:text="查看"
             android:textColor="@drawable/selector_text_bt"
-            android:text="查看"/>
+            android:textSize="12sp" />
 
 
     </LinearLayout>

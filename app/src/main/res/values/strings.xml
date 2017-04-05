@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BankOA</string>
+    <string name="app_name">掌上进程</string>
     <string name="main">主页</string>
     <string name="trigger">确认发起</string>
     <string name="login">登录</string>
@@ -7,18 +7,21 @@
     <string name="register">注册</string>
     <string name="setting">设置</string>
     <string name="apply_for">申请</string>
+    <string name="message">消息</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
     <string name="homePage">主页</string>
     <string name="comment">评论</string>
     <string name="input">录入</string>
+    <string name="del">删除</string>
     <string name="out_of_time">超时 </string>
 
     <string name="finish">已完成</string>
     <string name="unfinish">未完成</string>
     <string name="apply">提交申请</string>
     <string name="logout">退出登录</string>
+    <string name="userinfo">个人资料</string>
     <string name="payment_sure">确认还款</string>
     <string name="payment_input">确认录入</string>
     <string name="change_tel">修改手机号</string>
@@ -32,6 +35,7 @@
     <string name="payment_info">还款信息</string>
     <string name="payment_alert">还款提醒</string>
     <string name="clerk_list">员工列表</string>
+    <string name="add_comment_success">添加评论</string>
     <string name="process_percentage">完成进度：</string>
 
     <string name="empty_notice">你还没有通知哦~</string>
@@ -45,6 +49,7 @@
     <string name="search_please">请输入您要查询的内容</string>
     <string name="time_remain">距离此节点截止时间还有 </string>
     <string name="comment_please">请输入您的评论</string>
+    <string name="exit">再按一次退出掌上进程</string>
 
 
     <!--err_message-->
@@ -52,7 +57,9 @@
     <string name="err_empty_input">输入项不能为空</string>
     <string name="err_code">验证码不正确</string>
     <string name="err_search_empty">搜索内容不能为空</string>
-    <string name="add_comment_success">添加评论</string>
+    <string name="psw_input_please">请输入您的登录密码</string>
+    <string name="no_notice">您还没有提醒或通知哦~</string>
+    <string name="no_task">没有相关任务信息~</string>
 
 
 </resources>

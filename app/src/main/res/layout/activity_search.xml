@@ -68,9 +68,24 @@
         android:layout_height="1dp"
         android:background="@color/divider"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/divider"/>
+        android:layout_below="@id/divider">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textColor="@color/text_gray2"
+            android:text="@string/no_task"
+            android:gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
+
 </RelativeLayout>

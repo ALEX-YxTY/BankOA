@@ -78,6 +78,8 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
     private int paymentNum = 0;
     private List<TextView> paymentList;
     private String taskId;
+    private Dialog dialog;
+
 
     private Handler mHandler = new Handler();
 
@@ -170,7 +172,6 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
 
     //显示日期选择器
     private void showDatePicker(final TextView tvPaymentTime) {
-        Dialog dialog;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             DatePickerDialog pickerDialog = new DatePickerDialog(this);
             pickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
@@ -215,5 +216,15 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
     @Override
     public void showError(String errMsg) {
         ToastUtils.show(this, errMsg, true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+        mPresenter.unSubscrib();
     }
 }

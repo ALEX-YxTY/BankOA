@@ -187,6 +187,7 @@
             android:layout_width="9dp"
             android:layout_height="16dp"
             android:layout_alignParentRight="true"
+            android:src="@drawable/icon_next"
             />
 
         <TextView

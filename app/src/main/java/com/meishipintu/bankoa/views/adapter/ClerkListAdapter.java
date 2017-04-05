@@ -16,6 +16,7 @@ import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.views.activities.SupervisorActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.ClerkInfoViewHolder;
+import com.meishipintu.library.util.StringUtils;
 
 import org.json.JSONException;
 
@@ -53,7 +54,7 @@ public class ClerkListAdapter extends RecyclerView.Adapter<ClerkInfoViewHolder> 
         final UserInfo user = clerkInfoList.get(position);
         holder.tvName.setText(user.getUser_name());
         holder.tvNumber.setText("工号：" + user.getJob_number());
-        if (user.getUrl() != null) {
+        if (!StringUtils.isNullOrEmpty(user.getUrl())) {
             requestManager.load(user.getUrl()).into(holder.icon);
         }
         String department,title;

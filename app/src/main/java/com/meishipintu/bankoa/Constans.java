@@ -14,6 +14,8 @@ public class Constans {
     public static final int REGISTER_TYPE_FORGET_PSW = 200;
     public static final int REGISTER_TYPE_REBIND = 300;
 
+    public static final int LOGOUT = 400;                           //BusType 退出登录成功
+
     public static String BaseURL = "http://njbank.domobile.net/";
     public static String APPLY_URL = "http://njbank.domobile.net/Home/Index/index";         //申请页面地址
     public static String PROCESS_URL = "http://njbank.domobile.net/Home/Index/remark";      //浏览全程地址

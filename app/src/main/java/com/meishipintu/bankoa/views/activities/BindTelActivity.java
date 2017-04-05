@@ -25,6 +25,7 @@ public class BindTelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind_tel);
         ButterKnife.bind(this);
+        tvTitle.setText(R.string.change_tel);
         tvTel.setText(getIntent().getStringExtra("tel"));
     }
 
@@ -37,6 +38,7 @@ public class BindTelActivity extends AppCompatActivity {
             case R.id.bt_change_tel:
                 Intent intent = new Intent(BindTelActivity.this, RegisterActivity.class);
                 intent.putExtra("type", Constans.REGISTER_TYPE_REBIND);
+                startActivity(intent);
                 break;
         }
     }

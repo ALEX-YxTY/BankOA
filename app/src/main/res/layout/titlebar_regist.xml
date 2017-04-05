@@ -19,6 +19,9 @@
         android:layout_marginRight="15dp"
         android:text="@string/register"
         android:textSize="@dimen/subTitle_text"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="10dp"
         android:textColor="@color/colorTheme2"/>
 
     <View

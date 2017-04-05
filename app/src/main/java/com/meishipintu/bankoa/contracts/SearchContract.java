@@ -15,7 +15,7 @@ import java.util.List;
 public interface SearchContract {
 
     interface IPresenter extends BasicPresenter{
-        void search(String searchContent);
+        void search(String level, String department_id, String uid, String searchContent);
     }
 
     interface IView extends BasicView{

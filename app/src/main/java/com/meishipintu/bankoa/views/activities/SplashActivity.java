@@ -16,7 +16,9 @@ import com.meishipintu.bankoa.models.http.HttpApi;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -38,26 +40,28 @@ public class SplashActivity extends AppCompatActivity {
 
     private void downLoadResource() {
         subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<JSONObject>() {
-            @Override
-            public void call(JSONObject jsonObject) {
-                PreferenceHelper.saveCenterBranch(jsonObject.toString());
-            }
-        }));
+                .subscribe(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+                        PreferenceHelper.saveCenterBranch(strings);
+                    }
+                }));
         subscriptions.add(httpApi.getBranchList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<JSONObject>() {
+                .subscribe(new Action1<List<String>>() {
                     @Override
-                    public void call(JSONObject jsonObject) {
-                        PreferenceHelper.saveBranch(jsonObject.toString());
+                    public void call(List<String> strings) {
+                        PreferenceHelper.saveBranch(strings);
                     }
                 }));
+
         subscriptions.add(httpApi.getTaskTypeList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<JSONObject>() {
+                .subscribe(new Action1<List<String>>() {
                     @Override
-                    public void call(JSONObject jsonObject) {
-                        PreferenceHelper.saveTaskType(jsonObject.toString());
+                    public void call(List<String> strings) {
+                        PreferenceHelper.saveTaskType(strings);
                     }
                 }));
+
         subscriptions.add(httpApi.getTaskNodeNum().subscribeOn(Schedulers.io())
                 .subscribe(new Action1<Integer>() {
                     @Override
@@ -106,6 +110,7 @@ public class SplashActivity extends AppCompatActivity {
             if (msg.what == 0) {
                 SplashActivity activity = reference.get();
                 if (PreferenceHelper.isAutoLogin() && PreferenceHelper.getUserInfo()!= null) {
+//                    JPushInterface.setAlias();
                     activity.startActivity(new Intent(activity, MainActivity.class));
                 } else {
                     activity.startActivity(new Intent(activity, LoginActivity.class));

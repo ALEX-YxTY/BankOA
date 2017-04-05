@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,10 +49,6 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
         subscriptions = new CompositeSubscription();
     }
 
-    public TaskDetailPresenterImp() {
-        httpApi = HttpApi.getInstance();
-        subscriptions = new CompositeSubscription();
-    }
 
     @Override
     public void getTaskInfo(String taskId) {
@@ -76,19 +73,23 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             JSONObject nowInfo = jsonObject.getJSONObject("now_task_info");
                             String nodeNowLevel = nowInfo.getString("user_task_level");
                             String timeRemain = nowInfo.getString("need_finish");
+                            String taskName = nowInfo.getString("task_name");
                             String nodeNowName = jsonObject.getJSONObject("now_task").getString("task_name");
                             String nodeBeforeName = null;
                             String nodeAfterName = null;
+                            boolean nodeBeforeCs = false;
                             if (!jsonObject.isNull("before_task_info")) {
                                 nodeBeforeName = jsonObject.getJSONObject("before_task_info")
                                         .getString("task_name");
+                                nodeBeforeCs = jsonObject.getJSONObject("before_task_info")
+                                        .getInt("is_cs") != 0;
                             }
                             if(!jsonObject.isNull("after_task_info")) {
                                 nodeAfterName = jsonObject.getJSONObject("after_task_info")
                                         .getString("task_name");
                             }
                             iView.showGraphic(new NodeInfoNow(nodeNowLevel, nodeNowName
-                                    , nodeBeforeName, nodeAfterName, timeRemain));
+                                    , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain, taskName));
                             if (!jsonObject.isNull("userinfo")) {
                                 UserInfo userInfo = gson.fromJson(jsonObject.getString("userinfo"), UserInfo.class);
                                 iView.showUserInfo(userInfo);
@@ -100,8 +101,11 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                                             , new TypeToken<List<RemarkInfo>>() {
                                             }.getType());
                                     iView.showRemarks(remarkInfoList);
+                                }else {
+                                    iView.showRemarks(new ArrayList<RemarkInfo>());
                                 }
-
+                            } else {
+                                iView.showRemarks(new ArrayList<RemarkInfo>());
                             }
                             if (!jsonObject.isNull("now_level_comment")) {
                                 JSONArray comments = jsonObject.getJSONArray("now_level_comment");
@@ -110,7 +114,11 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                                             , new TypeToken<List<CommentDetail>>() {
                                             }.getType());
                                     iView.showComments(commentList);
+                                }else {
+                                    iView.showComments(new ArrayList<CommentDetail>());
                                 }
+                            } else {
+                                iView.showComments(new ArrayList<CommentDetail>());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

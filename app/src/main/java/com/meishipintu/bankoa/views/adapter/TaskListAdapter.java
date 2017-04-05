@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -42,13 +43,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
     private String supervisorId = null;     //监管人的uid
     private String supervisorLevel = null;     //监管人的level
 
-
     public TaskListAdapter(Context context, List<Task> list,String s_uid,String s_level) {
         this.dataList = list;
         this.mContext = context;
         this.supervisorId = s_uid;
-        this.nodeNum = PreferenceHelper.getNodeNum();
         this.supervisorLevel = s_level;
+        this.nodeNum = PreferenceHelper.getNodeNum();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
                     intent.putExtra("supervisor_id", supervisorId);
                     intent.putExtra("supervisor_level", supervisorLevel);
                 }
-                TaskActivity activity = (TaskActivity) mContext;
+                Activity activity = (Activity) mContext;
                 activity.startActivityForResult(intent,Constans.PAYMENT);
             }
         });

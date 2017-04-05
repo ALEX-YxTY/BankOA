@@ -8,8 +8,11 @@ import com.meishipintu.bankoa.components.DaggerApplicationComponent;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.ApplicationModule;
+import com.tencent.bugly.Bugly;
 
 import org.json.JSONObject;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -43,6 +46,13 @@ public class OaApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         instance = this;
+        //初始化jpush
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        //初始化Bugly
+        Bugly.init(getApplicationContext(), "0f4b094654", false);
+
+
         user = PreferenceHelper.getUserInfo();
         nodeNameList = PreferenceHelper.getNodeNameList();
         nodeNumber = PreferenceHelper.getNodeNum();

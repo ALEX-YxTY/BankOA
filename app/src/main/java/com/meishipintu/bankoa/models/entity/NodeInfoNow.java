@@ -12,16 +12,36 @@ public class NodeInfoNow implements Serializable {
     private String nodeNowLevel;
     private String nodeNowName;
     private String nodeBeforeName;
+    private boolean nodeBeforeCs;
     private String nodeAfterName;
     private String timeRemain;
+    private String taskname;
 
-    public NodeInfoNow(String nodeNowLevel, String nodeNowName, String nodeBeforeName
-            , String nodeAfterName, String timeRemain) {
+    public NodeInfoNow(String nodeNowLevel, String nodeNowName, String nodeBeforeName, boolean nodeBeforeCs
+            , String nodeAfterName, String timeRemain, String taskname) {
         this.nodeNowLevel = nodeNowLevel;
         this.nodeNowName = nodeNowName;
         this.nodeBeforeName = nodeBeforeName;
+        this.nodeBeforeCs = nodeBeforeCs;
         this.nodeAfterName = nodeAfterName;
         this.timeRemain = timeRemain;
+        this.taskname = taskname;
+    }
+
+    public boolean isNodeBeforeCs() {
+        return nodeBeforeCs;
+    }
+
+    public void setNodeBeforeCs(boolean nodeBeforeCs) {
+        this.nodeBeforeCs = nodeBeforeCs;
+    }
+
+    public String getTaskname() {
+        return taskname;
+    }
+
+    public void setTaskname(String taskname) {
+        this.taskname = taskname;
     }
 
     public String getNodeNowLevel() {

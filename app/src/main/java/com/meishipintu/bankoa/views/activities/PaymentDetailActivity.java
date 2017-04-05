@@ -90,6 +90,7 @@ public class PaymentDetailActivity extends AppCompatActivity implements PaymentD
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_back:
+                setResult(RESULT_OK);
                 onBackPressed();
                 break;
             case R.id.bt_input:
@@ -105,8 +106,7 @@ public class PaymentDetailActivity extends AppCompatActivity implements PaymentD
     public void onPaymentFinish() {
         ToastUtils.show(this, "已确认付款", true);
         //还原状态
-        setResult(RESULT_OK);
-        this.finish();
+        initUI();
     }
 
     //from PaymentDetailContract.IView
@@ -121,6 +121,7 @@ public class PaymentDetailActivity extends AppCompatActivity implements PaymentD
         etCheckMoney.setText(info.getCheck_money());
         etRealMoney.setText(info.getResult_money());
         tvLoanTime.setText(DateUtil.formart2(info.getLoad_time()));
+        llPaymentLine.removeAllViews();
         for (PaymentDetailItem paymentItem : info.getRepayment_json()) {
             addPayment(paymentItem);
         }
