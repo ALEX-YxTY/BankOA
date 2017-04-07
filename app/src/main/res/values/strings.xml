@@ -60,6 +60,7 @@
     <string name="psw_input_please">请输入您的登录密码</string>
     <string name="no_notice">您还没有提醒或通知哦~</string>
     <string name="no_task">没有相关任务信息~</string>
+    <string name="task_deleted">该任务已删除</string>
 
 
 </resources>

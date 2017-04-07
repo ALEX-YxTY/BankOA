@@ -64,7 +64,7 @@ public class DateUtil {
         return null;
     }
 
-    //显示时间格式为yyyy-MM-dd mm:ss
+    //显示时间格式为yyyy-MM-dd HH:mm
     public static String formart3 (String comment_time) {
         if (comment_time == null) {
             return "";

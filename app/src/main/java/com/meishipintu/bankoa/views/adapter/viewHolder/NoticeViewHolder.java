@@ -27,6 +27,8 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder {
     public TextView tvSubTitle;
     @BindView(R.id.bt_check)
     public Button btCheck;
+    @BindView(R.id.tv_time)
+    public TextView tvTime;
 
     public NoticeViewHolder(View itemView) {
         super(itemView);

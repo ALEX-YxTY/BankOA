@@ -34,7 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -361,32 +363,9 @@ public class HttpApi {
         });
     }
 
-    //获取任务节点数
-    public Observable<Integer> getTaskNodeNum() {
-        return httpService.getLastTaskService().map(new Func1<ResponseBody, Integer>() {
-            @Override
-            public Integer call(ResponseBody responseBody) {
-                try {
-                    String result = responseBody.string();
-                    JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getInt("status") != 1) {
-                        throw new RuntimeException(jsonObject.getString("msg"));
-                    } else {
-                        return jsonObject.getJSONObject("data").getInt("level");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return 0;
-            }
-        });
-    }
-
     //获取节点名称列表
-    public Observable<JSONObject> getNodeNameList() {
-        return httpService.getNodeListService().map(new Func1<ResponseBody, JSONObject>() {
+    public Observable<JSONObject> getNodeNameList(int type) {
+        return httpService.getNodeListService(type).map(new Func1<ResponseBody, JSONObject>() {
             @Override
             public JSONObject call(ResponseBody responseBody) {
                 JSONObject resultJson = new JSONObject();
@@ -409,11 +388,11 @@ public class HttpApi {
                 }
                 finally {
                     return resultJson;
-
-}
+                }
             }
-                    });
-                    }
+        });
+    }
+
     //获取任务列表
     // type=1 未完成  type=2 已完成
     public Observable<List<Task>> getTaskList(String userId, int type) {
@@ -653,6 +632,30 @@ public class HttpApi {
                         }
                         return null;
                     }
+        });
+    }
+
+    //删除任务
+    public Observable<Integer> deletTask(String taskID) {
+        return httpService.deletTaskService(taskID).map(new Func1<ResponseBody, Integer>() {
+            @Override
+            public Integer call(ResponseBody responseBody) {
+                try {
+                    String result = responseBody.string();
+                    Log.d(TAG, "change mobile:" + result);
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        return 1;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
         });
     }
 }

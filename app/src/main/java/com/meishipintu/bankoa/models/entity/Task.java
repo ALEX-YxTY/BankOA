@@ -30,6 +30,15 @@ public class Task implements Serializable{
     private String is_finish;           //标注任务是否已完成
     private String credit_manager;
     private String repayment_status;    //标准任务还款是否已还完
+    private String is_del;              //标注是否已删除
+
+    public String getIs_del() {
+        return is_del;
+    }
+
+    public void setIs_del(String is_del) {
+        this.is_del = is_del;
+    }
 
     public Task(String id, String sponsor_id) {
         this.id = id;

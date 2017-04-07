@@ -16,9 +16,10 @@ public class NodeInfoNow implements Serializable {
     private String nodeAfterName;
     private String timeRemain;
     private String taskname;
+    private String taskType;
 
     public NodeInfoNow(String nodeNowLevel, String nodeNowName, String nodeBeforeName, boolean nodeBeforeCs
-            , String nodeAfterName, String timeRemain, String taskname) {
+            , String nodeAfterName, String timeRemain, String taskname,String taskType) {
         this.nodeNowLevel = nodeNowLevel;
         this.nodeNowName = nodeNowName;
         this.nodeBeforeName = nodeBeforeName;
@@ -26,6 +27,15 @@ public class NodeInfoNow implements Serializable {
         this.nodeAfterName = nodeAfterName;
         this.timeRemain = timeRemain;
         this.taskname = taskname;
+        this.taskType = taskType;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 
     public boolean isNodeBeforeCs() {

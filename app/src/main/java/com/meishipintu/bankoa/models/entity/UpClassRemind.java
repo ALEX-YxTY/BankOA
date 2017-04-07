@@ -15,6 +15,16 @@ public class UpClassRemind {
     private String task_id;
     private String url;
     private String user_id;
+    private String type;
+    private Task task_info;
+
+    public Task getTask_info() {
+        return task_info;
+    }
+
+    public void setTask_info(Task task_info) {
+        this.task_info = task_info;
+    }
 
     public String getUser_id() {
         return user_id;
@@ -31,8 +41,6 @@ public class UpClassRemind {
     public void setType(String type) {
         this.type = type;
     }
-
-    private String type;
 
     public String getId() {
         return id;

@@ -10,7 +10,10 @@ import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.ApplicationModule;
 import com.tencent.bugly.Bugly;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -23,9 +26,9 @@ public class OaApplication extends Application {
     private ApplicationComponent applicationComponent;
     private static OaApplication instance;
     private static UserInfo user;
-    public static JSONObject nodeNameList;
+    public static Map<String,JSONObject> nodeNameList;
+    public static Map<String, Integer> nodeNumber;
     public static JSONObject departmentList;
-    public static int nodeNumber;
 
     public static OaApplication getInstance() {
         return instance;

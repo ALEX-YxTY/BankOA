@@ -57,7 +57,7 @@ public interface HttpService {
             , @Field("apply_money") String apply_money, @Field("credit_center_branch") String credit_center_branch
             , @Field("credit_branch") String credit_branch, @Field("task_type") String task_type
             , @Field("task_name") String task_name, @Field("credit_manager") String credit_manager
-            , @Field("sponsor_id") String sponsor_id, @Field("sponsor_level ") String sponsor_level);
+            , @Field("sponsor_id") String sponsor_id, @Field("sponsor_level") String sponsor_level);
 
     //获取当前任务信息
     @FormUrlEncoded
@@ -98,8 +98,9 @@ public interface HttpService {
     Observable<ResponseBody> getLastTaskService();
 
     //获取节点名称列表
+    @FormUrlEncoded
     @POST("Home/Api/getAllTask")
-    Observable<ResponseBody> getNodeListService();
+    Observable<ResponseBody> getNodeListService(@Field("type") int type);
 
     //获取用户的任务列表
     @FormUrlEncoded
@@ -146,7 +147,7 @@ public interface HttpService {
     @POST("Home/Api/getSystemNotice")
     Observable<HttpResult<List<SysNotic>>> getSysNoticeService();
 
-    //获取用户提醒
+    //搜索任务
     @FormUrlEncoded
     @POST("Home/Api/searchUserTask")
     Observable<HttpResult<List<Task>>> searchTaskService(@Field("level") String level
@@ -164,4 +165,9 @@ public interface HttpService {
     @POST("Home/Api/forgetPwd")
     Observable<ResponseBody> changePswService(@Field("mobile") String mobile, @Field("verify") String verifyCode
             ,@Field("password") String password);
+
+    //删除任务
+    @FormUrlEncoded
+    @POST("Home/Api/deleteTask")
+    Observable<ResponseBody> deletTaskService(@Field("task_id") String taskId);
 }

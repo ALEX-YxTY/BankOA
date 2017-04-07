@@ -74,6 +74,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             String nodeNowLevel = nowInfo.getString("user_task_level");
                             String timeRemain = nowInfo.getString("need_finish");
                             String taskName = nowInfo.getString("task_name");
+                            String taskType = nowInfo.getString("task_type");
                             String nodeNowName = jsonObject.getJSONObject("now_task").getString("task_name");
                             String nodeBeforeName = null;
                             String nodeAfterName = null;
@@ -89,7 +90,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                                         .getString("task_name");
                             }
                             iView.showGraphic(new NodeInfoNow(nodeNowLevel, nodeNowName
-                                    , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain, taskName));
+                                    , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain, taskName, taskType));
                             if (!jsonObject.isNull("userinfo")) {
                                 UserInfo userInfo = gson.fromJson(jsonObject.getString("userinfo"), UserInfo.class);
                                 iView.showUserInfo(userInfo);
@@ -145,7 +146,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
                     @Override
                     public void onNext(Integer integer) {
-                        if (integer == 1) {
+                        if (integer != null && integer == 1) {
                             iView.onFinishNode();
                         }
                     }
@@ -187,6 +188,31 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                     public void onNext(Boolean aBoolean) {
                         if (aBoolean) {
                             iView.onAddSuccess(1);
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void deletTask(String taskId) {
+        subscriptions.add(httpApi.deletTask(taskId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer != null && integer == 1) {
+                            iView.onDeletSuccess();
+                        } else {
+                            iView.showError("删除任务失败，请稍后重试");
                         }
                     }
                 }));

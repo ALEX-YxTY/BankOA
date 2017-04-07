@@ -27,6 +27,8 @@ public interface TaskDetailContract {
         void addNodeRemarks(String taskId, String taskLevel, String taskContent, String userId);
 
         void addNodeComment(CommentInfo commentInfo);
+
+        void deletTask(String taskId);
     }
 
 
@@ -43,6 +45,8 @@ public interface TaskDetailContract {
         void showRemarks(List<RemarkInfo> remarkInfoList);
 
         void showComments(List<CommentDetail> commentDetailList);
+
+        void onDeletSuccess();
     }
 
 }

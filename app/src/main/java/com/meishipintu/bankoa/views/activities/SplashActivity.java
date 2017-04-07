@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
@@ -18,7 +16,6 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import cn.jpush.android.api.JPushInterface;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -62,14 +59,6 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }));
 
-        subscriptions.add(httpApi.getTaskNodeNum().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer number) {
-                        PreferenceHelper.saveTaskNum(number);
-                        OaApplication.nodeNumber = number;
-                    }
-                }));
         subscriptions.add(httpApi.getDepartmentList().subscribeOn(Schedulers.io())
                 .subscribe(new Action1<JSONObject>() {
                     @Override
@@ -78,14 +67,19 @@ public class SplashActivity extends AppCompatActivity {
                         OaApplication.departmentList = jsonObject;
                     }
                 }));
-        subscriptions.add(httpApi.getNodeNameList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<JSONObject>() {
-                    @Override
-                    public void call(JSONObject jsonObject) {
-                        PreferenceHelper.saveNodeNameList(jsonObject.toString());
-                        OaApplication.nodeNameList = jsonObject;
-                    }
-                }));
+        for(int i=1;i<=PreferenceHelper.getTakTypeList().length;i++) {
+            final int k = i;
+            subscriptions.add(httpApi.getNodeNameList(i).subscribeOn(Schedulers.io())
+                    .subscribe(new Action1<JSONObject>() {
+                        @Override
+                        public void call(JSONObject jsonObject) {
+                            PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
+                            OaApplication.nodeNameList.put(k + "", jsonObject);
+                            PreferenceHelper.saveNodeNum(k, jsonObject.length());
+                            OaApplication.nodeNumber.put(k + "", jsonObject.length());
+                        }
+                    }));
+        }
         myHandler.sendEmptyMessageDelayed(0, 3000);
     }
 

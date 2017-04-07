@@ -71,4 +71,9 @@
         <item name="android:background" >@drawable/selector_bt_clickable</item>
         <item name="android:layout_alignParentBottom" >true</item>
     </style>
+
+    <!--custom dialog-->
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+    </style>
 </resources>

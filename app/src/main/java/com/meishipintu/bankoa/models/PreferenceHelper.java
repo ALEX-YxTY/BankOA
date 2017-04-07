@@ -9,6 +9,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.library.util.StringUtils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
@@ -17,7 +18,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -165,16 +168,21 @@ public class PreferenceHelper {
         }
     }
 
-    public static void saveTaskNum(Integer number) {
+    //单独存取每个type的任务节点数量
+    public static void saveNodeNum(int type, int number) {
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putInt("nodeNumber", number);
+        editor.putInt("nodeNumber"+type, number);
         editor.apply();
     }
 
-    public static int getNodeNum() {
+    //整体获取所有任务节点数量，以map返回
+    public static Map<String ,Integer> getNodeNum() {
         SharedPreferences sharedPreferences = getSharePreference();
-        int nodeNum = sharedPreferences.getInt("nodeNumber", -1);
-        return nodeNum;
+        Map<String,Integer> resultMap = new HashMap<>();
+        for (int i = 1; i <= getTakTypeList().length; i ++) {
+            resultMap.put(i + "", sharedPreferences.getInt("nodeNumber", -1));
+        }
+        return resultMap;
     }
 
     public static void saveDepartmentList(String departmentList) {
@@ -195,22 +203,27 @@ public class PreferenceHelper {
         return null;
     }
 
-    public static void saveNodeNameList(String nodeNameList) {
+    //单独存取每个type的任务节点名称
+    public static void saveNodeNameList(int type, String nodeNameList) {
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("nodeNameList", nodeNameList);
+        editor.putString("nodeNameList" + type, nodeNameList);
         editor.apply();
     }
 
-    public static JSONObject getNodeNameList() {
+    //统一获取所有type的节点名称，以map形式返回
+    public static Map<String,JSONObject> getNodeNameList() {
         SharedPreferences sharedPreferences = getSharePreference();
-        String nodeNameList = sharedPreferences.getString("nodeNameList", null);
-        try {
-            JSONObject result = new JSONObject(nodeNameList);
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace();
+        Map<String,JSONObject> resultMap = new HashMap<>();
+        for (int i = 1; i <= getTakTypeList().length; i ++) {
+            String nodeNameList = sharedPreferences.getString("nodeNameList"+i, null);
+            try {
+                JSONObject result = new JSONObject(nodeNameList);
+                resultMap.put(i + "", result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return resultMap;
     }
 
     public static void clear() {

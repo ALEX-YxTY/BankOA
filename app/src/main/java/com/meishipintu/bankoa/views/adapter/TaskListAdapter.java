@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,9 +38,9 @@ import butterknife.OnClick;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
 
+    private static final String TAG = "BankOA-taskListAdapter";
     private List<Task> dataList;
     private Context mContext;
-    private int nodeNum;                    // 节点数量
     private String supervisorId = null;     //监管人的uid
     private String supervisorLevel = null;     //监管人的level
 
@@ -48,7 +49,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         this.mContext = context;
         this.supervisorId = s_uid;
         this.supervisorLevel = s_level;
-        this.nodeNum = PreferenceHelper.getNodeNum();
     }
 
     @Override
@@ -59,13 +59,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
     @Override
     public void onBindViewHolder(TaskListViewHolder holder, final int position) {
         final Task task = dataList.get(position);
+        Log.d(TAG, "task:" + task.toString());
         if ("1".equals(task.getIs_finish())) {
             holder.icon.setImageResource(R.drawable.icon_task_finished);
         } else {
             holder.icon.setImageResource(R.drawable.icon_task_unfinished);
         }
         holder.tvTaskName.setText(task.getTask_name());
-        JSONObject nodeNameList = OaApplication.nodeNameList;
+        JSONObject nodeNameList = OaApplication.nodeNameList.get(task.getTask_type());
         if (nodeNameList != null) {
             try {
                 holder.tvProcessNow.setText(nodeNameList.getString(task.getLevel()));
@@ -80,7 +81,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
             //还款未完毕，任务已结束
             holder.tvPercentage.setText("99%");
         } else {
-            holder.tvPercentage.setText(((Integer.parseInt(task.getLevel())-1)*100/nodeNum)+"%");
+            int percentage = ((Integer.parseInt(task.getLevel()) - 1) * 100 / OaApplication.nodeNumber.get(task.getTask_type()));
+            holder.tvPercentage.setText(percentage + "%");
         }
         holder.btCheck.setOnClickListener(new View.OnClickListener() {
             @Override

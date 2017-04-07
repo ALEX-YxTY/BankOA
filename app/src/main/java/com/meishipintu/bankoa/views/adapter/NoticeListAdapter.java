@@ -15,6 +15,7 @@ import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.views.activities.TaskDetailActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.NoticeViewHolder;
+import com.meishipintu.library.util.DateUtil;
 import com.meishipintu.library.util.StringUtils;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
         holder.tvTitle.setText(sysNotic.getTitle());
         holder.tvSubTitle.setText(sysNotic.getContent());
         holder.btCheck.setVisibility(View.INVISIBLE);
+        holder.tvTime.setText(DateUtil.formart3(sysNotic.getTime()));
     }
 
     @Override

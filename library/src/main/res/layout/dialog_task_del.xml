@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="270dp"
+    android:layout_height="147dp"
+    android:background="@drawable/shape_dialog_bg"
+    >
+    
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:textColor="@color/text_black2"
+        android:text="项目将被删除"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_below="@id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="9dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:textSize="13sp"
+        android:textColor="@color/text_black"
+        android:text="此项目将被删除，此动作不可撤销，确定要删除吗？"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/bt_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="9dp"
+            android:textColor="@color/text_black"
+            android:textSize="12sp"
+            android:text="@string/cancel"
+            android:background="@drawable/shape_dialog_bt_left"/>
+        <TextView
+            android:id="@+id/bt_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="9dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:text="@string/del"
+            android:background="@drawable/shape_dialog_bt_right"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

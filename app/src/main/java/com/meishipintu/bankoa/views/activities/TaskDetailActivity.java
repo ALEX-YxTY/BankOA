@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import com.meishipintu.bankoa.views.adapter.ReplyClickListener;
 import com.meishipintu.library.util.DateUtil;
 import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
+import com.meishipintu.library.view.CustomAlertDialog;
+import com.meishipintu.library.view.CustomAlertDialog2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,14 +112,16 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     private String supervisorLevel;    //监管人level
 
 
-    private String taskId;          //任务id
-    private String taskLevelNow;
+    private String taskId;                      //任务id
+    private String taskLevelNow;                //当前节点level
+    private String taskType;                    //任务type
     private RemarkAdapter remarkAdapter;        //备注Adapter
     private List<RemarkInfo> remarkList;        //备注数据
     private CommentsAdapter commentsAdapter;    //评论Adapter
     private List<CommentDetail> commentList;    //评论数据
-    private String pid = "0";         //默认评论父节点为0
-    private InputMethodManager inputService;     //软键盘管理者
+    private String pid = "0";                   //默认评论父节点为0
+    private InputMethodManager inputService;    //软键盘管理者
+    private Dialog mDialog;
 
 
     @Inject
@@ -165,8 +170,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_finish:
-                if (Integer.parseInt(taskLevelNow) < OaApplication.nodeNumber) {
-                    mPresenter.setTaskNodeFinished(supervisorId == null ? sponsorId : supervisorId, taskId);
+                if (Integer.parseInt(taskLevelNow) < OaApplication.nodeNumber.get(taskType)) {
+                    mPresenter.setTaskNodeFinished(sponsorId, taskId);
                 } else {
                     Intent intent = new Intent(this, PaymentEnterActivity.class);
                     intent.putExtra("task_id", taskId);
@@ -176,7 +181,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             case R.id.bt_see_all:
                 Intent intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra("task_id", taskId);
-                intent.putExtra("uid", supervisorId == null ? sponsorId : supervisorId);
+                intent.putExtra("uid", sponsorId);
                 startActivity(intent);
                 break;
             case R.id.tv_add_remark:
@@ -195,7 +200,19 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 onBackPressed();
                 break;
             case R.id.tv_subTitle:
-                //TODO 删除该任务
+                mDialog = new CustomAlertDialog(this, R.style.CustomDialog, new CustomAlertDialog.OnItemClickListener() {
+                    @Override
+                    public void onPositiveClick(Dialog dialog) {
+                        dialog.dismiss();
+                        mPresenter.deletTask(taskId);
+                    }
+
+                    @Override
+                    public void onNegativeClick(Dialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                mDialog.show();
                 break;
         }
     }
@@ -220,39 +237,37 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     @Override
     public void showGraphic(NodeInfoNow nodeInfoNow) {
         taskLevelNow = nodeInfoNow.getNodeNowLevel();
+        taskType = nodeInfoNow.getTaskType();
         int level = Integer.parseInt(taskLevelNow);
-        switch (level) {
-            case 1:
-                processLineLeft2.setVisibility(View.INVISIBLE);
-                tvProcessLeft.setVisibility(View.INVISIBLE);
-                ivProcessLeft.setVisibility(View.INVISIBLE);
-                processLineLeft1.setVisibility(View.INVISIBLE);
-                break;
-            case 2:
-                processLineLeft1.setVisibility(View.INVISIBLE);
-                processLineLeft2.setVisibility(View.VISIBLE);
-                tvProcessLeft.setVisibility(View.VISIBLE);
-                ivProcessLeft.setVisibility(View.VISIBLE);
-                break;
-            case 24:
+        if (level == 1) {
+            processLineLeft2.setVisibility(View.INVISIBLE);
+            tvProcessLeft.setVisibility(View.INVISIBLE);
+            ivProcessLeft.setVisibility(View.INVISIBLE);
+            processLineLeft1.setVisibility(View.INVISIBLE);
+        } else if (level == 2) {
+            processLineLeft1.setVisibility(View.INVISIBLE);
+            processLineLeft2.setVisibility(View.VISIBLE);
+            tvProcessLeft.setVisibility(View.VISIBLE);
+            ivProcessLeft.setVisibility(View.VISIBLE);
+        } else if (level > OaApplication.nodeNumber.get(taskType) - 1) {
+            processLineRight1.setVisibility(View.INVISIBLE);
+            if (level == OaApplication.nodeNumber.get(taskType)) {
                 btFinish.setText(R.string.input);
                 processLineRight2.setVisibility(View.INVISIBLE);
                 tvProcessRight.setVisibility(View.INVISIBLE);
                 ivProcessRight.setVisibility(View.INVISIBLE);
-            case 23:
-                processLineRight1.setVisibility(View.INVISIBLE);
-                break;
-            default:
-                processLineLeft1.setVisibility(View.VISIBLE);
-                processLineLeft2.setVisibility(View.VISIBLE);
-                tvProcessLeft.setVisibility(View.VISIBLE);
-                ivProcessLeft.setVisibility(View.VISIBLE);
-                processLineRight1.setVisibility(View.VISIBLE);
-                processLineRight2.setVisibility(View.VISIBLE);
-                tvProcessRight.setVisibility(View.VISIBLE);
-                ivProcessRight.setVisibility(View.VISIBLE);
-                break;
+            }
+        } else {
+            processLineLeft1.setVisibility(View.VISIBLE);
+            processLineLeft2.setVisibility(View.VISIBLE);
+            tvProcessLeft.setVisibility(View.VISIBLE);
+            ivProcessLeft.setVisibility(View.VISIBLE);
+            processLineRight1.setVisibility(View.VISIBLE);
+            processLineRight2.setVisibility(View.VISIBLE);
+            tvProcessRight.setVisibility(View.VISIBLE);
+            ivProcessRight.setVisibility(View.VISIBLE);
         }
+
         if (nodeInfoNow.getNodeBeforeName() != null) {
             tvProcessLeft.setText(nodeInfoNow.getNodeBeforeName());
             ivProcessLeft.setImageResource(nodeInfoNow.isNodeBeforeCs() ? R.drawable.icon_overtime
@@ -273,7 +288,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         tvTitle.setText(nodeInfoNow.getTaskname());
         Log.d(Constans.APP, "time:" + DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
         tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
-        tvPercentage.setText("" + ((level - 1) * 100 / 24));
+        tvPercentage.setText("" + ((level - 1) * 100 / OaApplication.nodeNumber.get(taskType)));
     }
 
     //from TaskDetailContract.IView
@@ -374,7 +389,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void onFinishNode() {
-        if (taskLevelNow.equals(OaApplication.nodeNumber + "")) {
+        if (taskLevelNow.equals(OaApplication.nodeNumber.get(taskType) + "")) {
             setResult(RESULT_OK);
             ToastUtils.show(this, "本项目已完成", true);
             this.finish();
@@ -384,12 +399,29 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         }
     }
 
+    //from TaskDetailContract.IView
+    @Override
+    public void onDeletSuccess() {
+        mDialog = new CustomAlertDialog2(this, R.style.CustomDialog, new CustomAlertDialog2.OnItemClickListener() {
+            @Override
+            public void onPositiveClick(Dialog dialog) {
+                dialog.dismiss();
+                TaskDetailActivity.this.finish();
+            }
+
+            @Override
+            public void onNegativeClick(Dialog dialog) {
+            }
+        });
+        mDialog.show();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constans.FINISH_AND_INPUT && resultCode == RESULT_OK) {
             //完成信息录入
-            mPresenter.setTaskNodeFinished(supervisorId == null ? sponsorId : supervisorId, taskId);
+            mPresenter.setTaskNodeFinished(sponsorId, taskId);
         }
     }
 
@@ -406,6 +438,12 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     @Override
     protected void onDestroy() {
         mPresenter.unSubscrib();
+        if (mDialog != null) {
+            if (mDialog.isShowing()) {
+                mDialog.dismiss();
+            }
+            mDialog = null;
+        }
         super.onDestroy();
     }
 }

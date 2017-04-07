@@ -156,7 +156,6 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:hint="请选择"
-                    android:text="中心支行1"
                     android:textColorHint="@color/text_gray2"/>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -196,7 +195,6 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:hint="请选择"
-                    android:text="支行2"
                     android:textColorHint="@color/text_gray2"/>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -265,7 +263,6 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:hint="请选择"
-                    android:text="类型一"
                     android:textColorHint="@color/text_gray2"/>
                 <ImageView
                     android:layout_width="wrap_content"

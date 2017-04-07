@@ -126,6 +126,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                         , centerBranch, branch, type})) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 } else {
+                    Log.d(TAG, "sponsorLevel:" + sponsorLevel + ",type:" + type);
                     mPresenter.triggerTask(loanerName, loanMoney, centerBranch, branch, type, taskName
                             , recommendManager, sponsorId, sponsorLevel);
                 }
