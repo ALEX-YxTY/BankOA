@@ -82,8 +82,10 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             if (!jsonObject.isNull("before_task_info")) {
                                 nodeBeforeName = jsonObject.getJSONObject("before_task_info")
                                         .getString("task_name");
-                                nodeBeforeCs = jsonObject.getJSONObject("before_task_info")
-                                        .getInt("is_cs") != 0;
+                                if (!jsonObject.getJSONObject("before_task_info").isNull("is_cs")) {
+                                    nodeBeforeCs = jsonObject.getJSONObject("before_task_info")
+                                            .getInt("is_cs") != 0;
+                                }
                             }
                             if(!jsonObject.isNull("after_task_info")) {
                                 nodeAfterName = jsonObject.getJSONObject("after_task_info")

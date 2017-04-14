@@ -73,7 +73,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         tvLoanNo.setText(userInfo.getCredit_number());
                         try {
                             tvDepartment.setText(OaApplication.departmentList.getString(userInfo.getDepartment_id()));
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 

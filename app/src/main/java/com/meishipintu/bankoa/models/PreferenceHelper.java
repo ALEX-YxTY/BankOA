@@ -164,7 +164,7 @@ public class PreferenceHelper {
         if (taskTypeList != null) {
             return taskTypeList.split(",");
         } else {
-            return null;
+            return new String[]{};
         }
     }
 

@@ -28,5 +28,6 @@ public class Constans {
 
     public static final int FINISH_AND_INPUT = 10003;                //requestCode 从任务详情跳转信息录入界面
     public static final int PAYMENT = 10004;                         //requestCode 从任务列表页面跳转进入录入或付款
+    public static final int SEE_ALL = 10005;                         //requestCode 从任务详情跳转入浏览全程页面
 
 }

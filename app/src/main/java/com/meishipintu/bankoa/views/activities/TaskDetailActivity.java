@@ -168,21 +168,28 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
 
     @OnClick({R.id.bt_back, R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark, R.id.tv_subTitle})
     public void onClick(View view) {
+        int totalLevel;
         switch (view.getId()) {
             case R.id.bt_finish:
-                if (Integer.parseInt(taskLevelNow) < OaApplication.nodeNumber.get(taskType)) {
-                    mPresenter.setTaskNodeFinished(sponsorId, taskId);
+                if (OaApplication.nodeNumber.get(taskType) != null) {
+                    totalLevel = OaApplication.nodeNumber.get(taskType);
+                    Log.d(TAG, "totalLEvel:" + totalLevel);
+                    if (Integer.parseInt(taskLevelNow) < totalLevel) {
+                        mPresenter.setTaskNodeFinished(sponsorId, taskId);
+                    } else {
+                        Intent intent = new Intent(this, PaymentEnterActivity.class);
+                        intent.putExtra("task_id", taskId);
+                        startActivityForResult(intent, Constans.FINISH_AND_INPUT);
+                    }
                 } else {
-                    Intent intent = new Intent(this, PaymentEnterActivity.class);
-                    intent.putExtra("task_id", taskId);
-                    startActivityForResult(intent, Constans.FINISH_AND_INPUT);
+                    ToastUtils.show(this, R.string.err_net, true);
                 }
                 break;
             case R.id.bt_see_all:
                 Intent intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra("task_id", taskId);
                 intent.putExtra("uid", sponsorId);
-                startActivity(intent);
+                startActivityForResult(intent,Constans.SEE_ALL);
                 break;
             case R.id.tv_add_remark:
                 String input = etRemark.getText().toString();
@@ -238,57 +245,70 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     public void showGraphic(NodeInfoNow nodeInfoNow) {
         taskLevelNow = nodeInfoNow.getNodeNowLevel();
         taskType = nodeInfoNow.getTaskType();
-        int level = Integer.parseInt(taskLevelNow);
-        if (level == 1) {
-            processLineLeft2.setVisibility(View.INVISIBLE);
-            tvProcessLeft.setVisibility(View.INVISIBLE);
-            ivProcessLeft.setVisibility(View.INVISIBLE);
-            processLineLeft1.setVisibility(View.INVISIBLE);
-        } else if (level == 2) {
-            processLineLeft1.setVisibility(View.INVISIBLE);
-            processLineLeft2.setVisibility(View.VISIBLE);
-            tvProcessLeft.setVisibility(View.VISIBLE);
-            ivProcessLeft.setVisibility(View.VISIBLE);
-        } else if (level > OaApplication.nodeNumber.get(taskType) - 1) {
-            processLineRight1.setVisibility(View.INVISIBLE);
-            if (level == OaApplication.nodeNumber.get(taskType)) {
-                btFinish.setText(R.string.input);
-                processLineRight2.setVisibility(View.INVISIBLE);
-                tvProcessRight.setVisibility(View.INVISIBLE);
-                ivProcessRight.setVisibility(View.INVISIBLE);
+        if (OaApplication.nodeNumber.get(taskType) != null) {
+            int level = Integer.parseInt(taskLevelNow);
+            if (level == 1) {
+                processLineLeft2.setVisibility(View.INVISIBLE);
+                tvProcessLeft.setVisibility(View.INVISIBLE);
+                ivProcessLeft.setVisibility(View.INVISIBLE);
+                processLineLeft1.setVisibility(View.INVISIBLE);
+            } else if (level == 2) {
+                processLineLeft1.setVisibility(View.INVISIBLE);
+                processLineLeft2.setVisibility(View.VISIBLE);
+                tvProcessLeft.setVisibility(View.VISIBLE);
+                ivProcessLeft.setVisibility(View.VISIBLE);
+            } else if (level > OaApplication.nodeNumber.get(taskType) - 1) {
+                processLineRight1.setVisibility(View.INVISIBLE);
+                if (level == OaApplication.nodeNumber.get(taskType)) {
+                    btFinish.setText(R.string.input);
+                    processLineRight2.setVisibility(View.INVISIBLE);
+                    tvProcessRight.setVisibility(View.INVISIBLE);
+                    ivProcessRight.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                processLineLeft1.setVisibility(View.VISIBLE);
+                processLineLeft2.setVisibility(View.VISIBLE);
+                tvProcessLeft.setVisibility(View.VISIBLE);
+                ivProcessLeft.setVisibility(View.VISIBLE);
+                processLineRight1.setVisibility(View.VISIBLE);
+                processLineRight2.setVisibility(View.VISIBLE);
+                tvProcessRight.setVisibility(View.VISIBLE);
+                ivProcessRight.setVisibility(View.VISIBLE);
+            }
+
+            if (nodeInfoNow.getNodeBeforeName() != null) {
+                tvProcessLeft.setText(nodeInfoNow.getNodeBeforeName());
+                ivProcessLeft.setImageResource(nodeInfoNow.isNodeBeforeCs() ? R.drawable.icon_overtime
+                        : R.drawable.icon_finish_green);
+                tvProcessLeft.setTextColor(nodeInfoNow.isNodeBeforeCs() ? 0xffff6c5d : 0xff15d5c8);
+            }
+            if (nodeInfoNow.getNodeAfterName() != null) {
+                tvProcessRight.setText(nodeInfoNow.getNodeAfterName());
+            }
+            if (System.currentTimeMillis() / 1000 >= Long.parseLong(nodeInfoNow.getTimeRemain())) {
+                tvOutOfTime.setText("超时 ");
+                tvOutOfTime.setTextColor(0xffff6c5d);
+            } else {
+                tvOutOfTime.setText("距离此节点截止时间还有 ");
+                tvOutOfTime.setTextColor(0xff9ca7b2);
+            }
+            tvProcessNow.setText(nodeInfoNow.getNodeNowName());
+            tvTitle.setText(nodeInfoNow.getTaskname());
+
+            Log.d(TAG, "taskType:" + taskType);
+            Log.d(TAG, "totalLevel:" + OaApplication.nodeNumber.get(taskType));
+            Log.d(TAG, "level Now:" + level);
+
+            tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
+            if (OaApplication.nodeNumber.get(taskType) != null) {
+                int percentage = (level - 1) * 100 / OaApplication.nodeNumber.get(taskType);
+                tvPercentage.setText(percentage + "");
+            } else {
+                tvPercentage.setText("--");
             }
         } else {
-            processLineLeft1.setVisibility(View.VISIBLE);
-            processLineLeft2.setVisibility(View.VISIBLE);
-            tvProcessLeft.setVisibility(View.VISIBLE);
-            ivProcessLeft.setVisibility(View.VISIBLE);
-            processLineRight1.setVisibility(View.VISIBLE);
-            processLineRight2.setVisibility(View.VISIBLE);
-            tvProcessRight.setVisibility(View.VISIBLE);
-            ivProcessRight.setVisibility(View.VISIBLE);
+            ToastUtils.show(this, R.string.err_net, true);
         }
-
-        if (nodeInfoNow.getNodeBeforeName() != null) {
-            tvProcessLeft.setText(nodeInfoNow.getNodeBeforeName());
-            ivProcessLeft.setImageResource(nodeInfoNow.isNodeBeforeCs() ? R.drawable.icon_overtime
-                    : R.drawable.icon_finish_green);
-            tvProcessLeft.setTextColor(nodeInfoNow.isNodeBeforeCs() ? 0xffff6c5d : 0xff15d5c8);
-        }
-        if (nodeInfoNow.getNodeAfterName() != null) {
-            tvProcessRight.setText(nodeInfoNow.getNodeAfterName());
-        }
-        if (System.currentTimeMillis() / 1000 >= Long.parseLong(nodeInfoNow.getTimeRemain())) {
-            tvOutOfTime.setText("超时 ");
-            tvOutOfTime.setTextColor(0xffff6c5d);
-        } else {
-            tvOutOfTime.setText("距离此节点截止时间还有 ");
-            tvOutOfTime.setTextColor(0xff9ca7b2);
-        }
-        tvProcessNow.setText(nodeInfoNow.getNodeNowName());
-        tvTitle.setText(nodeInfoNow.getTaskname());
-        Log.d(Constans.APP, "time:" + DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
-        tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
-        tvPercentage.setText("" + ((level - 1) * 100 / OaApplication.nodeNumber.get(taskType)));
     }
 
     //from TaskDetailContract.IView
@@ -389,13 +409,17 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void onFinishNode() {
-        if (taskLevelNow.equals(OaApplication.nodeNumber.get(taskType) + "")) {
-            setResult(RESULT_OK);
-            ToastUtils.show(this, "本项目已完成", true);
-            this.finish();
+        if (OaApplication.nodeNumber.get(taskType) != null) {
+            if (taskLevelNow.equals(OaApplication.nodeNumber.get(taskType) + "")) {
+                setResult(RESULT_OK);
+                ToastUtils.show(this, "本项目已完成", true);
+                this.finish();
+            } else {
+                ToastUtils.show(this, "当前步骤已完成", true);
+                mPresenter.getTaskInfo(taskId);
+            }
         } else {
-            ToastUtils.show(this, "当前步骤已完成", true);
-            mPresenter.getTaskInfo(taskId);
+            ToastUtils.show(this, R.string.err_net, true);
         }
     }
 
@@ -422,6 +446,9 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         if (requestCode == Constans.FINISH_AND_INPUT && resultCode == RESULT_OK) {
             //完成信息录入
             mPresenter.setTaskNodeFinished(sponsorId, taskId);
+        }
+        if (requestCode == Constans.SEE_ALL) {
+            mPresenter.getTaskInfo(taskId);
         }
     }
 

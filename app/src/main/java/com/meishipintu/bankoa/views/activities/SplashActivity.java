@@ -56,6 +56,19 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void call(List<String> strings) {
                         PreferenceHelper.saveTaskType(strings);
+                        for(int i=1;i<=strings.size();i++) {
+                            final int k = i;
+                            subscriptions.add(httpApi.getNodeNameList(i).subscribeOn(Schedulers.io())
+                                    .subscribe(new Action1<JSONObject>() {
+                                        @Override
+                                        public void call(JSONObject jsonObject) {
+                                            PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
+                                            OaApplication.nodeNameList.put(k + "", jsonObject);
+                                            PreferenceHelper.saveNodeNum(k, jsonObject.length());
+                                            OaApplication.nodeNumber.put(k + "", jsonObject.length());
+                                        }
+                                    }));
+                        }
                     }
                 }));
 
@@ -67,20 +80,8 @@ public class SplashActivity extends AppCompatActivity {
                         OaApplication.departmentList = jsonObject;
                     }
                 }));
-        for(int i=1;i<=PreferenceHelper.getTakTypeList().length;i++) {
-            final int k = i;
-            subscriptions.add(httpApi.getNodeNameList(i).subscribeOn(Schedulers.io())
-                    .subscribe(new Action1<JSONObject>() {
-                        @Override
-                        public void call(JSONObject jsonObject) {
-                            PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
-                            OaApplication.nodeNameList.put(k + "", jsonObject);
-                            PreferenceHelper.saveNodeNum(k, jsonObject.length());
-                            OaApplication.nodeNumber.put(k + "", jsonObject.length());
-                        }
-                    }));
-        }
-        myHandler.sendEmptyMessageDelayed(0, 3000);
+
+        myHandler.sendEmptyMessageDelayed(0, 3500);
     }
 
     @Override

@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@color/text_gray"
-                android:text="@string/forget_psw"
+                android:text="@string/auto_login"
                 android:button="@null"
                 android:checked="true"
                 android:drawableLeft="@drawable/selector_save_radio"

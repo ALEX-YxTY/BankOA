@@ -127,7 +127,7 @@ public class SupervisorActivity extends AppCompatActivity implements SupervisorC
         } else {
             try {
                 department = OaApplication.departmentList.getString(userInfo.getDepartment_id());
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 department = "";
             }

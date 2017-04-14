@@ -81,8 +81,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
             //还款未完毕，任务已结束
             holder.tvPercentage.setText("99%");
         } else {
-            int percentage = ((Integer.parseInt(task.getLevel()) - 1) * 100 / OaApplication.nodeNumber.get(task.getTask_type()));
-            holder.tvPercentage.setText(percentage + "%");
+            Log.d(TAG, "taskType:" + task.getTask_type());
+            Log.d(TAG, "totalLevel:" + OaApplication.nodeNumber.get(task.getTask_type()));
+            Log.d(TAG, "level Now:" + task.getLevel());
+
+            if (OaApplication.nodeNumber.get(task.getTask_type()) != null
+                    && OaApplication.nodeNumber.get(task.getTask_type()) != 0) {
+                int percentage = ((Integer.parseInt(task.getLevel()) - 1) * 100 / OaApplication.nodeNumber.get(task.getTask_type()));
+                holder.tvPercentage.setText(percentage + "%");
+            } else {
+                holder.tvPercentage.setText("--%");
+            }
         }
         holder.btCheck.setOnClickListener(new View.OnClickListener() {
             @Override

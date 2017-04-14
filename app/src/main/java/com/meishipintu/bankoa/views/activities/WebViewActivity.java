@@ -68,7 +68,6 @@ public class WebViewActivity extends BasicActivity {
             tvSubTitle.setText(R.string.close);
             tvSubTitle.setVisibility(View.VISIBLE);
         } else {
-            //TODO 加载任务详情页面
             tvTitle.setText(R.string.whole_process);
             wb.loadUrl(Constans.PROCESS_URL + "?task_id=" + intent.getStringExtra("task_id") + "&uid="
                     + intent.getStringExtra("uid"));

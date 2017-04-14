@@ -63,7 +63,7 @@ public class ClerkListAdapter extends RecyclerView.Adapter<ClerkInfoViewHolder> 
         } else {
             try {
                 department = OaApplication.departmentList.getString(user.getDepartment_id());
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 department = "";
             }

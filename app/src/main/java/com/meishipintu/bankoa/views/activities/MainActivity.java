@@ -240,7 +240,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
         } else {
             try {
                 department = OaApplication.departmentList.getString(userInfo.getDepartment_id());
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 department = "";
             }

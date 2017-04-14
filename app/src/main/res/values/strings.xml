@@ -61,6 +61,8 @@
     <string name="no_notice">您还没有提醒或通知哦~</string>
     <string name="no_task">没有相关任务信息~</string>
     <string name="task_deleted">该任务已删除</string>
+    <string name="err_net">当前网络问题，请稍后重试</string>
+    <string name="auto_login">自动登录</string>
 
 
 </resources>
