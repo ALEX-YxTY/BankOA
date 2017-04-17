@@ -175,6 +175,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                     totalLevel = OaApplication.nodeNumber.get(taskType);
                     Log.d(TAG, "totalLEvel:" + totalLevel);
                     if (Integer.parseInt(taskLevelNow) < totalLevel) {
+                        //禁止btFinish的多次点击，等数据返回后恢复
+                        btFinish.setEnabled(false);
                         mPresenter.setTaskNodeFinished(sponsorId, taskId);
                     } else {
                         Intent intent = new Intent(this, PaymentEnterActivity.class);
@@ -278,12 +280,19 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
 
             if (nodeInfoNow.getNodeBeforeName() != null) {
                 tvProcessLeft.setText(nodeInfoNow.getNodeBeforeName());
-                ivProcessLeft.setImageResource(nodeInfoNow.isNodeBeforeCs() ? R.drawable.icon_overtime
-                        : R.drawable.icon_finish_green);
+                if (nodeInfoNow.isNodeBeforeCs()) {
+                    ivProcessLeft.setImageResource(R.drawable.icon_overtime);
+                } else if (nodeInfoNow.isNodeBeforeGap()) {
+                    ivProcessLeft.setImageResource(R.drawable.icon_choose_grey);
+                } else {
+                    ivProcessLeft.setImageResource(R.drawable.icon_finish_green);
+                }
                 tvProcessLeft.setTextColor(nodeInfoNow.isNodeBeforeCs() ? 0xffff6c5d : 0xff15d5c8);
             }
             if (nodeInfoNow.getNodeAfterName() != null) {
                 tvProcessRight.setText(nodeInfoNow.getNodeAfterName());
+                ivProcessRight.setImageResource(nodeInfoNow.isNodeAfterGap() ? R.drawable.icon_choose_grey
+                        : R.drawable.icon_unget);
             }
             if (System.currentTimeMillis() / 1000 >= Long.parseLong(nodeInfoNow.getTimeRemain())) {
                 tvOutOfTime.setText("超时 ");
@@ -309,6 +318,12 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         } else {
             ToastUtils.show(this, R.string.err_net, true);
         }
+    }
+
+    //from TaskDetailContract.IView
+    @Override
+    public void recoverBtFinish() {
+        btFinish.setEnabled(true);
     }
 
     //from TaskDetailContract.IView

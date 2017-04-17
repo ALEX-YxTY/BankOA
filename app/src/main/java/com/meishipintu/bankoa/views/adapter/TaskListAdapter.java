@@ -74,6 +74,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
                 e.printStackTrace();
             }
         }
+        String[] taskTypeList = PreferenceHelper.getTakTypeList();
+        if (taskTypeList.length > 0 && taskTypeList.length > Integer.parseInt(task.getTask_type())) {
+            holder.tvTaskType.setText(taskTypeList[Integer.parseInt(task.getTask_type())]);
+        }
+        holder.tvCreditName.setText(task.getCredi_name());
+
         if ("1".equals(task.getIs_finish()) && "1".equals(task.getRepayment_status())) {
             //已还款完毕
             holder.tvPercentage.setText("100%");

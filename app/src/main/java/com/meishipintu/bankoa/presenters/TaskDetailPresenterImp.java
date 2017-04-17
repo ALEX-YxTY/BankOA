@@ -58,6 +58,8 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                 .subscribe(new Subscriber<JSONObject>() {
                     @Override
                     public void onCompleted() {
+                        //恢复btFinish的点击功能
+                        iView.recoverBtFinish();
                     }
 
                     @Override
@@ -79,20 +81,41 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             String nodeBeforeName = null;
                             String nodeAfterName = null;
                             boolean nodeBeforeCs = false;
+                            boolean nodeBeforeGap = false;
+                            boolean nodeAfterGap = false;
+
                             if (!jsonObject.isNull("before_task_info")) {
-                                nodeBeforeName = jsonObject.getJSONObject("before_task_info")
-                                        .getString("task_name");
-                                if (!jsonObject.getJSONObject("before_task_info").isNull("is_cs")) {
+                                JSONObject beforeTaskInfo = jsonObject.getJSONObject("before_task_info");
+                                if (!beforeTaskInfo.isNull("task_name")) {
+                                    nodeBeforeName = jsonObject.getJSONObject("before_task_info")
+                                            .getString("task_name");
+                                }
+                                if (!beforeTaskInfo.isNull("is_cs")) {
                                     nodeBeforeCs = jsonObject.getJSONObject("before_task_info")
                                             .getInt("is_cs") != 0;
                                 }
+                                if (!beforeTaskInfo.isNull("task_log_type")
+                                        && beforeTaskInfo.get("task_log_type") != null) {
+                                    if (beforeTaskInfo.getInt("task_log_type") == 2) {
+                                        nodeBeforeGap = true;
+                                    }
+                                }
                             }
                             if(!jsonObject.isNull("after_task_info")) {
-                                nodeAfterName = jsonObject.getJSONObject("after_task_info")
-                                        .getString("task_name");
+                                JSONObject afterTaskInfo = jsonObject.getJSONObject("after_task_info");
+                                if (!afterTaskInfo.isNull("task_name")) {
+                                    nodeAfterName = afterTaskInfo.getString("task_name");
+                                }
+                                if (!afterTaskInfo.isNull("task_log_type")
+                                        && afterTaskInfo.get("task_log_type") != null) {
+                                    if (afterTaskInfo.getInt("task_log_type") == 2) {
+                                        nodeAfterGap = true;
+                                    }
+                                }
                             }
                             iView.showGraphic(new NodeInfoNow(nodeNowLevel, nodeNowName
-                                    , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain, taskName, taskType));
+                                    , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain
+                                    , taskName, taskType, nodeBeforeGap, nodeAfterGap));
                             if (!jsonObject.isNull("userinfo")) {
                                 UserInfo userInfo = gson.fromJson(jsonObject.getString("userinfo"), UserInfo.class);
                                 iView.showUserInfo(userInfo);

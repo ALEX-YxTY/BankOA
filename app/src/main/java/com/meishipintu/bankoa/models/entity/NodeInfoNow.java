@@ -17,9 +17,12 @@ public class NodeInfoNow implements Serializable {
     private String timeRemain;
     private String taskname;
     private String taskType;
+    private boolean nodeBeforeGap;
+    private boolean nodeAfterGap;
 
     public NodeInfoNow(String nodeNowLevel, String nodeNowName, String nodeBeforeName, boolean nodeBeforeCs
-            , String nodeAfterName, String timeRemain, String taskname,String taskType) {
+            , String nodeAfterName, String timeRemain, String taskname, String taskType
+            , boolean nodeBeforeGap, boolean nodeAfterGap) {
         this.nodeNowLevel = nodeNowLevel;
         this.nodeNowName = nodeNowName;
         this.nodeBeforeName = nodeBeforeName;
@@ -28,6 +31,24 @@ public class NodeInfoNow implements Serializable {
         this.timeRemain = timeRemain;
         this.taskname = taskname;
         this.taskType = taskType;
+        this.nodeBeforeGap = nodeBeforeGap;
+        this.nodeAfterGap = nodeAfterGap;
+    }
+
+    public boolean isNodeBeforeGap() {
+        return nodeBeforeGap;
+    }
+
+    public void setNodeBeforeGap(boolean nodeBeforeGap) {
+        this.nodeBeforeGap = nodeBeforeGap;
+    }
+
+    public boolean isNodeAfterGap() {
+        return nodeAfterGap;
+    }
+
+    public void setNodeAfterGap(boolean nodeAfterGap) {
+        this.nodeAfterGap = nodeAfterGap;
     }
 
     public String getTaskType() {

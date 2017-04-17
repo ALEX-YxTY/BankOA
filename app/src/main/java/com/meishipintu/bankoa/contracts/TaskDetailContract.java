@@ -36,6 +36,8 @@ public interface TaskDetailContract {
 
         void onFinishNode();
 
+        void recoverBtFinish();
+
         void onAddSuccess(int type);
 
         void showGraphic(NodeInfoNow nodeInfoNow);

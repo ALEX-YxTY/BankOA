@@ -29,6 +29,10 @@ public class TaskListViewHolder extends RecyclerView.ViewHolder {
     public TextView tvPercentage;
     @BindView(R.id.bt_check)
     public Button btCheck;
+    @BindView(R.id.tv_task_type)
+    public TextView tvTaskType;
+    @BindView(R.id.tv_credit_name)
+    public TextView tvCreditName;
 
     public TaskListViewHolder(View itemView) {
         super(itemView);
