@@ -75,8 +75,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
             }
         }
         String[] taskTypeList = PreferenceHelper.getTakTypeList();
-        if (taskTypeList.length > 0 && taskTypeList.length > Integer.parseInt(task.getTask_type())) {
-            holder.tvTaskType.setText(taskTypeList[Integer.parseInt(task.getTask_type())]);
+
+        if (taskTypeList.length > 0 && taskTypeList.length >= Integer.parseInt(task.getTask_type())) {
+            holder.tvTaskType.setText(taskTypeList[Integer.parseInt(task.getTask_type())-1]);
         }
         holder.tvCreditName.setText(task.getCredi_name());
 

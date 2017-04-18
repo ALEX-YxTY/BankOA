@@ -259,7 +259,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 processLineLeft2.setVisibility(View.VISIBLE);
                 tvProcessLeft.setVisibility(View.VISIBLE);
                 ivProcessLeft.setVisibility(View.VISIBLE);
-            } else if (level > OaApplication.nodeNumber.get(taskType) - 1) {
+            } else if (level > OaApplication.nodeNumber.get(taskType) - 2) {
                 processLineRight1.setVisibility(View.INVISIBLE);
                 if (level == OaApplication.nodeNumber.get(taskType)) {
                     btFinish.setText(R.string.input);
