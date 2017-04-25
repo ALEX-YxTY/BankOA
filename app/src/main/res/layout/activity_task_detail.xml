@@ -214,6 +214,21 @@
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/shape_bt_theme_31dp_radius"
                         />
+
+                    <!--录入按钮-->
+                    <Button
+                        android:id="@+id/bt_enter"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_alignBottom="@id/bt_see_all"
+                        android:background="@drawable/shape_bt_finish"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:text="录入"
+                        />
                 </RelativeLayout>
             </RelativeLayout>
 

@@ -14,7 +14,6 @@ public class PaymentDetailItem implements Serializable {
     private String id;
     private String repayment_time;
     private String repayment_money;
-    private boolean is_finish;
 
     public String getId() {
         return id;
@@ -24,19 +23,10 @@ public class PaymentDetailItem implements Serializable {
         this.id = id;
     }
 
-    public boolean is_finish() {
-        return is_finish;
-    }
-
-    public void setIs_finish(boolean is_finish) {
-        this.is_finish = is_finish;
-    }
-
-    public PaymentDetailItem(String id,String repayment_time, String repayment_money,String isfinish) {
+    public PaymentDetailItem(String id,String repayment_time, String repayment_money) {
         this.id = id;
         this.repayment_time = repayment_time;
         this.repayment_money = repayment_money;
-        this.is_finish = "1".equals(isfinish);
     }
 
     public PaymentDetailItem(String repayment_time, String repayment_money) {

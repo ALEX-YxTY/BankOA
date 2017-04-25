@@ -138,7 +138,7 @@ public class PaymentDetailActivity extends AppCompatActivity implements PaymentD
         tvPaymentMoney.setText(paymentMoneyItem);
         final ImageView ivIcon1 = (ImageView) itemView.findViewById(R.id.choose1);
         final ImageView ivIcon2 = (ImageView) itemView.findViewById(R.id.choose2);
-        if (paymentItem.is_finish()) {
+        if (true) {
             //已付款
             ivIcon1.setSelected(true);
             ivIcon2.setSelected(true);

@@ -87,6 +87,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     TextView tvOutOfTime;
     @BindView(R.id.bt_finish)
     Button btFinish;
+    @BindView(R.id.bt_enter)
+    Button btEnter;
 
     @BindView(R.id.tv_name)
     TextView tvName;
@@ -166,29 +168,31 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         tvSubTitle.setTextColor(0xffff6c5d);
     }
 
-    @OnClick({R.id.bt_back, R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark, R.id.tv_subTitle})
+    @OnClick({R.id.bt_back, R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark, R.id.tv_subTitle,R.id.bt_enter})
     public void onClick(View view) {
         int totalLevel;
+        Intent intent;
         switch (view.getId()) {
             case R.id.bt_finish:
                 if (OaApplication.nodeNumber.get(taskType) != null) {
                     totalLevel = OaApplication.nodeNumber.get(taskType);
                     Log.d(TAG, "totalLEvel:" + totalLevel);
-                    if (Integer.parseInt(taskLevelNow) < totalLevel) {
-                        //禁止btFinish的多次点击，等数据返回后恢复
-                        btFinish.setEnabled(false);
-                        mPresenter.setTaskNodeFinished(sponsorId, taskId);
-                    } else {
-                        Intent intent = new Intent(this, PaymentEnterActivity.class);
-                        intent.putExtra("task_id", taskId);
-                        startActivityForResult(intent, Constans.FINISH_AND_INPUT);
-                    }
+                    //禁止btFinish的多次点击，等数据返回后恢复
+                    btFinish.setEnabled(false);
+                    mPresenter.setTaskNodeFinished(sponsorId, taskId);
                 } else {
                     ToastUtils.show(this, R.string.err_net, true);
                 }
                 break;
+            case R.id.bt_enter:
+                //录入付款
+                Log.d(TAG, "录入 click");
+                intent = new Intent(this, PaymentEnterActivity.class);
+                intent.putExtra("task_id", taskId);
+                startActivityForResult(intent, Constans.FINISH_AND_INPUT);
+                break;
             case R.id.bt_see_all:
-                Intent intent = new Intent(this, WebViewActivity.class);
+                intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra("task_id", taskId);
                 intent.putExtra("uid", sponsorId);
                 startActivityForResult(intent,Constans.SEE_ALL);
@@ -261,8 +265,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 ivProcessLeft.setVisibility(View.VISIBLE);
             } else if (level > OaApplication.nodeNumber.get(taskType) - 2) {
                 processLineRight1.setVisibility(View.INVISIBLE);
+                btEnter.setVisibility(View.VISIBLE);
                 if (level == OaApplication.nodeNumber.get(taskType)) {
-                    btFinish.setText(R.string.input);
                     processLineRight2.setVisibility(View.INVISIBLE);
                     tvProcessRight.setVisibility(View.INVISIBLE);
                     ivProcessRight.setVisibility(View.INVISIBLE);
@@ -458,10 +462,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constans.FINISH_AND_INPUT && resultCode == RESULT_OK) {
-            //完成信息录入
-            mPresenter.setTaskNodeFinished(sponsorId, taskId);
-        }
         if (requestCode == Constans.SEE_ALL) {
             mPresenter.getTaskInfo(taskId);
         }

@@ -36,6 +36,27 @@ public class PaymentEnterPresenterImp implements PaymentEnterContract.IPresenter
     }
 
     @Override
+    public void getPaymentInfo(String taskId) {
+        subscriptions.add(httpApi.getPaymentInfo(taskId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PaymentInfo>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iView.showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(PaymentInfo paymentInfo) {
+                        iView.onPaymentInfoGet(paymentInfo);
+                    }
+                }));
+    }
+
+    @Override
     public void enterPayment(PaymentInfo paymentInfo) {
         Log.d(Constans.APP, "post json:" + paymentInfo.toString());
         subscriptions.addAll(httpApi.addLoanInfo(paymentInfo).subscribeOn(Schedulers.io())

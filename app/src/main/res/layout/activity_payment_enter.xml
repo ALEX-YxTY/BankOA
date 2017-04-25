@@ -42,66 +42,32 @@
             </RelativeLayout>
 
             <!--授信审批金额*-->
-            <LinearLayout
+            <com.meishipintu.library.view.CustomEditText
+                android:id="@+id/cet_check_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:paddingTop="9dp"
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"
+                android:background="@drawable/shape_bt_border_blue_3dp_grey"
                 android:paddingRight="12dp"
-                android:background="@drawable/selector_et_border">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    style="@style/text_comment"
-                    android:text="授信审批金额*"/>
-                <EditText
-                    android:id="@+id/et_check_money"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@null"
-                    style="@style/text_comment"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:hint="请输入金额"
-                    android:textColorHint="@color/text_gray2"/>
-
-            </LinearLayout>
+                app:title="授信审批金额*"
+                app:hint="单位万元"/>
 
             <!--实际放款金额*-->
-            <LinearLayout
+            <com.meishipintu.library.view.CustomEditText
+                android:id="@+id/cet_real_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
                 android:paddingTop="9dp"
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"
+                android:background="@drawable/shape_bt_border_blue_3dp_grey"
                 android:paddingRight="12dp"
-                android:background="@drawable/selector_et_border">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    style="@style/text_comment"
-                    android:text="实际放款金额*"/>
-                <EditText
-                    android:id="@+id/et_real_money"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@null"
-                    style="@style/text_comment"
-                    android:singleLine="true"
-                    android:hint="请输入金额"
-                    android:inputType="numberDecimal"
-                    android:textColorHint="@color/text_gray2"/>
-
-            </LinearLayout>
+                app:title="实际放款金额*"
+                app:hint="单位万元"/>
 
             <!--放款时间*-->
             <LinearLayout
@@ -113,7 +79,9 @@
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:background="@drawable/selector_et_border">
+                android:background="@drawable/selector_et_border"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,6 +130,8 @@
         android:id="@+id/bt_input"
         android:text="@string/payment_input"
         style="@style/bt_enter"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
 
 </RelativeLayout>

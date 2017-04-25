@@ -472,8 +472,7 @@ public class HttpApi {
                                 for(int i=0;i<paymentArray.length();i++) {
                                     JSONObject payment = paymentArray.getJSONObject(i);
                                     PaymentDetailItem item = new PaymentDetailItem(payment.getString("id")
-                                            ,payment.getString("repayment_time"), payment.getString("repayment_money")
-                                            ,payment.getString("is_finish"));
+                                            ,payment.getString("repayment_time"), payment.getString("repayment_money"));
                                     paymentItems.add(item);
                                 }
                                 paymentInfo.setRepayment_json(paymentItems);

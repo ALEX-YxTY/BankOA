@@ -14,6 +14,8 @@ public interface PaymentEnterContract {
 
     interface IPresenter extends BasicPresenter {
 
+        void getPaymentInfo(String taskId);
+
         void enterPayment(PaymentInfo info);
     }
 
@@ -21,5 +23,6 @@ public interface PaymentEnterContract {
 
         void onEnterSuccess();
 
+        void onPaymentInfoGet(PaymentInfo paymentInfo);
     }
 }

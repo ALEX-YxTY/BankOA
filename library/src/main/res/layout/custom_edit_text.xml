@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        style="@style/text_comment"
+        android:text="实际放款金额*"/>
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:background="@null"
+        style="@style/text_comment"
+        android:singleLine="true"
+        android:hint="请输入金额"
+        android:inputType="numberDecimal"
+        android:textColorHint="@color/text_gray2"/>
+</merge>
