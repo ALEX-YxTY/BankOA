@@ -89,4 +89,19 @@ public class UpClassRemind {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "UpClassRemind{" +
+                "id='" + id + '\'' +
+                ", notice_title='" + notice_title + '\'' +
+                ", notice_content='" + notice_content + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", task_id='" + task_id + '\'' +
+                ", url='" + url + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", type='" + type + '\'' +
+                ", task_info=" + (task_info==null?"null":task_info.toString()) +
+                '}';
+    }
 }

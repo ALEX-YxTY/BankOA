@@ -43,13 +43,6 @@ public class SplashActivity extends AppCompatActivity {
                         PreferenceHelper.saveCenterBranch(strings);
                     }
                 }));
-        subscriptions.add(httpApi.getBranchList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<List<String>>() {
-                    @Override
-                    public void call(List<String> strings) {
-                        PreferenceHelper.saveBranch(strings);
-                    }
-                }));
 
         subscriptions.add(httpApi.getTaskTypeList().subscribeOn(Schedulers.io())
                 .subscribe(new Action1<List<String>>() {

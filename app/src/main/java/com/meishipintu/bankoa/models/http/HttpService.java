@@ -54,8 +54,8 @@ public interface HttpService {
     @FormUrlEncoded
     @POST("Home/Api/startTaskOfStepOne")
     Observable<HttpResult<Task>> triggerTaskService(@Field("credit_name") String credit_name
-            , @Field("apply_money") String apply_money, @Field("credit_center_branch") String credit_center_branch
-            , @Field("credit_branch") String credit_branch, @Field("task_type") String task_type
+            , @Field("apply_money") String apply_money, @Field("credit_center_branch") int credit_center_branch
+            , @Field("credit_branch") int credit_branch, @Field("task_type") int task_type
             , @Field("task_name") String task_name, @Field("credit_manager") String credit_manager
             , @Field("sponsor_id") String sponsor_id, @Field("sponsor_level") String sponsor_level);
 
@@ -82,8 +82,9 @@ public interface HttpService {
     Observable<ResponseBody> getCenterBranchListService();
 
     //获取支行列表
-    @POST("Home/Api/getBranch")
-    Observable<ResponseBody> getBranchListService();
+    @FormUrlEncoded
+    @POST("Home/Api/getBranchByCenterId")
+    Observable<ResponseBody> getBranchListService(@Field("id") int centerBranch);
 
     //获取部门列表
     @POST("Home/Api/getDepartmentList")

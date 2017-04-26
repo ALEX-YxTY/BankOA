@@ -22,6 +22,7 @@ import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
 import com.meishipintu.library.view.CustomNumPickeDialog;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -68,9 +69,9 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
 
     private Dialog dialog;
 
-    private String centerBranch = "1";
-    private String branch = "1";
-    private String type = "1";
+    private int centerBranch = 0;
+    private int branch = 0;
+    private int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,17 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 mPresenter.getCenteralBranches();
                 break;
             case R.id.ll_branch:
-                mPresenter.getBranches();
+                String centerChoose = tvCenterBranch.getText().toString();
+                if (centerBranch == 0) {
+                    //中心支行未选择
+                    showError("请先选择中心支行");
+                } else if (centerChoose.equals("分行营业部") || centerChoose.equals("溧水支行")
+                        || centerChoose.equals("高淳支行")) {
+                    //没有支行
+                    showError("该中心支行没有下级支行");
+                } else {
+                    mPresenter.getBranches(centerBranch);
+                }
                 break;
             case R.id.ll_type:
                 mPresenter.getTaskType();
@@ -122,11 +133,14 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 String loanerName = etLoansName.getText().toString();
                 String loanMoney = etLoansMoney.getText().toString();
                 String recommendManager = etRecommendManager.getText().toString();
+                String[] specialCenterBranch = new String[]{"分行营业部", "溧水支行", "高淳支行"};
                 if (StringUtils.isNullOrEmpty(new String[]{taskName, loanerName, loanMoney, recommendManager
-                        , centerBranch, branch, type})) {
+                        , tvCenterBranch.getText().toString(), tvType.getText().toString()})
+                        || (StringUtils.isNullOrEmpty(tvBranch.getText().toString())
+                        && !StringUtils.contains(specialCenterBranch, tvCenterBranch.getText().toString()))) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 } else {
-                    Log.d(TAG, "sponsorLevel:" + sponsorLevel + ",type:" + type);
+                    Log.d(TAG, "centerBranch:" + centerBranch + " ,branch:" + branch);
                     mPresenter.triggerTask(loanerName, loanMoney, centerBranch, branch, type, taskName
                             , recommendManager, sponsorId, sponsorLevel);
                 }
@@ -141,7 +155,12 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, districts, new CustomNumPickeDialog.OnOkClickListener() {
             @Override
             public void onOkClick(int vlueChoose) {
-                centerBranch = (vlueChoose + 1) + "";
+                if (centerBranch != vlueChoose + 1) {
+                    //与上次选择不同
+                    branch = 0;
+                    tvBranch.setText("");
+                }
+                centerBranch = vlueChoose + 1;
                 tvCenterBranch.setText(districts[vlueChoose]);
                 dialog.dismiss();
             }
@@ -155,7 +174,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, branches, new CustomNumPickeDialog.OnOkClickListener() {
             @Override
             public void onOkClick(int vlueChoose) {
-                branch = (vlueChoose + 1) + "";
+                branch = vlueChoose + 1;
                 tvBranch.setText(branches[vlueChoose]);
                 dialog.dismiss();
             }
@@ -170,7 +189,7 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
         dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, types, new CustomNumPickeDialog.OnOkClickListener() {
             @Override
             public void onOkClick(int vlueChoose) {
-                type = (vlueChoose + 1) + "";
+                type = vlueChoose + 1;
                 tvType.setText(types[vlueChoose]);
                 dialog.dismiss();
             }

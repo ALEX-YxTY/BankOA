@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -144,9 +145,7 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
         final TextView tvPaymentTime = (TextView) newItem.findViewById(R.id.tv_payment_time);
         CustomEditText cetPayMoney = (CustomEditText) newItem.findViewById(R.id.cet_payment_money);
         if (item != null) {
-            if (!item.getRepayment_time().equals("0")) {
-                tvPaymentTime.setText(DateUtil.formart2(item.getRepayment_time()));
-            }
+            tvPaymentTime.setText(DateUtil.formart2(item.getRepayment_time()));
             cetPayMoney.setContent(item.getRepayment_money());
         }
         TextView tvTimeName = (TextView) newItem.findViewById(R.id.tv_timeNum);
@@ -161,13 +160,13 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
         llPaymentLine.addView(newItem);
         paymentList.add(tvPaymentTime);
         paymentList.add(cetPayMoney);
+        //新item释放焦点，由第一个可获取焦点的控件获取焦点
+        newItem.clearFocus();
 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                //按钮获取焦点，隐藏光标
-                btInput.requestFocus();
             }
         },200);
     }
@@ -267,7 +266,9 @@ public class PaymentEnterActivity extends AppCompatActivity implements PaymentEn
     public void onPaymentInfoGet(PaymentInfo info) {
         cetCheckMoney.setContent(info.getCheck_money());
         cetMoney.setContent(info.getResult_money());
-        tvLoanTime.setText(DateUtil.formart2(info.getLoad_time()));
+        if (!info.getLoad_time().equals("0")) {
+            tvLoanTime.setText(DateUtil.formart2(info.getLoad_time()));
+        }
         llPaymentLine.removeAllViews();
         for (PaymentDetailItem paymentItem : info.getRepayment_json()) {
             addPayment(paymentItem);

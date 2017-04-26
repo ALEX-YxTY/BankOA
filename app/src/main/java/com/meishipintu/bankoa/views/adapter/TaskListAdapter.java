@@ -16,6 +16,7 @@ import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.views.activities.PaymentDetailActivity;
+import com.meishipintu.bankoa.views.activities.PaymentEnterActivity;
 import com.meishipintu.bankoa.views.activities.TaskActivity;
 import com.meishipintu.bankoa.views.activities.TaskDetailActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.TaskListViewHolder;
@@ -81,12 +82,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         }
         holder.tvCreditName.setText(task.getCredi_name());
 
-        if ("1".equals(task.getIs_finish()) && "1".equals(task.getRepayment_status())) {
-            //已还款完毕
+        if ("1".equals(task.getIs_finish())) {
             holder.tvPercentage.setText("100%");
-        } else if ("1".equals(task.getIs_finish())) {
-            //还款未完毕，任务已结束
-            holder.tvPercentage.setText("99%");
         } else {
             Log.d(TAG, "taskType:" + task.getTask_type());
             Log.d(TAG, "totalLevel:" + OaApplication.nodeNumber.get(task.getTask_type()));
@@ -109,9 +106,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
                     intent.putExtra("task", task);
 
                 } else {
-                    intent = new Intent(mContext, PaymentDetailActivity.class);
+                    intent = new Intent(mContext, PaymentEnterActivity.class);
                     intent.putExtra("task_id", task.getId());
-                    intent.putExtra("repayment_status", task.getRepayment_status());
                 }
                 if (supervisorId != null) {
                     intent.putExtra("supervisor_id", supervisorId);

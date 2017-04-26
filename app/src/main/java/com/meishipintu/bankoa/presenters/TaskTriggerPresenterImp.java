@@ -74,31 +74,26 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
     }
 
     @Override
-    public void getBranches() {
-        if (PreferenceHelper.getBranchList() != null) {
-            view.showBranches(PreferenceHelper.getBranchList());
-        } else {
-            subscriptions.add(httpApi.getBranchList().subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<List<String>>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+    public void getBranches(int centerBranch) {
+        subscriptions.add(httpApi.getBranchList(centerBranch).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            view.showError(e.getMessage());
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showError(e.getMessage());
+                    }
 
-                        @Override
-                        public void onNext(List<String> strings) {
-                            PreferenceHelper.saveBranch(strings);
-                            String[] stringArr = new String[strings.size()];
-                            strings.toArray(stringArr);
-                            view.showBranches(stringArr);
-                        }
-                    }));
-        }
+                    @Override
+                    public void onNext(List<String> strings) {
+                        String[] stringArr = new String[strings.size()];
+                        strings.toArray(stringArr);
+                        view.showBranches(stringArr);
+                    }
+                }));
     }
 
     @Override
@@ -130,8 +125,8 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
     }
 
     @Override
-    public void triggerTask(String loanerName, String loanMoney, String centerBranchType, String branchType
-            , String taskType, final String taskName, final String recommendManager,String uid,String level) {
+    public void triggerTask(String loanerName, String loanMoney, int centerBranchType, int branchType
+            , int taskType, final String taskName, final String recommendManager,String uid,String level) {
 
         subscriptions.add(httpApi.triggerTask(loanerName, loanMoney, centerBranchType, branchType
                 , taskType, taskName, recommendManager, uid, level)

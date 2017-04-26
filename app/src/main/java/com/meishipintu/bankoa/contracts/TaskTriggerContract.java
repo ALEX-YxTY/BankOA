@@ -18,12 +18,12 @@ public interface TaskTriggerContract {
 
         void getCenteralBranches();
 
-        void getBranches();
+        void getBranches(int centerBranch);
 
         void getTaskType();
 
-        void triggerTask(String loanerName, String loanMoney, String centerBranchType, String branchType
-                , String taskType, String taskName, String recommendManager, String uid, String level);
+        void triggerTask(String loanerName, String loanMoney, int centerBranchType, int branchType
+                , int taskType, String taskName, String recommendManager, String uid, String level);
     }
 
 

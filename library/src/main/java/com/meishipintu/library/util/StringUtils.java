@@ -95,4 +95,13 @@ public class StringUtils {
         Matcher m = p.matcher(tel);
         return m.matches();
     }
+
+    public static boolean contains(String[] specialCenterBranch, String s) {
+        for (String item : specialCenterBranch) {
+            if (s.equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

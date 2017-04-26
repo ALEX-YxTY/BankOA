@@ -165,8 +165,8 @@ public class HttpApi {
 
     //发起任务
     public Observable<Task> triggerTask(String credit_name
-            , String apply_money, String credit_center_branch
-            ,String credit_branch, String task_type
+            , String apply_money, int credit_center_branch
+            ,int credit_branch, int task_type
             , String task_name, String credit_manager
             , String sponsor_id, String sponsor_level) {
 //        return httpService.triggerTaskService(map);
@@ -275,8 +275,8 @@ public class HttpApi {
     }
 
     //获取支行列表
-    public Observable<List<String>> getBranchList() {
-        return httpService.getBranchListService().map(new Func1<ResponseBody, List<String>>() {
+    public Observable<List<String>> getBranchList(int centerBranch) {
+        return httpService.getBranchListService(centerBranch).map(new Func1<ResponseBody, List<String>>() {
             @Override
             public List<String> call(ResponseBody responseBody) {
                 List<String> resultList = new ArrayList<String>();

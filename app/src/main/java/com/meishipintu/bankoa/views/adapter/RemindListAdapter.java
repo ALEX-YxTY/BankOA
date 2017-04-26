@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.views.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
     @Override
     public void onBindViewHolder(NoticeViewHolder holder, int position) {
         final UpClassRemind remind = remindList.get(position);
+        Log.d("BankOA", "remind:" + remind.toString());
         if ("1".equals(remind.getType())) {
             requestManager.load(R.drawable.icon_process_notice).into(holder.icon);
         } else if (!StringUtils.isNullOrEmpty(remind.getUrl())) {
