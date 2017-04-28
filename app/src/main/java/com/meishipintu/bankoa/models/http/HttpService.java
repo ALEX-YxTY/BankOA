@@ -52,7 +52,8 @@ public interface HttpService {
 
     //发起任务
     @FormUrlEncoded
-    @POST("Home/Api/startTaskOfStepOne")
+//    @POST("Home/Api/startTaskOfStepOne")
+    @POST("Home/Api/start")
     Observable<HttpResult<Task>> triggerTaskService(@Field("credit_name") String credit_name
             , @Field("apply_money") String apply_money, @Field("credit_center_branch") int credit_center_branch
             , @Field("credit_branch") int credit_branch, @Field("task_type") int task_type
@@ -110,7 +111,8 @@ public interface HttpService {
 
     //完成当前节点
     @FormUrlEncoded
-    @POST("Home/Api/startOtherStepTask")
+//    @POST("Home/Api/startOtherStepTask")
+    @POST("Home/Api/next")
     Observable<ResponseBody> finishNodeService(@Field("user_id") String uid, @Field("task_id") String taskID);
 
     //录入还款信息

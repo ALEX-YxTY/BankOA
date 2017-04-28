@@ -55,10 +55,12 @@ public class SplashActivity extends AppCompatActivity {
                                     .subscribe(new Action1<JSONObject>() {
                                         @Override
                                         public void call(JSONObject jsonObject) {
-                                            PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
-                                            OaApplication.nodeNameList.put(k + "", jsonObject);
-                                            PreferenceHelper.saveNodeNum(k, jsonObject.length());
-                                            OaApplication.nodeNumber.put(k + "", jsonObject.length());
+                                            if (jsonObject.length() > 0) {
+                                                PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
+                                                OaApplication.nodeNameList.put(k + "", jsonObject);
+                                                PreferenceHelper.saveNodeNum(k, jsonObject.length());
+                                                OaApplication.nodeNumber.put(k + "", jsonObject.length());
+                                            }
                                         }
                                     }));
                         }

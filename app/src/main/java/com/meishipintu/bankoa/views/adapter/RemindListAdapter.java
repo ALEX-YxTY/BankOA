@@ -15,6 +15,7 @@ import com.meishipintu.bankoa.models.entity.PaymentDetailItem;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.views.activities.PaymentDetailActivity;
+import com.meishipintu.bankoa.views.activities.PaymentEnterActivity;
 import com.meishipintu.bankoa.views.activities.TaskDetailActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.NoticeViewHolder;
 import com.meishipintu.library.util.DateUtil;
@@ -74,7 +75,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
                     ToastUtils.show(context, R.string.task_deleted, true);
                 } else if ("1".equals(remind.getTask_info().getIs_finish())) {
                     //任务已完成
-                    intent = new Intent(context, PaymentDetailActivity.class);
+                    intent = new Intent(context, PaymentEnterActivity.class);
                     intent.putExtra("task_id", remind.getTask_id());
                 } else {
                     //任务在进行中
