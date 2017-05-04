@@ -258,11 +258,21 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 tvProcessLeft.setVisibility(View.INVISIBLE);
                 ivProcessLeft.setVisibility(View.INVISIBLE);
                 processLineLeft1.setVisibility(View.INVISIBLE);
+                //如果是类型3，第一个节点即是倒数第二个节点
+                if (Integer.parseInt(taskType) == 3) {
+                    processLineRight1.setVisibility(View.INVISIBLE);
+                }
             } else if (level == 2) {
                 processLineLeft1.setVisibility(View.INVISIBLE);
                 processLineLeft2.setVisibility(View.VISIBLE);
                 tvProcessLeft.setVisibility(View.VISIBLE);
                 ivProcessLeft.setVisibility(View.VISIBLE);
+                //如果是类型3，第二个节点即是最后一个节点
+                if (Integer.parseInt(taskType) == 3) {
+                    processLineRight2.setVisibility(View.INVISIBLE);
+                    tvProcessRight.setVisibility(View.INVISIBLE);
+                    ivProcessRight.setVisibility(View.INVISIBLE);
+                }
             } else if (level > OaApplication.nodeNumber.get(taskType) - 2) {
                 processLineRight1.setVisibility(View.INVISIBLE);
                 btEnter.setVisibility(View.VISIBLE);

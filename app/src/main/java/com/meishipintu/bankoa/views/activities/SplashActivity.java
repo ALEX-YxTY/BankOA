@@ -100,7 +100,6 @@ public class SplashActivity extends AppCompatActivity {
             if (msg.what == 0) {
                 SplashActivity activity = reference.get();
                 if (PreferenceHelper.isAutoLogin() && PreferenceHelper.getUserInfo()!= null) {
-//                    JPushInterface.setAlias();
                     activity.startActivity(new Intent(activity, MainActivity.class));
                 } else {
                     activity.startActivity(new Intent(activity, LoginActivity.class));

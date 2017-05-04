@@ -20,6 +20,7 @@ import com.meishipintu.bankoa.views.activities.PaymentEnterActivity;
 import com.meishipintu.bankoa.views.activities.TaskActivity;
 import com.meishipintu.bankoa.views.activities.TaskDetailActivity;
 import com.meishipintu.bankoa.views.adapter.viewHolder.TaskListViewHolder;
+import com.meishipintu.library.util.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,21 +101,28 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         holder.btCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
+                Intent intent = null;
                 if ("0".equals(task.getIs_finish())) {
                     intent = new Intent(mContext, TaskDetailActivity.class);
                     intent.putExtra("task", task);
 
                 } else {
-                    intent = new Intent(mContext, PaymentEnterActivity.class);
-                    intent.putExtra("task_id", task.getId());
+                    if (task.getTask_type().equals("3")) {
+                        //类型三任务完成后无下级页面
+                        ToastUtils.show(mContext, "苏科贷项目无还款节点", true);
+                    } else {
+                        intent = new Intent(mContext, PaymentEnterActivity.class);
+                        intent.putExtra("task_id", task.getId());
+                    }
                 }
-                if (supervisorId != null) {
-                    intent.putExtra("supervisor_id", supervisorId);
-                    intent.putExtra("supervisor_level", supervisorLevel);
+                if (intent != null) {
+                    if (supervisorId != null) {
+                        intent.putExtra("supervisor_id", supervisorId);
+                        intent.putExtra("supervisor_level", supervisorLevel);
+                    }
+                    Activity activity = (Activity) mContext;
+                    activity.startActivityForResult(intent,Constans.PAYMENT);
                 }
-                Activity activity = (Activity) mContext;
-                activity.startActivityForResult(intent,Constans.PAYMENT);
             }
         });
     }
