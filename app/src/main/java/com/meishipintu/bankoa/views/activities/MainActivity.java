@@ -310,7 +310,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
     public void onBackPressed() {
         long clickTime = System.currentTimeMillis();
         if ((clickTime - exitTime) > 1000) {
-            //两次点击超过0.5秒则不视为退出
+            //两次点击超过1秒则不视为退出
             ToastUtils.show(this, R.string.exit, true);
             exitTime = clickTime;
         } else {

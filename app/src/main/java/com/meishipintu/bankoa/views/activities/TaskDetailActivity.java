@@ -251,7 +251,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     public void showGraphic(NodeInfoNow nodeInfoNow) {
         taskLevelNow = nodeInfoNow.getNodeNowLevel();
         taskType = nodeInfoNow.getTaskType();
-        if (OaApplication.nodeNumber.get(taskType) != null) {
+        Integer totalNodeNumber = OaApplication.nodeNumber.get(taskType);
+        if (totalNodeNumber != null && totalNodeNumber >=2) {
             int level = Integer.parseInt(taskLevelNow);
             if (level == 1) {
                 processLineLeft2.setVisibility(View.INVISIBLE);
@@ -273,10 +274,10 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                     tvProcessRight.setVisibility(View.INVISIBLE);
                     ivProcessRight.setVisibility(View.INVISIBLE);
                 }
-            } else if (level > OaApplication.nodeNumber.get(taskType) - 2) {
+            } else if (level > totalNodeNumber - 2) {
                 processLineRight1.setVisibility(View.INVISIBLE);
                 btEnter.setVisibility(View.VISIBLE);
-                if (level == OaApplication.nodeNumber.get(taskType)) {
+                if (level == totalNodeNumber) {
                     processLineRight2.setVisibility(View.INVISIBLE);
                     tvProcessRight.setVisibility(View.INVISIBLE);
                     ivProcessRight.setVisibility(View.INVISIBLE);
@@ -319,12 +320,12 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             tvTitle.setText(nodeInfoNow.getTaskname());
 
             Log.d(TAG, "taskType:" + taskType);
-            Log.d(TAG, "totalLevel:" + OaApplication.nodeNumber.get(taskType));
+            Log.d(TAG, "totalLevel:" + totalNodeNumber);
             Log.d(TAG, "level Now:" + level);
 
             tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
-            if (OaApplication.nodeNumber.get(taskType) != null) {
-                int percentage = (level - 1) * 100 / OaApplication.nodeNumber.get(taskType);
+            if (totalNodeNumber != null && totalNodeNumber >= 2) {
+                int percentage = (level - 1) * 100 / totalNodeNumber;
                 tvPercentage.setText(percentage + "");
             } else {
                 tvPercentage.setText("--");
@@ -438,8 +439,9 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void onFinishNode() {
-        if (OaApplication.nodeNumber.get(taskType) != null) {
-            if (taskLevelNow.equals(OaApplication.nodeNumber.get(taskType) + "")) {
+        Integer totalLevel = OaApplication.nodeNumber.get(taskType);
+        if (totalLevel != null && totalLevel >= 2) {
+            if (taskLevelNow.equals(totalLevel + "")) {
                 setResult(RESULT_OK);
                 ToastUtils.show(this, "本项目已完成", true);
                 this.finish();
