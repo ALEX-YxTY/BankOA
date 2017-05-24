@@ -70,7 +70,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentViewHolder> {
             holder.btReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(commentDetail.getId());
+                    listener.onClick(commentDetail);
                 }
             });
         }

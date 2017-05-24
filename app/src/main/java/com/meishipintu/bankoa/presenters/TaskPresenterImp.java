@@ -1,16 +1,23 @@
 package com.meishipintu.bankoa.presenters;
 
+import android.app.Presentation;
+
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskContract;
+import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -54,6 +61,48 @@ public class TaskPresenterImp implements TaskContract.IPresenter {
                     }
                 }));
 
+    }
+
+    @Override
+    public void getCenterBranch() {
+        List<String> centerBranchList = OaApplication.centerBranchList;
+        if (centerBranchList == null) {
+            subsriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<List<String>>() {
+                        @Override
+                        public void call(List<String> strings) {
+                            PreferenceHelper.saveCenterBranch(strings);
+                            iView.onCenterBranchGet(strings);
+                        }
+                    }));
+        } else {
+            iView.onCenterBranchGet(centerBranchList);
+        }
+    }
+
+    @Override
+    public void getBranchList(int totalNum) {
+        for(int i=1;i<=totalNum;i++) {
+            final int index = i;
+            String[] branchList = OaApplication.branchList.get(index);
+            if (branchList == null) {
+                subsriptions.add(httpApi.getBranchList(i).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<List<String>>() {
+                            @Override
+                            public void call(List<String> strings) {
+                                PreferenceHelper.saveBranch(index, strings);
+                                String[] stringArr = new String[strings.size()];
+                                strings.toArray(stringArr);
+                                OaApplication.branchList.put(index, stringArr);
+                                iView.onBranchListGet(index, stringArr);
+                            }
+                        }));
+            } else {
+                iView.onBranchListGet(i, branchList);
+            }
+        }
     }
 
     //from BasicPresenter.IPresenter

@@ -24,7 +24,12 @@ import com.meishipintu.bankoa.presenters.TaskPresenterImp;
 import com.meishipintu.bankoa.views.adapter.TaskListAdapter;
 import com.meishipintu.library.util.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -60,6 +65,9 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     private List<Task> dataList;
     private int checkNow;
 
+    private List<String> centerBranchList;          //储存中心分行名称
+    private Map<Integer, String[]> branchList;      //储存支行名称
+
     private String uid;                 //当前显示对象的uid
     private String supervisorId;        //当前监管者的uid
     private String supervisorLevel;     //当前监管者的level
@@ -69,10 +77,11 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
-
         DaggerTaskComponent.builder()
                 .taskModule(new TaskModule(this))
                 .build().inject(this);
+        branchList = new HashMap<>();
+        mPresenter.getCenterBranch();
         initUI();
         initVP();
     }
@@ -129,7 +138,8 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
         Log.d(Constans.APP, "show Task:" + taskList.size());
         if (adapter == null) {
             dataList = taskList;
-            adapter = new TaskListAdapter(this, dataList, supervisorId,supervisorLevel);
+            adapter = new TaskListAdapter(this, dataList, supervisorId, supervisorLevel
+                    , centerBranchList, branchList);
             vp.setAdapter(adapter);
         } else {
             dataList.clear();
@@ -145,6 +155,19 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     @Override
     public void showError(String message) {
         ToastUtils.show(this, message, true);
+    }
+
+    //from TaskContract.IView
+    @Override
+    public void onCenterBranchGet(List<String> centerBranch) {
+        this.centerBranchList = centerBranch;
+        mPresenter.getBranchList(centerBranch.size());
+    }
+
+    //from TaskContract.IView
+    @Override
+    public void onBranchListGet(int index, String[] branchList) {
+        this.branchList.put(index, branchList);
     }
 
     @Override

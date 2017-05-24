@@ -122,22 +122,22 @@ public class PreferenceHelper {
         }
     }
 
-    public static void saveBranch(List<String> branchList) {
+    public static void saveBranch(int index, List<String> branchList) {
         StringBuffer sbf = new StringBuffer();
-        for(int i=0;i<branchList.size();i++) {
+        for (int i = 0; i < branchList.size(); i++) {
             sbf.append(branchList.get(i));
             if (i != branchList.size() - 1) {
                 sbf.append(",");
             }
         }
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("branch", sbf.toString());
+        editor.putString("branch"+index, sbf.toString());
         editor.apply();
     }
 
-    public static String[] getBranchList() {
+    public static String[] getBranchList(int index) {
         SharedPreferences sharedPreferences = getSharePreference();
-        String branchList = sharedPreferences.getString("branch", null);
+        String branchList = sharedPreferences.getString("branch" + index, null);
         if (branchList != null) {
             return branchList.split(",");
         } else {

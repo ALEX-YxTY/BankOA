@@ -12,55 +12,55 @@ public class CommentInfo implements Serializable {
 
     private static final long serialVersionUID = 10L;          //序列化验证码
 
-    private String taskOwner;
-    private String userId;
-    private String userLevel;
+    private String commend_user_ed;        //被评论人
+    private String commend_user_owner;     //评论人
+    private String commend_user_owner_level;              //评论人level
     private String task_id;
     private String task_level;
     private String comment_content;
     private String pid;                 //父节点id，默认为0
 
-    public String getTaskOwner() {
-        return taskOwner;
+    public String getCommend_user_ed() {
+        return commend_user_ed;
     }
 
-    public void setTaskOwner(String taskOwner) {
-        this.taskOwner = taskOwner;
+    public void setCommend_user_ed(String commend_user_ed) {
+        this.commend_user_ed = commend_user_ed;
     }
 
-    public CommentInfo(String taskOwner, String userId, String userLevel, String task_id, String task_level, String comment_content, String pid) {
-        this.taskOwner = taskOwner;
-        this.userId = userId;
-        this.userLevel = userLevel;
+    public CommentInfo(String commend_user_ed, String commend_user_owner, String commend_user_owner_level, String task_id, String task_level, String comment_content, String pid) {
+        this.commend_user_ed = commend_user_ed;
+        this.commend_user_owner = commend_user_owner;
+        this.commend_user_owner_level = commend_user_owner_level;
         this.task_id = task_id;
         this.task_level = task_level;
         this.comment_content = comment_content;
         this.pid = pid;
     }
 
-    public CommentInfo(String userId, String userLevel, String task_id, String task_level, String comment_content) {
-        this.userId = userId;
-        this.userLevel = userLevel;
+    public CommentInfo(String commend_user_owner, String commend_user_owner_level, String task_id, String task_level, String comment_content) {
+        this.commend_user_owner = commend_user_owner;
+        this.commend_user_owner_level = commend_user_owner_level;
         this.task_id = task_id;
         this.task_level = task_level;
         this.comment_content = comment_content;
         this.pid = "0";
     }
 
-    public String getUserId() {
-        return userId;
+    public String getCommend_user_owner() {
+        return commend_user_owner;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCommend_user_owner(String commend_user_owner) {
+        this.commend_user_owner = commend_user_owner;
     }
 
-    public String getUserLevel() {
-        return userLevel;
+    public String getCommend_user_owner_level() {
+        return commend_user_owner_level;
     }
 
-    public void setUserLevel(String userLevel) {
-        this.userLevel = userLevel;
+    public void setCommend_user_owner_level(String commend_user_owner_level) {
+        this.commend_user_owner_level = commend_user_owner_level;
     }
 
     public String getTask_id() {
@@ -98,8 +98,8 @@ public class CommentInfo implements Serializable {
     @Override
     public String toString() {
         return "CommentInfo{" +
-                "userId='" + userId + '\'' +
-                ", userLevel='" + userLevel + '\'' +
+                "commend_user_owner='" + commend_user_owner + '\'' +
+                ", commend_user_owner_level='" + commend_user_owner_level + '\'' +
                 ", task_id='" + task_id + '\'' +
                 ", task_level='" + task_level + '\'' +
                 ", comment_content='" + comment_content + '\'' +

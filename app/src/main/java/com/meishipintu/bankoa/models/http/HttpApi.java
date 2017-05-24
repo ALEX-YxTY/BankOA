@@ -1,19 +1,16 @@
 package com.meishipintu.bankoa.models.http;
 
 import android.util.Log;
-import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.PaymentDetailItem;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
-import com.meishipintu.bankoa.models.entity.RemarkInfo;
 import com.meishipintu.bankoa.models.entity.SysNotic;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.models.entity.UserInfo;
-import com.meishipintu.bankoa.models.entity.paymentItem;
 import com.meishipintu.library.util.Encoder;
 
 import org.json.JSONArray;
@@ -23,20 +20,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/3/1.
@@ -223,7 +213,7 @@ public class HttpApi {
 
     //添加评论方法
     public Observable<Boolean> addComment(CommentInfo info) {
-        return httpService.addCommentService(info.getTaskOwner(),info.getUserId(), info.getUserLevel(), info.getTask_id(), info.getTask_level()
+        return httpService.addCommentService(info.getCommend_user_ed(),info.getCommend_user_owner(), info.getCommend_user_owner_level(), info.getTask_id(), info.getTask_level()
                 , info.getComment_content(), info.getPid()).map(new Func1<ResponseBody, Boolean>() {
             @Override
             public Boolean call(ResponseBody responseBody) {

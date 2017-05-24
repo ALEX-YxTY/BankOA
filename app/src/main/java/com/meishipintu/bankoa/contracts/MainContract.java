@@ -21,6 +21,12 @@ public interface MainContract {
         void getNewestRemind(String uid);
 
         void getVersionInfo();
+
+        void getCenterBranchList();
+
+        void getTaskTypeList();
+
+        void getDepartmentList();
     }
 
     interface IView extends BasicView {

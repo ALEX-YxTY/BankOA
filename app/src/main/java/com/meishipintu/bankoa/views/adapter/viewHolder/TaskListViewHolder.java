@@ -33,6 +33,8 @@ public class TaskListViewHolder extends RecyclerView.ViewHolder {
     public TextView tvTaskType;
     @BindView(R.id.tv_credit_name)
     public TextView tvCreditName;
+    @BindView(R.id.tv_recommend_name)
+    public TextView tvRecommendName;
 
     public TaskListViewHolder(View itemView) {
         super(itemView);

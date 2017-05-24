@@ -15,11 +15,21 @@ import java.util.List;
 public interface SearchContract {
 
     interface IPresenter extends BasicPresenter{
+
         void search(String level, String department_id, String uid, String searchContent);
+
+        void getCenterBranch();
+
+        void getBranchList(int totalNum);
     }
 
     interface IView extends BasicView{
+
         void showResult(List<Task> taskList);
+
+        void onCenterBranchGet(List<String> centerBranch);
+
+        void onBranchListGet(int index, String[] branchList);
     }
 
 }

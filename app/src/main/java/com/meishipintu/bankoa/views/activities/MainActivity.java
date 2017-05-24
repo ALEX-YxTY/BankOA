@@ -30,6 +30,9 @@ import com.meishipintu.library.util.ToastUtils;
 import com.meishipintu.library.view.CircleImageView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,6 +42,7 @@ import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created 2017-3-1
@@ -83,7 +87,7 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
 
         DaggerMainComponent.builder().mainModule(new MainModule(this))
                 .build().inject(this);
-
+        downLoadResource();
         checkVersion();
         //申请权限
         storagePermissionWapper();
@@ -100,6 +104,13 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
                         }
                     }
                 });
+    }
+
+    //下载固定资源
+    private void downLoadResource() {
+        mPresenter.getDepartmentList();
+        mPresenter.getCenterBranchList();
+        mPresenter.getTaskTypeList();
     }
 
     @Override
@@ -174,7 +185,6 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
             return;
         }
     }
-
 
 
     //检查系统版本
@@ -309,8 +319,8 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
     @Override
     public void onBackPressed() {
         long clickTime = System.currentTimeMillis();
-        if ((clickTime - exitTime) > 1000) {
-            //两次点击超过1秒则不视为退出
+        if ((clickTime - exitTime) > 1500) {
+            //两次点击超过1.5秒则不视为退出
             ToastUtils.show(this, R.string.exit, true);
             exitTime = clickTime;
         } else {

@@ -13,6 +13,9 @@ import com.tencent.bugly.Bugly;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
@@ -28,6 +31,8 @@ public class OaApplication extends Application {
     private static UserInfo user;
     public static Map<String,JSONObject> nodeNameList;
     public static Map<String, Integer> nodeNumber;
+    public static List<String> centerBranchList;
+    public static Map<Integer, String[]> branchList;
     public static JSONObject departmentList;
 
     public static OaApplication getInstance() {
@@ -60,6 +65,17 @@ public class OaApplication extends Application {
         nodeNameList = PreferenceHelper.getNodeNameList();
         nodeNumber = PreferenceHelper.getNodeNum();
         departmentList = PreferenceHelper.getDepartmentList();
+        String[] ceterBranchList = PreferenceHelper.getCeterBranchList();
+        if (ceterBranchList != null) {
+            centerBranchList = Arrays.asList(ceterBranchList);
+        }
+        branchList = new HashMap<>();
+        for (int i = 0; i < centerBranchList.size(); i ++) {
+            String[] branchList = PreferenceHelper.getBranchList(i + 1);
+            if (branchList != null) {
+                OaApplication.branchList.put(i + 1, branchList);
+            }
+        }
     }
 
     public ApplicationComponent getApplicationComponent() {

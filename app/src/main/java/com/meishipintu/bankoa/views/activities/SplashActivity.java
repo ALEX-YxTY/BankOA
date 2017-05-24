@@ -32,50 +32,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         httpApi = HttpApi.getInstance();
         subscriptions = new CompositeSubscription();
-        downLoadResource();
-    }
-
-    private void downLoadResource() {
-        subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<List<String>>() {
-                    @Override
-                    public void call(List<String> strings) {
-                        PreferenceHelper.saveCenterBranch(strings);
-                    }
-                }));
-
-        subscriptions.add(httpApi.getTaskTypeList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<List<String>>() {
-                    @Override
-                    public void call(List<String> strings) {
-                        PreferenceHelper.saveTaskType(strings);
-                        for(int i=1;i<=strings.size();i++) {
-                            final int k = i;
-                            subscriptions.add(httpApi.getNodeNameList(i).subscribeOn(Schedulers.io())
-                                    .subscribe(new Action1<JSONObject>() {
-                                        @Override
-                                        public void call(JSONObject jsonObject) {
-                                            if (jsonObject.length() > 0) {
-                                                PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
-                                                OaApplication.nodeNameList.put(k + "", jsonObject);
-                                                PreferenceHelper.saveNodeNum(k, jsonObject.length());
-                                                OaApplication.nodeNumber.put(k + "", jsonObject.length());
-                                            }
-                                        }
-                                    }));
-                        }
-                    }
-                }));
-
-        subscriptions.add(httpApi.getDepartmentList().subscribeOn(Schedulers.io())
-                .subscribe(new Action1<JSONObject>() {
-                    @Override
-                    public void call(JSONObject jsonObject) {
-                        PreferenceHelper.saveDepartmentList(jsonObject.toString());
-                        OaApplication.departmentList = jsonObject;
-                    }
-                }));
-
         myHandler.sendEmptyMessageDelayed(0, 3500);
     }
 

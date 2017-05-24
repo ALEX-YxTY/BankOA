@@ -25,7 +25,9 @@ import com.meishipintu.bankoa.presenters.SearchPresenterImp;
 import com.meishipintu.bankoa.views.adapter.TaskListAdapter;
 import com.meishipintu.library.util.ToastUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -54,6 +56,9 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
     private RecyclerView.Adapter adapter;
     private List<Task> dataList;
 
+    private List<String> centerBranchList;          //储存中心分行名称
+    private Map<Integer, String[]> branchList;      //储存支行名称
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,8 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
 
         DaggerSearchComponent.builder().searchMoudule(new SearchMoudule(this))
                 .build().inject(this);
+        branchList = new HashMap<>();
+        mPresenter.getCenterBranch();
         setListener();
         initRv();
     }
@@ -103,7 +110,7 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
             // 如果sponsorId = supervisorId，则为本人项目，否则为监管项目
             dataList = taskList;
             adapter = new TaskListAdapter(this, dataList, OaApplication.getUser().getUid()
-                    , OaApplication.getUser().getLevel());
+                    , OaApplication.getUser().getLevel(),centerBranchList,branchList);
             rv.setAdapter(adapter);
         } else {
             dataList.clear();
@@ -115,6 +122,19 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
         } else {
             tvEmpty.setVisibility(View.GONE);
         }
+    }
+
+    //from TaskContract.IView
+    @Override
+    public void onCenterBranchGet(List<String> centerBranch) {
+        this.centerBranchList = centerBranch;
+        mPresenter.getBranchList(centerBranch.size());
+    }
+
+    //from TaskContract.IView
+    @Override
+    public void onBranchListGet(int index, String[] branchList) {
+        this.branchList.put(index, branchList);
     }
 
     //from BasicView

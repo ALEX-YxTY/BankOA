@@ -46,7 +46,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
     private String supervisorId = null;     //监管人的uid
     private String supervisorLevel = null;     //监管人的level
 
-    public TaskListAdapter(Context context, List<Task> list,String s_uid,String s_level) {
+    private List<String> centerBranch;              //中心支行列表
+    private Map<Integer, String[]> branchList;      //分行列表
+
+    public TaskListAdapter(Context context, List<Task> list, String s_uid, String s_level
+            , List<String> centerBranch, Map<Integer, String[]> branchList) {
+        this.centerBranch = centerBranch;
+        this.branchList = branchList;
         this.dataList = list;
         this.mContext = context;
         this.supervisorId = s_uid;
@@ -82,14 +88,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
             holder.tvTaskType.setText(taskTypeList[Integer.parseInt(task.getTask_type())-1]);
         }
         holder.tvCreditName.setText(task.getCredi_name());
-
+        int centerBranchId = Integer.parseInt(task.getCredit_center_branch());
+        int branchId = Integer.parseInt(task.getCredit_branch());
+//        Log.d("LoginPresenter", "centerId:" + centerBranchId + ",branchId:" + branchId);
+        String centerBranch = this.centerBranch.get(centerBranchId-1);
+        String branch = "";
+        String[] branchStrings = this.branchList.get(centerBranchId);
+        if (branchStrings != null && branchStrings.length > 0 && branchId <= branchStrings.length) {
+            branch = "-" + branchStrings[branchId-1];
+        }
+        holder.tvRecommendName.setText(centerBranch + branch);
         if ("1".equals(task.getIs_finish())) {
             holder.tvPercentage.setText("100%");
         } else {
-            Log.d(TAG, "taskType:" + task.getTask_type());
-            Log.d(TAG, "totalLevel:" + OaApplication.nodeNumber.get(task.getTask_type()));
-            Log.d(TAG, "level Now:" + task.getLevel());
-
             if (OaApplication.nodeNumber.get(task.getTask_type()) != null
                     && OaApplication.nodeNumber.get(task.getTask_type()) != 0) {
                 int percentage = ((Integer.parseInt(task.getLevel()) - 1) * 100 / OaApplication.nodeNumber.get(task.getTask_type()));

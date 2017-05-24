@@ -13,6 +13,8 @@ import com.meishipintu.bankoa.models.http.HttpApi;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +49,8 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     @Override
     public void getCenteralBranches() {
-        if (PreferenceHelper.getCeterBranchList() != null) {
-            view.showCenteralBranches(PreferenceHelper.getCeterBranchList());
-        } else {
+        List<String> ceterBranchList = OaApplication.centerBranchList;
+        if (ceterBranchList == null) {
             subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<List<String>>() {
@@ -65,35 +66,53 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
                         @Override
                         public void onNext(List<String> strings) {
                             PreferenceHelper.saveCenterBranch(strings);
+                            OaApplication.centerBranchList = strings;
                             String[] stringArr = new String[strings.size()];
                             strings.toArray(stringArr);
                             view.showCenteralBranches(stringArr);
                         }
                     }));
+        } else {
+            String[] stringArr = new String[ceterBranchList.size()];
+            ceterBranchList.toArray(stringArr);
+            view.showCenteralBranches(stringArr);
         }
     }
 
     @Override
-    public void getBranches(int centerBranch) {
-        subscriptions.add(httpApi.getBranchList(centerBranch).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<String>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+    public void getBranches(final int centerBranch) {
+        String[] branchList = OaApplication.branchList.get(centerBranch);
+        if (branchList == null) {
+            subscriptions.add(httpApi.getBranchList(centerBranch).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<String>>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.showError(e.getMessage());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            view.showError(e.getMessage());
+                        }
 
-                    @Override
-                    public void onNext(List<String> strings) {
-                        String[] stringArr = new String[strings.size()];
-                        strings.toArray(stringArr);
-                        view.showBranches(stringArr);
-                    }
-                }));
+                        @Override
+                        public void onNext(List<String> strings) {
+                            PreferenceHelper.saveBranch(centerBranch, strings);
+                            String[] stringArr = new String[strings.size()];
+                            strings.toArray(stringArr);
+                            OaApplication.branchList.put(centerBranch, stringArr);
+                            if (stringArr.length == 0) {
+                                view.showError("该分行没有下级支行！");
+                            } else {
+                                view.showBranches(stringArr);
+                            }
+                        }
+                    }));
+        }else if (branchList.length == 0) {
+            view.showError("该分行没有下级支行！");
+        } else {
+            view.showBranches(branchList);
+        }
     }
 
     @Override

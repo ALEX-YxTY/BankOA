@@ -74,6 +74,7 @@ public interface HttpService {
     //添加评论接口
     @FormUrlEncoded
     @POST("Home/Api/doTaskComment")
+    //"user_id" 被评论人id  "comment_user_id" 评论人id
     Observable<ResponseBody> addCommentService(@Field("user_id") String sponsorId, @Field("comment_user_id") String userId, @Field("comment_user_level") String user_level
             , @Field("task_id") String taskId, @Field("task_level") String level, @Field("comment_content") String cotent
             , @Field("pid") String pid);

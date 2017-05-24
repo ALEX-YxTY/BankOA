@@ -121,9 +121,9 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     private List<RemarkInfo> remarkList;        //备注数据
     private CommentsAdapter commentsAdapter;    //评论Adapter
     private List<CommentDetail> commentList;    //评论数据
-    private String pid = "0";                   //默认评论父节点为0
     private InputMethodManager inputService;    //软键盘管理者
     private Dialog mDialog;
+    private CommentDetail commentDetailNow = null;         //当前评论的comment
 
 
     @Inject
@@ -140,15 +140,17 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         supervisorId = getIntent().getStringExtra("supervisor_id");
         supervisorLevel = getIntent().getStringExtra("supervisor_level");
         inputService = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        //评论增加监听，在失焦时重置pid
+        //评论增加监听，在失焦时重置commentDetailNow为null，即不是回复状态
         etRemark.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 Log.d(TAG, "focus changed:" + hasFocus);
                 if (!hasFocus) {
-                    etRemark.setText("");
-                    pid = "0";
                     btFinish.requestFocus();
+                    //初始化评论条
+                    etRemark.setText("");
+                    commentDetailNow = null;
+                    initCommentButton();
                 }
             }
         });
@@ -159,13 +161,22 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
 
     private void initUI() {
         mPresenter.getTaskInfo(taskId);
-        if (supervisorId != null && !supervisorId.equals(sponsorId)) {
-            tvAddRemark.setText(R.string.comment);
-            etRemark.setHint(R.string.comment_please);
-        }
+        initCommentButton();
         tvSubTitle.setText(R.string.del);
         tvSubTitle.setVisibility(View.VISIBLE);
         tvSubTitle.setTextColor(0xffff6c5d);
+    }
+
+    //初始化评论按钮
+    private void initCommentButton() {
+        Log.d("RemindListAdapter", "supervisorid:" + supervisorId + ",sponsorId:" + sponsorId);
+        if (supervisorId != null && !supervisorId.equals(sponsorId)) {
+            tvAddRemark.setText(R.string.comment);
+            etRemark.setHint(R.string.comment_please);
+        } else {
+            tvAddRemark.setText(R.string.note);
+            etRemark.setHint(R.string.note_please);
+        }
     }
 
     @OnClick({R.id.bt_back, R.id.bt_finish, R.id.bt_see_all, R.id.tv_add_remark, R.id.tv_subTitle,R.id.bt_enter})
@@ -202,12 +213,31 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 if (StringUtils.isNullOrEmpty(input)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 }
-                if (supervisorId == null || supervisorId.equals(sponsorId)) {
-                    mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
+                if (commentDetailNow != null) {
+                    //回复
+                    if (supervisorId == null || supervisorId.equals(sponsorId)) {
+                        //下属回复主管
+                        mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
+                                , sponsorId, OaApplication.getUser().getLevel()
+                                , taskId, taskLevelNow, input, commentDetailNow.getId()));
+                    } else  {
+                        //主管回复主管
+                        mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
+                                , supervisorId, supervisorLevel
+                                , taskId, taskLevelNow, input, commentDetailNow.getId()));
+                    }
+
                 } else {
-                    mPresenter.addNodeComment(new CommentInfo(sponsorId, supervisorId, supervisorLevel
-                            , taskId, taskLevelNow, input, pid));
+                    if (supervisorId == null || supervisorId.equals(sponsorId)) {
+                        //添加备注
+                        mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
+                    } else  {
+                        //添加评论
+                        mPresenter.addNodeComment(new CommentInfo(sponsorId, supervisorId, supervisorLevel
+                                , taskId, taskLevelNow, input, "0"));
+                    }
                 }
+
                 break;
             case R.id.bt_back:
                 onBackPressed();
@@ -276,7 +306,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 }
             } else if (level > totalNodeNumber - 2) {
                 processLineRight1.setVisibility(View.INVISIBLE);
-                btEnter.setVisibility(View.VISIBLE);
                 if (level == totalNodeNumber) {
                     processLineRight2.setVisibility(View.INVISIBLE);
                     tvProcessRight.setVisibility(View.INVISIBLE);
@@ -291,6 +320,10 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 processLineRight2.setVisibility(View.VISIBLE);
                 tvProcessRight.setVisibility(View.VISIBLE);
                 ivProcessRight.setVisibility(View.VISIBLE);
+            }
+
+            if (level > totalNodeNumber - 3 && Integer.parseInt(taskType) != 3) {
+                btEnter.setVisibility(View.VISIBLE);
             }
 
             if (nodeInfoNow.getNodeBeforeName() != null) {
@@ -410,9 +443,10 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             commentList = commentDetailData;
             commentsAdapter = new CommentsAdapter(this, commentList, new ReplyClickListener() {
                 @Override
-                public void onClick(String id) {
-                    pid = id;
+                public void onClick(CommentDetail commentDetail) {
+                    commentDetailNow = commentDetail;
                     etRemark.requestFocus();
+                    tvAddRemark.setText(R.string.reply);
                     changSoftInputWindow(false);
                 }
             });
@@ -428,7 +462,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     @Override
     public void onAddSuccess(int type) {
         ToastUtils.show(this, type == 1 ? R.string.add_comment_success : R.string.add_remark_success, true);
-        etRemark.setText("");
         etRemark.clearFocus();
         changSoftInputWindow(true);
         //刷新界面

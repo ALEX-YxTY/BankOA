@@ -13,6 +13,8 @@
     <string name="close">关闭</string>
     <string name="homePage">主页</string>
     <string name="comment">评论</string>
+    <string name="note">备注</string>
+    <string name="reply">回复</string>
     <string name="input">录入</string>
     <string name="del">删除</string>
     <string name="out_of_time">超时 </string>
@@ -39,6 +41,7 @@
     <string name="process_percentage">完成进度：</string>
     <string name="task_type">任务类型：</string>
     <string name="credit_name">客户名称：</string>
+    <string name="recommend">推荐机构： </string>
 
     <string name="empty_notice">你还没有通知哦~</string>
     <string name="add_remark_success">添加备注成功</string>
@@ -51,6 +54,7 @@
     <string name="search_please">请输入您要查询的内容</string>
     <string name="time_remain">距离此节点截止时间还有 </string>
     <string name="comment_please">请输入您的评论</string>
+    <string name="note_please">请输入您的备注</string>
     <string name="exit">再按一次退出掌上进程</string>
 
 

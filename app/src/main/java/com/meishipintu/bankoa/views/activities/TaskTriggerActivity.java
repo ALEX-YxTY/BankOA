@@ -113,14 +113,9 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 mPresenter.getCenteralBranches();
                 break;
             case R.id.ll_branch:
-                String centerChoose = tvCenterBranch.getText().toString();
                 if (centerBranch == 0) {
                     //中心支行未选择
                     showError("请先选择中心支行");
-                } else if (centerChoose.equals("分行营业部") || centerChoose.equals("溧水支行")
-                        || centerChoose.equals("高淳支行")) {
-                    //没有支行
-                    showError("该中心支行没有下级支行");
                 } else {
                     mPresenter.getBranches(centerBranch);
                 }

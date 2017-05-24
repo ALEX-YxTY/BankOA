@@ -9,6 +9,10 @@ import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -72,6 +76,71 @@ public class MainPresenterImp implements MainContract.IPresenter {
     @Override
     public void getVersionInfo() {
         //TODO 获取当前最新版本信息
+    }
+
+    @Override
+    public void getCenterBranchList() {
+        subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+                        for(int i=0;i<strings.size();i++) {
+                            final int index = i + 1;
+                            subscriptions.add(httpApi.getBranchList(index).subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Action1<List<String>>() {
+                                        @Override
+                                        public void call(List<String> strings) {
+                                            PreferenceHelper.saveBranch(index,strings);
+                                            String[] stringArr = new String[strings.size()];
+                                            strings.toArray(stringArr);
+                                            OaApplication.branchList.put(index, stringArr);
+                                        }
+                                    }));
+                        }
+                        PreferenceHelper.saveCenterBranch(strings);
+                        OaApplication.centerBranchList = strings;
+                    }
+                }));
+    }
+
+    @Override
+    public void getTaskTypeList() {
+        subscriptions.add(httpApi.getTaskTypeList().subscribeOn(Schedulers.io())
+                .subscribe(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+                        PreferenceHelper.saveTaskType(strings);
+                        for(int i=1;i<=strings.size();i++) {
+                            final int k = i;
+                            subscriptions.add(httpApi.getNodeNameList(i).subscribeOn(Schedulers.io())
+                                    .subscribe(new Action1<JSONObject>() {
+                                        @Override
+                                        public void call(JSONObject jsonObject) {
+                                            if (jsonObject.length() > 0) {
+                                                PreferenceHelper.saveNodeNameList(k, jsonObject.toString());
+                                                OaApplication.nodeNameList.put(k + "", jsonObject);
+                                                PreferenceHelper.saveNodeNum(k, jsonObject.length());
+                                                OaApplication.nodeNumber.put(k + "", jsonObject.length());
+                                            }
+                                        }
+                                    }));
+                        }
+                    }
+                }));
+    }
+
+    @Override
+    public void getDepartmentList() {
+        subscriptions.add(httpApi.getDepartmentList().subscribeOn(Schedulers.io())
+                .subscribe(new Action1<JSONObject>() {
+                    @Override
+                    public void call(JSONObject jsonObject) {
+                        PreferenceHelper.saveDepartmentList(jsonObject.toString());
+                        OaApplication.departmentList = jsonObject;
+                    }
+                }));
     }
 
     //from BasicPresenter.IPresenter

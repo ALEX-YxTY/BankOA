@@ -1,5 +1,8 @@
 package com.meishipintu.bankoa.views.adapter;
 
+import com.meishipintu.bankoa.models.entity.CommentDetail;
+import com.meishipintu.bankoa.models.entity.CommentInfo;
+
 /**
  * Created by Administrator on 2017/3/24.
  * <p>
@@ -8,5 +11,5 @@ package com.meishipintu.bankoa.views.adapter;
 
 public interface ReplyClickListener {
 
-    void onClick(String id);
+    void onClick(CommentDetail commentDetail);
 }
