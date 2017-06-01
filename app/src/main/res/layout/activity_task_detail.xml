@@ -149,6 +149,8 @@
                         android:textSize="10sp"
                         android:textColor="@color/white"
                         android:text="完成"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
                         />
                     <!--完成度-->
                     <LinearLayout

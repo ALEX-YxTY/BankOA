@@ -70,10 +70,12 @@ public class OaApplication extends Application {
             centerBranchList = Arrays.asList(ceterBranchList);
         }
         branchList = new HashMap<>();
-        for (int i = 0; i < centerBranchList.size(); i ++) {
-            String[] branchList = PreferenceHelper.getBranchList(i + 1);
-            if (branchList != null) {
-                OaApplication.branchList.put(i + 1, branchList);
+        if (ceterBranchList != null) {
+            for (int i = 0; i < centerBranchList.size(); i ++) {
+                String[] branchList = PreferenceHelper.getBranchList(i + 1);
+                if (branchList != null) {
+                    OaApplication.branchList.put(i + 1, branchList);
+                }
             }
         }
     }

@@ -145,10 +145,10 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     @Override
     public void triggerTask(String loanerName, String loanMoney, int centerBranchType, int branchType
-            , int taskType, final String taskName, final String recommendManager,String uid,String level) {
+            , int taskType, final String recommendManager,String uid,String level) {
 
         subscriptions.add(httpApi.triggerTask(loanerName, loanMoney, centerBranchType, branchType
-                , taskType, taskName, recommendManager, uid, level)
+                , taskType,recommendManager, uid, level)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Task>() {

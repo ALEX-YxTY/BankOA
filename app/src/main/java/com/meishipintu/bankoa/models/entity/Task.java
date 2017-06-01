@@ -17,7 +17,6 @@ public class Task implements Serializable{
     private String credit_center_branch;
     private String credit_branch;
     private String task_type;
-    private String task_name;
     private String sponsor_id;
     private String sponsor_level;
     private String level;               //当前
@@ -31,6 +30,15 @@ public class Task implements Serializable{
     private String credit_manager;
     private String repayment_status;    //标准任务还款是否已还完
     private String is_del;              //标注是否已删除
+    private String sponsor_name;
+
+    public String getSponsor_name() {
+        return sponsor_name;
+    }
+
+    public void setSponsor_name(String sponsor_name) {
+        this.sponsor_name = sponsor_name;
+    }
 
     public String getIs_del() {
         return is_del;
@@ -133,14 +141,6 @@ public class Task implements Serializable{
         this.task_type = task_type;
     }
 
-    public String getTask_name() {
-        return task_name;
-    }
-
-    public void setTask_name(String task_name) {
-        this.task_name = task_name;
-    }
-
     public String getSponsor_id() {
         return sponsor_id;
     }
@@ -206,7 +206,7 @@ public class Task implements Serializable{
                 ", credit_center_branch='" + credit_center_branch + '\'' +
                 ", credit_branch='" + credit_branch + '\'' +
                 ", task_type='" + task_type + '\'' +
-                ", task_name='" + task_name + '\'' +
+                ", sponsor_name='" + sponsor_name + '\'' +
                 ", sponsor_id='" + sponsor_id + '\'' +
                 ", sponsor_level='" + sponsor_level + '\'' +
                 ", level='" + level + '\'' +

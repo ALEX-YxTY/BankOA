@@ -157,11 +157,11 @@ public class HttpApi {
     public Observable<Task> triggerTask(String credit_name
             , String apply_money, int credit_center_branch
             ,int credit_branch, int task_type
-            , String task_name, String credit_manager
+            , String credit_manager
             , String sponsor_id, String sponsor_level) {
 //        return httpService.triggerTaskService(map);
         return httpService.triggerTaskService(credit_name,apply_money,credit_center_branch,credit_branch
-                ,task_type,task_name,credit_manager,sponsor_id,sponsor_level).map(new ResultFunction<Task>());
+                ,task_type,credit_manager,sponsor_id,sponsor_level).map(new ResultFunction<Task>());
     }
 
     //获取当前任务信息
@@ -531,13 +531,13 @@ public class HttpApi {
     }
 
     //获取提醒
-    public Observable<List<UpClassRemind>> getRemind(String uid) {
-        return httpService.getRemindService(uid).map(new ResultFunction<List<UpClassRemind>>());
+    public Observable<List<UpClassRemind>> getRemind(String uid, int page) {
+        return httpService.getRemindService(uid, page).map(new ResultFunction<List<UpClassRemind>>());
     }
 
     //获取最新系统通知id数
     public Observable<Integer> getNewestRemindNumber(String uid) {
-        return httpService.getRemindService(uid).map(new ResultFunction<List<UpClassRemind>>())
+        return httpService.getRemindService(uid, 1).map(new ResultFunction<List<UpClassRemind>>())
                 .map(new Func1<List<UpClassRemind>, Integer>() {
                     @Override
                     public Integer call(List<UpClassRemind> noticList) {

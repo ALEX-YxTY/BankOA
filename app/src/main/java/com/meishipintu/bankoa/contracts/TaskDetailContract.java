@@ -38,6 +38,8 @@ public interface TaskDetailContract {
 
         void recoverBtFinish();
 
+        void recoverAdRemarkFinish();
+
         void onAddSuccess(int type);
 
         void showGraphic(NodeInfoNow nodeInfoNow);

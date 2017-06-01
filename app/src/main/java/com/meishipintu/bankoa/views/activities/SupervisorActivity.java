@@ -77,12 +77,12 @@ public class SupervisorActivity extends AppCompatActivity implements SupervisorC
         mPresenter.getUserInfo(uid);
     }
 
-    @OnClick({R.id.message, R.id.task, R.id.task_trigger, R.id.check, R.id.bt_search})
+    @OnClick({R.id.bt_back, R.id.message, R.id.task, R.id.task_trigger, R.id.check, R.id.bt_search})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.message:
-                intent= new Intent(SupervisorActivity.this, NoticActivity.class);
+                intent = new Intent(SupervisorActivity.this, NoticActivity.class);
                 break;
             case R.id.task:
                 intent = new Intent(SupervisorActivity.this, TaskActivity.class);

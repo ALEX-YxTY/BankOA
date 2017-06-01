@@ -74,11 +74,6 @@ public class MainPresenterImp implements MainContract.IPresenter {
     }
 
     @Override
-    public void getVersionInfo() {
-        //TODO 获取当前最新版本信息
-    }
-
-    @Override
     public void getCenterBranchList() {
         subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

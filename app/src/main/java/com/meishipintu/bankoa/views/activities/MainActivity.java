@@ -1,9 +1,12 @@
 package com.meishipintu.bankoa.views.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -87,8 +90,11 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
 
         DaggerMainComponent.builder().mainModule(new MainModule(this))
                 .build().inject(this);
-        downLoadResource();
-        checkVersion();
+        if (isNetworkConnected(this)) {
+            downLoadResource();
+        } else {
+            showError("当前无网络连接");
+        }
         //申请权限
         storagePermissionWapper();
         phonePermissionWapper();
@@ -104,6 +110,20 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
                         }
                     }
                 });
+        tvTitle.setText(R.string.homePage);
+    }
+
+    //获取当前网络状态
+    public boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
     //下载固定资源
@@ -186,20 +206,16 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
         }
     }
 
-
-    //检查系统版本
-    private void checkVersion() {
-        mPresenter.getVersionInfo();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        initUI();
+        if (isNetworkConnected(this)) {
+            initUI();
+        }
     }
 
     private void initUI() {
-        tvTitle.setText(R.string.homePage);
+        showRedPoint(false);
         mPresenter.getUserInfo();
         //获取最新系统消息
         mPresenter.getNewestNotice();
@@ -217,7 +233,9 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
                 if (newestRemind > 0) {
                     PreferenceHelper.saveNewestRemind(newestRemind);
                 }
-                startActivity(new Intent(MainActivity.this, NoticActivity.class));
+                Intent intent = new Intent(MainActivity.this, NoticActivity.class);
+                intent.putExtra("fromMain", true);
+                startActivity(intent);
                 break;
             case R.id.task:
                 startActivity(new Intent(MainActivity.this, TaskActivity.class));
@@ -279,8 +297,6 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
         if (PreferenceHelper.getNewestNotice() < number) {
             showRedPoint(true);
             newestNotice = number;
-        } else {
-            showRedPoint(false);
         }
     }
 
@@ -290,8 +306,6 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
         if (PreferenceHelper.getNewestRemind() < number) {
             showRedPoint(true);
             newestRemind = number;
-        } else {
-            showRedPoint(false);
         }
     }
 

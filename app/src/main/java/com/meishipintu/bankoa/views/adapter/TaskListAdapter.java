@@ -73,7 +73,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         } else {
             holder.icon.setImageResource(R.drawable.icon_task_unfinished);
         }
-        holder.tvTaskName.setText(task.getTask_name());
+        holder.tvTaskName.setText(task.getCredi_name());
         JSONObject nodeNameList = OaApplication.nodeNameList.get(task.getTask_type());
         if (nodeNameList != null) {
             try {
@@ -87,7 +87,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         if (taskTypeList.length > 0 && taskTypeList.length >= Integer.parseInt(task.getTask_type())) {
             holder.tvTaskType.setText(taskTypeList[Integer.parseInt(task.getTask_type())-1]);
         }
-        holder.tvCreditName.setText(task.getCredi_name());
+        holder.tvApplyMoney.setText(task.getApply_money());
+        holder.tvSponsorName.setText(task.getSponsor_name());
         int centerBranchId = Integer.parseInt(task.getCredit_center_branch());
         int branchId = Integer.parseInt(task.getCredit_branch());
 //        Log.d("LoginPresenter", "centerId:" + centerBranchId + ",branchId:" + branchId);

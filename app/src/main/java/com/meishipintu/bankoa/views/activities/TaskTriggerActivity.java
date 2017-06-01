@@ -42,8 +42,6 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
     private static final String TAG = "BankOA-TaskTrigger";
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.et_task_name)
-    EditText etTaskName;
     @BindView(R.id.et_loans_name)
     EditText etLoansName;
     @BindView(R.id.et_loans_money)
@@ -124,20 +122,19 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
                 mPresenter.getTaskType();
                 break;
             case R.id.bt_trigger:
-                String taskName = etTaskName.getText().toString();
                 String loanerName = etLoansName.getText().toString();
                 String loanMoney = etLoansMoney.getText().toString();
                 String recommendManager = etRecommendManager.getText().toString();
                 String[] specialCenterBranch = new String[]{"分行营业部", "溧水支行", "高淳支行"};
-                if (StringUtils.isNullOrEmpty(new String[]{taskName, loanerName, loanMoney, recommendManager
+                if (StringUtils.isNullOrEmpty(new String[]{loanerName, loanMoney, recommendManager
                         , tvCenterBranch.getText().toString(), tvType.getText().toString()})
                         || (StringUtils.isNullOrEmpty(tvBranch.getText().toString())
                         && !StringUtils.contains(specialCenterBranch, tvCenterBranch.getText().toString()))) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
                 } else {
                     Log.d(TAG, "centerBranch:" + centerBranch + " ,branch:" + branch);
-                    mPresenter.triggerTask(loanerName, loanMoney, centerBranch, branch, type, taskName
-                            , recommendManager, sponsorId, sponsorLevel);
+                    mPresenter.triggerTask(loanerName, loanMoney, centerBranch, branch, type,
+                            recommendManager, sponsorId, sponsorLevel);
                 }
                 break;
         }

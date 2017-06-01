@@ -39,35 +39,6 @@
                     android:text="@string/task_info"/>
             </RelativeLayout>
 
-            <!--项目名称-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:paddingTop="9dp"
-                android:paddingBottom="9dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:background="@drawable/selector_et_border">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    style="@style/text_comment"
-                    android:text="项目名称*"/>
-                <EditText
-                    android:id="@+id/et_task_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@null"
-                    style="@style/text_comment"
-                    android:singleLine="true"
-                    android:hint="请输入项目名称"
-                    android:textColorHint="@color/text_gray2"/>
-
-            </LinearLayout>
             <!--客户名称-->
             <LinearLayout
                 android:layout_width="match_parent"

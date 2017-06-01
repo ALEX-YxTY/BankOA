@@ -1,11 +1,15 @@
 package com.meishipintu.bankoa.presenters;
 
+import android.util.Log;
+
 import com.meishipintu.bankoa.contracts.NoticContract;
+import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.SysNotic;
 import com.meishipintu.bankoa.models.entity.UpClassRemind;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -34,8 +38,12 @@ public class NoticePresenterImp implements NoticContract.IPresenter{
     }
 
     @Override
-    public void getRemind(String uid) {
-        subscriptions.add(httpApi.getRemind(uid).subscribeOn(Schedulers.io())
+    public void getRemind(final boolean reload, String uid, int page) {
+        if (reload) {
+            //重载
+            page = 1;
+        }
+        subscriptions.add(httpApi.getRemind(uid, page).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<UpClassRemind>>() {
                     @Override
@@ -49,7 +57,7 @@ public class NoticePresenterImp implements NoticContract.IPresenter{
 
                     @Override
                     public void onNext(List<UpClassRemind> remindList) {
-                        iView.showRemind(remindList);
+                        iView.showRemind(reload, remindList);
                     }
                 }));
     }
@@ -73,6 +81,16 @@ public class NoticePresenterImp implements NoticContract.IPresenter{
                         iView.showSysNotic(noticList);
                     }
                 }));
+    }
+
+    @Override
+    public Set<String> getReadSet(String uid) {
+        return PreferenceHelper.getReadNewsList(uid);
+    }
+
+    @Override
+    public void saveReadSet(String uid, Set<String> readSet) {
+        PreferenceHelper.saveReadNewdList(uid, readSet);
     }
 
     //from BasicPresenter

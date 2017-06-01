@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:paddingLeft="15dp"
-    android:background="@color/white"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:background="@color/white">
     <LinearLayout
+        android:id="@+id/ll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -29,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
+
                 android:textColor="@color/text_black"/>
             <TextView
                 android:id="@+id/tv_subTitle"
@@ -39,13 +42,62 @@
                 android:textSize="12sp"
                 android:textColor="@color/text_gray"
                 android:maxLines="2"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                />
+            <LinearLayout
+                android:id="@+id/ll_apply_money"
+                android:layout_below="@id/tv_subTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_gray"
+                    android:text="@string/apply_money"/>
+                <TextView
+                    android:id="@+id/tv_apply_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTheme"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_sponsor_name"
+                android:layout_below="@id/ll_apply_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_gray"
+                    android:text="@string/sponsor"/>
+                <TextView
+                    android:id="@+id/tv_sponsor_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTheme"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/tv_time"
-                android:layout_below="@id/tv_subTitle"
+                android:layout_below="@id/ll_sponsor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:textSize="10sp"
                 android:textColor="@color/text_gray"
                 />
@@ -64,6 +116,8 @@
     </LinearLayout>
 
     <View
+        android:layout_below="@id/ll_main"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/divider"

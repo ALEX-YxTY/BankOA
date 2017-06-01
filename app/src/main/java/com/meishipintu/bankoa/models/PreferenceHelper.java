@@ -19,8 +19,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -279,5 +281,19 @@ public class PreferenceHelper {
         SharedPreferences.Editor editor = getSharePreference().edit();
         editor.putInt("newest_remind", integer);
         editor.apply();
+    }
+
+    //保存已读消息列表
+    public static void saveReadNewdList(String uid, Set<String> stringSet) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putStringSet(uid, stringSet);
+        editor.apply();
+    }
+
+    //获取已读消息列表
+    public static Set<String> getReadNewsList(String uid) {
+        SharedPreferences sharePreference = getSharePreference();
+        Set<String> stringSet = new HashSet<>(sharePreference.getStringSet(uid, new HashSet<String>()));
+        return stringSet;
     }
 }

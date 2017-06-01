@@ -24,6 +24,7 @@ import com.meishipintu.library.util.StringUtils;
 import com.meishipintu.library.util.ToastUtils;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -39,13 +40,19 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
     private RequestManager requestManager;
     private String supervisorId;
     private String supervisorLevel;
+    private boolean fromMain;
+    private Set<String> readList;
 
-    public RemindListAdapter(Context context, List<UpClassRemind> remindList,String supervisorId,String supervisorLevel) {
+    public RemindListAdapter(Context context, List<UpClassRemind> remindList, String supervisorId
+            , String supervisorLevel, boolean fromMain, Set<String> readList) {
+
         this.context = context;
         this.remindList = remindList;
         requestManager = Glide.with(context);
         this.supervisorId = supervisorId;
         this.supervisorLevel = supervisorLevel;
+        this.fromMain = fromMain;
+        this.readList = readList;
     }
 
     @Override
@@ -58,7 +65,12 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
         final UpClassRemind remind = remindList.get(position);
         Log.d("BankOA", "remind:" + remind.toString());
         if ("1".equals(remind.getType())) {
-            requestManager.load(R.drawable.icon_process_notice).into(holder.icon);
+            if (fromMain && readList.contains(remind.getId())) {
+                //从主页进入并且该消息已读，设为灰色图标
+                requestManager.load(R.drawable.icon_process_notice_read).into(holder.icon);
+            } else {
+                requestManager.load(R.drawable.icon_process_notice).into(holder.icon);
+            }
         } else if (!StringUtils.isNullOrEmpty(remind.getUrl())) {
             requestManager.load(remind.getUrl()).into(holder.icon);
         } else {
@@ -67,10 +79,18 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
         holder.tvTitle.setText(remind.getNotice_title());
         holder.tvSubTitle.setText(remind.getNotice_content());
         holder.tvTime.setText(DateUtil.formart3(remind.getCreate_time()));
+        holder.llApplayMoney.setVisibility(View.VISIBLE);
+        holder.llSponsorName.setVisibility(View.VISIBLE);
+        holder.tvApplyMoney.setText(remind.getTask_info().getApply_money());
+        holder.tvSponsorName.setText(remind.getTask_info().getSponsor_name());
         holder.btCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = null;
+                if (fromMain) {
+                    //添加到已读列表
+                    readList.add(remind.getId());
+                }
                 if (remind.getTask_info() == null) {
                     ToastUtils.show(context, "该任务不存在", true);
                 }else if ("1".equals(remind.getTask_info().getIs_del())) {

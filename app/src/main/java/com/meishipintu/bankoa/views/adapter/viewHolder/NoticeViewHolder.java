@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.R;
@@ -29,6 +30,14 @@ public class NoticeViewHolder extends RecyclerView.ViewHolder {
     public Button btCheck;
     @BindView(R.id.tv_time)
     public TextView tvTime;
+    @BindView(R.id.tv_apply_money)
+    public TextView tvApplyMoney;
+    @BindView(R.id.tv_sponsor_name)
+    public TextView tvSponsorName;
+    @BindView(R.id.ll_sponsor_name)
+    public LinearLayout llSponsorName;
+    @BindView(R.id.ll_apply_money)
+    public LinearLayout llApplayMoney;
 
     public NoticeViewHolder(View itemView) {
         super(itemView);

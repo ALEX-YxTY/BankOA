@@ -189,7 +189,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                     totalLevel = OaApplication.nodeNumber.get(taskType);
                     Log.d(TAG, "totalLEvel:" + totalLevel);
                     //禁止btFinish的多次点击，等数据返回后恢复
-                    btFinish.setEnabled(false);
+                    btFinish.setClickable(false);
                     mPresenter.setTaskNodeFinished(sponsorId, taskId);
                 } else {
                     ToastUtils.show(this, R.string.err_net, true);
@@ -212,32 +212,34 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 String input = etRemark.getText().toString();
                 if (StringUtils.isNullOrEmpty(input)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
-                }
-                if (commentDetailNow != null) {
-                    //回复
-                    if (supervisorId == null || supervisorId.equals(sponsorId)) {
-                        //下属回复主管
-                        mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
-                                , sponsorId, OaApplication.getUser().getLevel()
-                                , taskId, taskLevelNow, input, commentDetailNow.getId()));
-                    } else  {
-                        //主管回复主管
-                        mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
-                                , supervisorId, supervisorLevel
-                                , taskId, taskLevelNow, input, commentDetailNow.getId()));
-                    }
-
                 } else {
-                    if (supervisorId == null || supervisorId.equals(sponsorId)) {
-                        //添加备注
-                        mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
-                    } else  {
-                        //添加评论
-                        mPresenter.addNodeComment(new CommentInfo(sponsorId, supervisorId, supervisorLevel
-                                , taskId, taskLevelNow, input, "0"));
-                    }
-                }
+                    if (commentDetailNow != null) {
+                        //回复
+                        if (supervisorId == null || supervisorId.equals(sponsorId)) {
+                            //下属回复主管
+                            mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
+                                    , sponsorId, OaApplication.getUser().getLevel()
+                                    , taskId, taskLevelNow, input, commentDetailNow.getId()));
+                        } else  {
+                            //主管回复主管
+                            mPresenter.addNodeComment(new CommentInfo(commentDetailNow.getComment_user_id()
+                                    , supervisorId, supervisorLevel
+                                    , taskId, taskLevelNow, input, commentDetailNow.getId()));
+                        }
 
+                    } else {
+                        if (supervisorId == null || supervisorId.equals(sponsorId)) {
+                            //添加备注
+                            mPresenter.addNodeRemarks(taskId, taskLevelNow, input, sponsorId);
+                        } else  {
+                            //添加评论
+                            mPresenter.addNodeComment(new CommentInfo(sponsorId, supervisorId, supervisorLevel
+                                    , taskId, taskLevelNow, input, "0"));
+                        }
+                    }
+                    //点击评论后使按钮时效，带评论成功或失败后在恢复
+                    tvAddRemark.setClickable(false);
+                }
                 break;
             case R.id.bt_back:
                 onBackPressed();
@@ -355,6 +357,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
             Log.d(TAG, "taskType:" + taskType);
             Log.d(TAG, "totalLevel:" + totalNodeNumber);
             Log.d(TAG, "level Now:" + level);
+            Log.d(TAG, "timeRemain:" + nodeInfoNow.getTimeRemain() + ", " + DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
 
             tvTimeRemain.setText(DateUtil.showTimeRemain(nodeInfoNow.getTimeRemain()));
             if (totalNodeNumber != null && totalNodeNumber >= 2) {
@@ -371,7 +374,12 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     //from TaskDetailContract.IView
     @Override
     public void recoverBtFinish() {
-        btFinish.setEnabled(true);
+        btFinish.setClickable(true);
+    }
+
+    @Override
+    public void recoverAdRemarkFinish() {
+        tvAddRemark.setClickable(true);
     }
 
     //from TaskDetailContract.IView
@@ -517,6 +525,7 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         //点击返回键取消输入框的焦点并重设pid
         if (keyCode == KeyEvent.KEYCODE_BACK && etRemark.hasFocus()) {
             etRemark.clearFocus();
+            btFinish.requestFocus();
             return true;
         }
         return super.onKeyDown(keyCode, event);

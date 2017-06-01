@@ -23,7 +23,7 @@ public interface TaskTriggerContract {
         void getTaskType();
 
         void triggerTask(String loanerName, String loanMoney, int centerBranchType, int branchType
-                , int taskType, String taskName, String recommendManager, String uid, String level);
+                , int taskType,String recommendManager, String uid, String level);
     }
 
 

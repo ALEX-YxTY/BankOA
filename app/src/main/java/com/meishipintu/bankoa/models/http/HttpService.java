@@ -57,8 +57,8 @@ public interface HttpService {
     Observable<HttpResult<Task>> triggerTaskService(@Field("credit_name") String credit_name
             , @Field("apply_money") String apply_money, @Field("credit_center_branch") int credit_center_branch
             , @Field("credit_branch") int credit_branch, @Field("task_type") int task_type
-            , @Field("task_name") String task_name, @Field("credit_manager") String credit_manager
-            , @Field("sponsor_id") String sponsor_id, @Field("sponsor_level") String sponsor_level);
+            , @Field("credit_manager") String credit_manager, @Field("sponsor_id") String sponsor_id
+            , @Field("sponsor_level") String sponsor_level);
 
     //获取当前任务信息
     @FormUrlEncoded
@@ -145,7 +145,7 @@ public interface HttpService {
     //获取用户提醒
     @FormUrlEncoded
     @POST("Home/Api/getNotice")
-    Observable<HttpResult<List<UpClassRemind>>> getRemindService(@Field("user_id") String uid);
+    Observable<HttpResult<List<UpClassRemind>>> getRemindService(@Field("user_id") String uid, @Field("page") int page);
 
     //获取系统通知
     @POST("Home/Api/getSystemNotice")

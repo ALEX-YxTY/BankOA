@@ -58,12 +58,11 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                 .subscribe(new Subscriber<JSONObject>() {
                     @Override
                     public void onCompleted() {
-                        //恢复btFinish的点击功能
-                        iView.recoverBtFinish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
                         iView.showError(e.getMessage());
                     }
 
@@ -75,7 +74,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             JSONObject nowInfo = jsonObject.getJSONObject("now_task_info");
                             String nodeNowLevel = nowInfo.getString("user_task_level");
                             String timeRemain = nowInfo.getString("need_finish");
-                            String taskName = nowInfo.getString("task_name");
+                            String credit_name = nowInfo.getString("credit_name");
                             String taskType = nowInfo.getString("task_type");
                             String nodeNowName = jsonObject.getJSONObject("now_task").getString("task_name");
                             String nodeBeforeName = null;
@@ -115,7 +114,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                             }
                             iView.showGraphic(new NodeInfoNow(nodeNowLevel, nodeNowName
                                     , nodeBeforeName, nodeBeforeCs, nodeAfterName, timeRemain
-                                    , taskName, taskType, nodeBeforeGap, nodeAfterGap));
+                                    , credit_name, taskType, nodeBeforeGap, nodeAfterGap));
                             if (!jsonObject.isNull("userinfo")) {
                                 UserInfo userInfo = gson.fromJson(jsonObject.getString("userinfo"), UserInfo.class);
                                 iView.showUserInfo(userInfo);
@@ -162,10 +161,14 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
+                        //恢复btFinish的点击功能
+                        iView.recoverBtFinish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        //恢复btFinish的点击功能
+                        iView.recoverBtFinish();
                         iView.showError(e.getMessage());
                     }
 
@@ -202,10 +205,14 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {
+                        //恢复评论按钮
+                        iView.recoverAdRemarkFinish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        //恢复评论按钮
+                        iView.recoverAdRemarkFinish();
                         iView.showError("评论添加失败，请稍后重试");
                     }
 

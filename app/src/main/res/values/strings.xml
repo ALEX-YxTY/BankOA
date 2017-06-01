@@ -42,6 +42,8 @@
     <string name="task_type">任务类型：</string>
     <string name="credit_name">客户名称：</string>
     <string name="recommend">推荐机构： </string>
+    <string name="apply_money">申请金额(万元)： </string>
+    <string name="sponsor">经办人： </string>
 
     <string name="empty_notice">你还没有通知哦~</string>
     <string name="add_remark_success">添加备注成功</string>
