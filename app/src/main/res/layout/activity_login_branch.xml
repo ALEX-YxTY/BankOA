@@ -45,8 +45,7 @@
                 android:layout_marginLeft="22dp"
                 android:background="@null"
                 android:layout_centerVertical="true"
-                android:inputType="phone"
-                android:hint="@string/tel_please"
+                android:hint="@string/branch_id"
                 android:textColorHint="@color/hint_text"
                 android:textSize="16sp" />
             <View
@@ -93,41 +92,5 @@
             android:textSize="@dimen/title_text"
             android:textColor="@color/white"
             android:text="@string/login"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp">
-            <TextView
-                android:id="@+id/tv_forget_psw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/colorTheme"
-                android:text="@string/forget_psw"
-                />
-            <TextView
-                android:id="@+id/tv_branch_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_below="@id/tv_forget_psw"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/colorTheme"
-                android:text="@string/branch_login"
-                />
-            <RadioButton
-                android:id="@+id/tv_save_psw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/text_gray"
-                android:text="@string/auto_login"
-                android:button="@null"
-                android:checked="true"
-                android:drawableLeft="@drawable/selector_save_radio"
-                android:layout_alignParentRight="true"
-                />
-        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.meishipintu.bankoa.Constans;
+import com.meishipintu.bankoa.models.entity.BranchUserInfo;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
+import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.PaymentDetailItem;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
 import com.meishipintu.bankoa.models.entity.SysNotic;
@@ -19,13 +21,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Func1;
 
 /**
@@ -72,6 +77,32 @@ public class HttpApi {
                         throw new RuntimeException(jsonObject.getString("msg"));
                     } else {
                         return gson.fromJson(jsonObject.getString("data"),UserInfo.class);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
+    }
+
+    //支行登录
+    public Observable<BranchUserInfo> loginBranch(String name, String psw) {
+        final Gson gson = new Gson();
+        Log.d("HttpApi", "name:" + name + ", psw:" + Encoder.md5(psw));
+        return httpService.loginBranchService(name, Encoder.md5(psw)).map(new Func1<ResponseBody, BranchUserInfo>() {
+            @Override
+            public BranchUserInfo call(ResponseBody responseBody) {
+                String result = null;
+                try {
+                    result = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("status") != 1) {
+                        throw new RuntimeException(jsonObject.getString("msg"));
+                    } else {
+                        return gson.fromJson(jsonObject.getString("data"),BranchUserInfo.class);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -265,11 +296,11 @@ public class HttpApi {
     }
 
     //获取支行列表
-    public Observable<List<String>> getBranchList(int centerBranch) {
-        return httpService.getBranchListService(centerBranch).map(new Func1<ResponseBody, List<String>>() {
+    public Observable<Map<Integer,String>> getBranchList(int centerBranch) {
+        return httpService.getBranchListService(centerBranch).map(new Func1<ResponseBody, Map<Integer,String>>() {
             @Override
-            public List<String> call(ResponseBody responseBody) {
-                List<String> resultList = new ArrayList<String>();
+            public Map<Integer,String> call(ResponseBody responseBody) {
+                Map<Integer,String> resultList = new HashMap<>();
                 try {
                     String result = responseBody.string();
                     JSONObject jsonObject = new JSONObject(result);
@@ -278,7 +309,8 @@ public class HttpApi {
                     } else {
                         JSONArray dataArray = jsonObject.getJSONArray("data");
                         for (int i = 0; i < dataArray.length(); i++) {
-                            resultList.add(dataArray.getJSONObject(i).getString("branch"));
+                            JSONObject jsonObject1 = dataArray.getJSONObject(i);
+                            resultList.put(jsonObject1.getInt("id"), jsonObject1.getString("branch"));
                         }
                     }
                 } catch (JSONException e) {
@@ -646,6 +678,11 @@ public class HttpApi {
                 return null;
             }
         });
+    }
+
+    //获取分行人物列表
+    public Observable<List<Task>> getBranchTask(int centerBranch, int branch) {
+        return httpService.getBranchTaskService(centerBranch, branch).map(new ResultFunction<List<Task>>());
     }
 }
 

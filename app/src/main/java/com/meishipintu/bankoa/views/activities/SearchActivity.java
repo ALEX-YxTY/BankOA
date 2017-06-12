@@ -57,7 +57,7 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
     private List<Task> dataList;
 
     private List<String> centerBranchList;          //储存中心分行名称
-    private Map<Integer, String[]> branchList;      //储存支行名称
+    private Map<Integer, Map<Integer, String>> branchList;      //储存支行名称
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
 
     //from TaskContract.IView
     @Override
-    public void onBranchListGet(int index, String[] branchList) {
+    public void onBranchListGet(int index, Map<Integer, String> branchList) {
         this.branchList.put(index, branchList);
     }
 

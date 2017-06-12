@@ -67,7 +67,7 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
     }
 
 
-    @OnClick({R.id.tv_register, R.id.tv_forget_psw, R.id.tv_save_psw, R.id.bt_login})
+    @OnClick({R.id.tv_register, R.id.tv_forget_psw, R.id.tv_save_psw, R.id.bt_login, R.id.tv_branch_login})
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -79,19 +79,23 @@ public class LoginActivity extends BasicActivity implements LoginContract.IView 
             case R.id.tv_forget_psw:
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 intent.putExtra("type", Constans.REGISTER_TYPE_FORGET_PSW);
-                startActivityForResult(intent,Constans.START_FORGET_PSW);
+                startActivityForResult(intent, Constans.START_FORGET_PSW);
                 break;
             case R.id.tv_save_psw:
                 tvSavePsw.setChecked(!savePsw);
                 savePsw = tvSavePsw.isChecked();
+                break;
+            case R.id.tv_branch_login:
+                startActivity(new Intent(LoginActivity.this, BranchSupervisorActivity.class));
                 break;
             case R.id.bt_login:
                 String tel = etTel.getText().toString();
                 String psw = etPsw.getText().toString().trim();
                 if (StringUtils.isNullOrEmpty(tel) || StringUtils.isNullOrEmpty(psw)) {
                     ToastUtils.show(this, R.string.err_empty_input, true);
+                } else {
+                    mPresenter.login(tel, psw, savePsw);
                 }
-                mPresenter.login(tel, psw, savePsw);
                 break;
         }
         if (intent != null) {

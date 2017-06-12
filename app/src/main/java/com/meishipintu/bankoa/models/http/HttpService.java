@@ -34,6 +34,17 @@ public interface HttpService {
     @POST("Home/Api/login")
     Observable<ResponseBody> loginService(@Field("mobile") String tel, @Field("password") String psw);
 
+    //支行登录接口
+    @FormUrlEncoded
+    @POST("Home/Api/branch_login")
+    Observable<ResponseBody> loginBranchService(@Field("account") String tel, @Field("password") String psw);
+
+    //获取分行人物列表接口
+    @FormUrlEncoded
+    @POST("Home/Api/getTaskByBranch")
+    Observable<HttpResult<List<Task>>> getBranchTaskService(@Field("credit_center_branch") int centerBranchId
+            , @Field("credit_branch") int branchId);
+
     //检查审核是否通过接口
     @FormUrlEncoded
     @POST("Home/Api/getRegistStatus")

@@ -12,6 +12,7 @@ import com.meishipintu.bankoa.models.http.HttpApi;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -84,13 +85,11 @@ public class MainPresenterImp implements MainContract.IPresenter {
                             final int index = i + 1;
                             subscriptions.add(httpApi.getBranchList(index).subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Action1<List<String>>() {
+                                    .subscribe(new Action1<Map<Integer,String>>() {
                                         @Override
-                                        public void call(List<String> strings) {
+                                        public void call(Map<Integer,String> strings) {
                                             PreferenceHelper.saveBranch(index,strings);
-                                            String[] stringArr = new String[strings.size()];
-                                            strings.toArray(stringArr);
-                                            OaApplication.branchList.put(index, stringArr);
+                                            OaApplication.branchList.put(index, strings);
                                         }
                                     }));
                         }

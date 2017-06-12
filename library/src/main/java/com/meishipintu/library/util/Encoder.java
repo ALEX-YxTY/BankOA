@@ -2,6 +2,7 @@ package com.meishipintu.library.util;
 
 import android.text.TextUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,7 +21,7 @@ public class Encoder {
         MessageDigest md5 = null;
         try {
             md5 = MessageDigest.getInstance("MD5");
-            byte[] bytes = md5.digest(string.getBytes());
+            byte[] bytes = md5.digest(string.getBytes("UTF-8"));
             String result = "";
             for (byte b : bytes) {
                 String temp = Integer.toHexString(b & 0xff);
@@ -31,6 +32,8 @@ public class Encoder {
             }
             return result;
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return "";

@@ -29,7 +29,7 @@ public interface TaskContract {
 
         void onCenterBranchGet(List<String> centerBranch);
 
-        void onBranchListGet(int index, String[] branchList);
+        void onBranchListGet(int index, Map<Integer, String> branchList);
 
     }
 }

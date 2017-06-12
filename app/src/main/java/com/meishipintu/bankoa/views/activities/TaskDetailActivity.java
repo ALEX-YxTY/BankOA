@@ -392,13 +392,10 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
                 title = "行长";
                 break;
             case 2:
-                title = "主管";
-                break;
-            case 3:
-                title = "员工";
+                title = "管理员";
                 break;
             default:
-                title = "员工";
+                title = "客户经理";
                 break;
         }
         if (Integer.parseInt(userInfo.getLevel()) == 1) {

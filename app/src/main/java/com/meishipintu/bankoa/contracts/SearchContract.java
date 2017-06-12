@@ -5,6 +5,7 @@ import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/15.
@@ -29,7 +30,7 @@ public interface SearchContract {
 
         void onCenterBranchGet(List<String> centerBranch);
 
-        void onBranchListGet(int index, String[] branchList);
+        void onBranchListGet(int index, Map<Integer, String> branchList);
     }
 
 }

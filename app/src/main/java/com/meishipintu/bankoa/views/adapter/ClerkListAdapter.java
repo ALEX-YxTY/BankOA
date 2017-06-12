@@ -73,10 +73,10 @@ public class ClerkListAdapter extends RecyclerView.Adapter<ClerkInfoViewHolder> 
                 title = "行长";
                 break;
             case 2:
-                title = "经理";
+                title = "管理员";
                 break;
             default:
-                title = "业务员";
+                title = "客户经理";
                 break;
         }
         holder.tvTitle.setText(department + " " + title);

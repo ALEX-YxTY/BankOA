@@ -5,6 +5,7 @@ import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/2.
@@ -31,7 +32,7 @@ public interface TaskTriggerContract {
 
         void showCenteralBranches(String[] districts);
 
-        void showBranches(String[] branches);
+        void showBranches(Map<Integer, String> branches);
 
         void showTaskType(String[] types);
 

@@ -81,11 +81,11 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     @Override
     public void getBranches(final int centerBranch) {
-        String[] branchList = OaApplication.branchList.get(centerBranch);
+        Map<Integer, String> branchList = OaApplication.branchList.get(centerBranch);
         if (branchList == null) {
             subscriptions.add(httpApi.getBranchList(centerBranch).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<List<String>>() {
+                    .subscribe(new Subscriber<Map<Integer,String>>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -96,19 +96,17 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
                         }
 
                         @Override
-                        public void onNext(List<String> strings) {
+                        public void onNext(Map<Integer,String> strings) {
                             PreferenceHelper.saveBranch(centerBranch, strings);
-                            String[] stringArr = new String[strings.size()];
-                            strings.toArray(stringArr);
-                            OaApplication.branchList.put(centerBranch, stringArr);
-                            if (stringArr.length == 0) {
+                            OaApplication.branchList.put(centerBranch, strings);
+                            if (strings.size() == 0) {
                                 view.showError("该分行没有下级支行！");
                             } else {
-                                view.showBranches(stringArr);
+                                view.showBranches(strings);
                             }
                         }
                     }));
-        }else if (branchList.length == 0) {
+        }else if (branchList.size() == 0) {
             view.showError("该分行没有下级支行！");
         } else {
             view.showBranches(branchList);

@@ -24,6 +24,7 @@ import com.meishipintu.library.view.CustomNumPickeDialog;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -162,12 +163,12 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
 
     //from TaskTriggerContract.IView
     @Override
-    public void showBranches(final String[] branches) {
+    public void showBranches(final Map<Integer, String> branches) {
         dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, branches, new CustomNumPickeDialog.OnOkClickListener() {
             @Override
             public void onOkClick(int vlueChoose) {
-                branch = vlueChoose + 1;
-                tvBranch.setText(branches[vlueChoose]);
+                branch = vlueChoose;
+                tvBranch.setText(branches.get(vlueChoose));
                 dialog.dismiss();
             }
         });

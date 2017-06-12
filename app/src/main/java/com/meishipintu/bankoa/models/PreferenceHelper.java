@@ -124,24 +124,28 @@ public class PreferenceHelper {
         }
     }
 
-    public static void saveBranch(int index, List<String> branchList) {
+    public static void saveBranch(int index, Map<Integer,String> branchList) {
         StringBuffer sbf = new StringBuffer();
-        for (int i = 0; i < branchList.size(); i++) {
-            sbf.append(branchList.get(i));
-            if (i != branchList.size() - 1) {
-                sbf.append(",");
-            }
+        for (Map.Entry<Integer, String> entry : branchList.entrySet()) {
+            Log.d("LoginPresenter", "key:" + entry.getKey() + ",value:" + entry.getValue());
+            sbf.append(entry.getKey() + ";" + entry.getValue() + ",");
         }
         SharedPreferences.Editor editor = getSharePreference().edit();
         editor.putString("branch"+index, sbf.toString());
         editor.apply();
     }
 
-    public static String[] getBranchList(int index) {
+    public static Map<Integer,String> getBranchList(int index) {
         SharedPreferences sharedPreferences = getSharePreference();
         String branchList = sharedPreferences.getString("branch" + index, null);
         if (branchList != null) {
-            return branchList.split(",");
+            Map<Integer, String> resultMap = new HashMap<>();
+            String[] split = branchList.split(",");
+            for (int i = 0; i < split.length-1; i++) {
+                String[] split1 = split[i].split(";");
+                resultMap.put(Integer.parseInt(split1[0]), split1[1]);
+            }
+            return resultMap;
         } else {
             return null;
         }
@@ -295,5 +299,27 @@ public class PreferenceHelper {
         SharedPreferences sharePreference = getSharePreference();
         Set<String> stringSet = new HashSet<>(sharePreference.getStringSet(uid, new HashSet<String>()));
         return stringSet;
+    }
+
+    public static void saveBranchName(String tel) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putString("branchname", tel);
+        editor.apply();
+    }
+
+    public static void saveBranchPsw(String psw) {
+        SharedPreferences.Editor editor = getSharePreference().edit();
+        editor.putString("branchpw", psw);
+        editor.apply();
+    }
+
+    public static String getBranchName() {
+        SharedPreferences sharePreference = getSharePreference();
+        return sharePreference.getString("branchname", "");
+    }
+
+    public static String getBranchPw() {
+        SharedPreferences sharePreference = getSharePreference();
+        return sharePreference.getString("branchpw", "");
     }
 }

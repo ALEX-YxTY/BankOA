@@ -32,7 +32,7 @@ public class OaApplication extends Application {
     public static Map<String,JSONObject> nodeNameList;
     public static Map<String, Integer> nodeNumber;
     public static List<String> centerBranchList;
-    public static Map<Integer, String[]> branchList;
+    public static Map<Integer, Map<Integer, String>> branchList;
     public static JSONObject departmentList;
 
     public static OaApplication getInstance() {
@@ -72,7 +72,7 @@ public class OaApplication extends Application {
         branchList = new HashMap<>();
         if (ceterBranchList != null) {
             for (int i = 0; i < centerBranchList.size(); i ++) {
-                String[] branchList = PreferenceHelper.getBranchList(i + 1);
+                Map<Integer, String> branchList = PreferenceHelper.getBranchList(i + 1);
                 if (branchList != null) {
                     OaApplication.branchList.put(i + 1, branchList);
                 }

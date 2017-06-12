@@ -48,6 +48,11 @@
             android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--分行登录页面-->
+        <activity
+            android:name=".views.activities.BranchSupervisorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 主动能页 -->
         <activity
             android:name=".views.activities.MainActivity"
@@ -86,6 +91,11 @@
         <!-- 任务页面 -->
         <activity
             android:name=".views.activities.TaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- 支行任务页面 -->
+        <activity
+            android:name=".views.activities.BranchTaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 任务详情（小） -->

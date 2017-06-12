@@ -66,7 +66,7 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     private int checkNow;
 
     private List<String> centerBranchList;          //储存中心分行名称
-    private Map<Integer, String[]> branchList;      //储存支行名称
+    private Map<Integer, Map<Integer,String>> branchList;      //储存支行名称
 
     private String uid;                 //当前显示对象的uid
     private String supervisorId;        //当前监管者的uid
@@ -166,7 +166,7 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
 
     //from TaskContract.IView
     @Override
-    public void onBranchListGet(int index, String[] branchList) {
+    public void onBranchListGet(int index, Map<Integer,String> branchList) {
         this.branchList.put(index, branchList);
     }
 
