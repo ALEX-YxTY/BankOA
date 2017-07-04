@@ -56,9 +56,13 @@ public class SimpleTaskListAdapter extends RecyclerView.Adapter<TaskListViewHold
     public void onBindViewHolder(TaskListViewHolder holder, final int position) {
         final Task task = dataList.get(position);
         Log.d(TAG, "task:" + task.toString());
-        holder.icon.setImageResource(R.drawable.icon_task_unfinished);
         holder.tvTaskName.setText(task.getCredi_name());
         JSONObject nodeNameList = OaApplication.nodeNameList.get(task.getTask_type());
+        if ("1".equals(task.getIs_finish())) {
+            holder.icon.setImageResource(R.drawable.icon_task_finished);
+        } else {
+            holder.icon.setImageResource(R.drawable.icon_task_unfinished);
+        }
         if (nodeNameList != null) {
             try {
                 holder.tvProcessNow.setText(nodeNameList.getString(task.getLevel()));

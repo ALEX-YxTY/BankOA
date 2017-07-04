@@ -681,8 +681,8 @@ public class HttpApi {
     }
 
     //获取分行人物列表
-    public Observable<List<Task>> getBranchTask(int centerBranch, int branch) {
-        return httpService.getBranchTaskService(centerBranch, branch).map(new ResultFunction<List<Task>>());
+    public Observable<List<Task>> getBranchTask(int centerBranch, int branch,Integer type,String content) {
+        return httpService.getBranchTaskService(centerBranch, branch,type,content).map(new ResultFunction<List<Task>>());
     }
 }
 

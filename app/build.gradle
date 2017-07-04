@@ -7,8 +7,8 @@ android {
         applicationId "com.meishipintu.bankoa"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 7
-        versionName "1.6"
+        versionCode 9
+        versionName "1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -18,9 +18,9 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : "com.meishipintu.bankoa",
+                JPUSH_PKGNAME: "com.meishipintu.bankoa",
                 JPUSH_APPKEY : "7542ab691a3de664d3c94c6a",
-                JPUSH_CHANNEL : "developer-default" //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default" //暂时填写默认值即可.
         ]
     }
     buildTypes {
@@ -37,33 +37,36 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(path: ':library')
-    testCompile 'junit:junit:4.12'
     //support
+    //Retrofit&okHttp
+    //RxJava&RxAndroid
+    //ButterKnife
+    //Dagger2
+    //Glide
+    //Bugly
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    //其中latest.release指代最新版本号，也可以指定明确的版本
+    //JPush
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
-    //Retrofit&okHttp
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    //RxJava&RxAndroid
     compile 'io.reactivex:rxjava:1.2.7'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.artemzin.rxjava:proguard-rules:latest.release'
-    //ButterKnife
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    //Dagger2
     compile 'com.google.dagger:dagger:2.8'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
-    //Glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    //Bugly
-    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
-    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本
-    //JPush
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
     compile 'cn.jiguang.sdk:jpush:3.0.3'
     compile 'cn.jiguang.sdk:jcore:1.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
 }

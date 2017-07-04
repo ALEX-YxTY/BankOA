@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.meishipintu.bankoa">
 
-    <permission android:name="com.meishipintu.bankoa.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature"/>
+    <permission
+        android:name="com.meishipintu.bankoa.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
 
     <uses-permission android:name="com.meishipintu.bankoa.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -48,7 +47,7 @@
             android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <!--分行登录页面-->
+        <!-- 分行登录页面 -->
         <activity
             android:name=".views.activities.BranchSupervisorActivity"
             android:screenOrientation="portrait"
@@ -59,8 +58,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <!--监管者看到的员工主功能界面-->
-        <activity android:name=".views.activities.SupervisorActivity"
+        <!-- 监管者看到的员工主功能界面 -->
+        <activity
+            android:name=".views.activities.SupervisorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 消息页面 -->
@@ -146,7 +146,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!--Bugly-->
+        <activity android:name=".views.BranchSearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Bugly -->
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
@@ -158,7 +162,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

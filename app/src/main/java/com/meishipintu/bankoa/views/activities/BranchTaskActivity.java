@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -15,11 +16,13 @@ import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.BranchUserInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
+import com.meishipintu.bankoa.views.BranchSearchActivity;
 import com.meishipintu.bankoa.views.adapter.SimpleTaskListAdapter;
 import com.meishipintu.library.util.ToastUtils;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,13 +58,16 @@ public class BranchTaskActivity extends BasicActivity {
     private BranchUserInfo branchUserInfo;          //分行信息
     private HttpApi httpApi;
 
+    private int select = 1;         //1-未完成，2-已完成
+    private SimpleTaskListAdapter adapter;
+    private List<Task> dataList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_branch);
         ButterKnife.bind(this);
         tvTitle.setText("支行任务列表");
-        tvEmpty.setText(R.string.no_task);
         subscriptions = new CompositeSubscription();
         httpApi = HttpApi.getInstance();
         branchUserInfo = (BranchUserInfo) getIntent().getExtras().get("branch");
@@ -132,9 +138,69 @@ public class BranchTaskActivity extends BasicActivity {
                 branchList.put(index, itemList);
             }
         }
-        subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(),branchUserInfo.getBranch())
+        subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(), branchUserInfo.getBranch(), 1, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Task>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        ToastUtils.show(BranchTaskActivity.this, "获取任务列表失败，请稍后重试", true);
+                    }
+
+                    @Override
+                    public void onNext(List<Task> taskList) {
+                        dataList = new ArrayList<>();
+                        if (taskList.size() == 0) {
+                            tvEmpty.setVisibility(View.VISIBLE);
+                        } else {
+                            tvEmpty.setVisibility(View.GONE);
+                            dataList.addAll(taskList);
+                            adapter = new SimpleTaskListAdapter(BranchTaskActivity.this
+                                    , dataList, centerBranchList, branchList);
+                            vp.setLayoutManager(new LinearLayoutManager(BranchTaskActivity.this));
+                            vp.setAdapter(adapter);
+                        }
+                    }
+                }));
+
+    }
+
+    @OnClick({R.id.bt_back, R.id.left, R.id.right,R.id.bt_search})
+    public void onViewClicked(View v) {
+        switch (v.getId()){
+            case R.id.bt_back:
+                onBackPressed();
+                break;
+            case R.id.left:
+                if (select != 1) {
+                    getTaskInfo(1);
+                }
+                break;
+            case R.id.right:
+                if (select != 2) {
+                    getTaskInfo(2);
+                }
+                break;
+            case R.id.bt_search:
+                Intent intent = new Intent(this, BranchSearchActivity.class);
+                intent.putExtra("centerBranchId", branchUserInfo.getCenter_branch());
+                intent.putExtra("branchId", branchUserInfo.getBranch());
+                startActivity(intent);
+                break;
+        }
+    }
+
+    private void getTaskInfo(Integer type) {
+        dataList.clear();
+        adapter.notifyDataSetChanged();
+        subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(), branchUserInfo.getBranch()
+                , type, null).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<Task>>() {
                     @Override
                     public void onCompleted() {
@@ -152,19 +218,13 @@ public class BranchTaskActivity extends BasicActivity {
                             tvEmpty.setVisibility(View.VISIBLE);
                         } else {
                             tvEmpty.setVisibility(View.GONE);
-                            SimpleTaskListAdapter simpleTaskListAdapter = new SimpleTaskListAdapter(BranchTaskActivity.this
-                                    , taskList, centerBranchList, branchList);
-                            vp.setLayoutManager(new LinearLayoutManager(BranchTaskActivity.this));
-                            vp.setAdapter(simpleTaskListAdapter);
+                            dataList.clear();
+                            dataList.addAll(taskList);
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }));
-
-    }
-
-    @OnClick(R.id.bt_back)
-    public void onViewClicked() {
-        onBackPressed();
+        select = type;
     }
 
     @Override

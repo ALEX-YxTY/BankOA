@@ -105,17 +105,7 @@
                 android:textColor="@color/colorTheme"
                 android:text="@string/forget_psw"
                 />
-            <TextView
-                android:id="@+id/tv_branch_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_below="@id/tv_forget_psw"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/colorTheme"
-                android:text="@string/branch_login"
-                />
+
             <RadioButton
                 android:id="@+id/tv_save_psw"
                 android:layout_width="wrap_content"
@@ -130,4 +120,15 @@
                 />
         </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_branch_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/colorTheme"
+        android:text="@string/branch_login"
+        />
 </RelativeLayout>

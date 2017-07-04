@@ -6,8 +6,44 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/titlebar_back" />
+    <include layout="@layout/titlebar_back_search" />
 
+
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+        <RadioButton
+            android:id="@+id/left"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:textSize="12sp"
+            android:checked="true"
+            android:text="未完成"
+            android:gravity="center"
+            android:button="@null"
+            android:background="@drawable/selector_bt_radio_left"
+            android:textColor="@drawable/selector_text_radio"/>
+
+        <RadioButton
+            android:id="@+id/right"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="@drawable/selector_bt_radio_right"
+            android:button="@null"
+            android:gravity="center"
+            android:text="已完成"
+            android:textColor="@drawable/selector_text_radio"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -22,7 +58,7 @@
             android:layout_height="match_parent"
             android:textSize="14sp"
             android:textColor="@color/text_gray2"
-            android:text="@string/no_notice"
+            android:text="@string/no_task"
             android:gravity="center"
             android:visibility="gone"/>
     </FrameLayout>

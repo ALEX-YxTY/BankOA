@@ -35,7 +35,7 @@ public class PreferenceHelper {
 
     public static String TAG = "BankOA-PreferenceHelper";
 
-    public static SharedPreferences getSharePreference() {
+    public static SharedPreferences getSharePreference()    {
         return OaApplication.getInstance().getSharedPreferences(OaApplication.class.getPackage().getName()
                 , Context.MODE_PRIVATE);
     }
@@ -131,13 +131,13 @@ public class PreferenceHelper {
             sbf.append(entry.getKey() + ";" + entry.getValue() + ",");
         }
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("branch"+index, sbf.toString());
+        editor.putString("newbranch"+index, sbf.toString());
         editor.apply();
     }
 
     public static Map<Integer,String> getBranchList(int index) {
         SharedPreferences sharedPreferences = getSharePreference();
-        String branchList = sharedPreferences.getString("branch" + index, null);
+        String branchList = sharedPreferences.getString("newbranch" + index, null);
         if (branchList != null) {
             Map<Integer, String> resultMap = new HashMap<>();
             String[] split = branchList.split(",");

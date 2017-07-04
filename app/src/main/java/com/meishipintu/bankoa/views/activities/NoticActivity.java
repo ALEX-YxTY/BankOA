@@ -163,9 +163,8 @@ public class NoticActivity extends BasicActivity implements NoticContract.IView{
             this.remindList = new ArrayList<>();
             remindAdapter = new RemindListAdapter(this, this.remindList, supervisorId
                     , supervisorLevel, fromMain, readSet);
-            vp.setAdapter(remindAdapter);
         }
-
+        vp.setAdapter(remindAdapter);
         if (reload) {
             //重新载入
             this.remindList.clear();

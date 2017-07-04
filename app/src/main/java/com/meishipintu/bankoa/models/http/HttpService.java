@@ -1,5 +1,7 @@
 package com.meishipintu.bankoa.models.http;
 
+import android.support.annotation.Nullable;
+
 import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
@@ -43,7 +45,7 @@ public interface HttpService {
     @FormUrlEncoded
     @POST("Home/Api/getTaskByBranch")
     Observable<HttpResult<List<Task>>> getBranchTaskService(@Field("credit_center_branch") int centerBranchId
-            , @Field("credit_branch") int branchId);
+            , @Field("credit_branch") int branchId, @Nullable @Field("type") int type, @Nullable @Field("content") String content);
 
     //检查审核是否通过接口
     @FormUrlEncoded
