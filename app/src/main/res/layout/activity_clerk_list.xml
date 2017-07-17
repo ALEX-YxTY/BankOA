@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context="com.meishipintu.bankoa.views.activities.ClerkListActivity">
 
-    <include layout="@layout/titlebar_back" android:id="@+id/titlebar"/>
+    <include layout="@layout/titlebar_back_search" android:id="@+id/titlebar"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

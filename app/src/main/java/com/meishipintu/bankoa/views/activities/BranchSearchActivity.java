@@ -1,4 +1,4 @@
-package com.meishipintu.bankoa.views;
+package com.meishipintu.bankoa.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +14,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.Task;
-import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
-import com.meishipintu.bankoa.presenters.SearchPresenterImp;
-import com.meishipintu.bankoa.views.activities.BranchTaskActivity;
-import com.meishipintu.bankoa.views.activities.SearchActivity;
 import com.meishipintu.bankoa.views.adapter.SimpleTaskListAdapter;
 import com.meishipintu.library.util.ToastUtils;
 
@@ -27,12 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;

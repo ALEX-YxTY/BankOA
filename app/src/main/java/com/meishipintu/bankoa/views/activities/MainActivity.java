@@ -278,10 +278,10 @@ public class MainActivity extends BasicActivity implements MainContract.IView {
                 title = "行长";
                 break;
             case 2:
-                title = "经理";
+                title = "管理员";
                 break;
             default:
-                title = "业务员";
+                title = "客户经理";
                 break;
         }
         tvJobTitle.setText(department + " " + title);

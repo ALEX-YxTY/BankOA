@@ -1,9 +1,11 @@
 package com.meishipintu.bankoa.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.meishipintu.bankoa.OaApplication;
@@ -60,9 +62,16 @@ public class ClerkListActivity extends BasicActivity implements ClerkContract.IV
         mPresenter.getClerk(OaApplication.getUser().getUid(),OaApplication.getUser().getLevel());
     }
 
-    @OnClick(R.id.bt_back)
-    public void onClick() {
-        onBackPressed();
+    @OnClick({R.id.bt_back, R.id.bt_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_back:
+                onBackPressed();
+                break;
+            case R.id.bt_search:
+                startActivity(new Intent(ClerkListActivity.this, ClerkSearchActivity.class));
+                break;
+        }
     }
 
     //from ClerkListContract.IView

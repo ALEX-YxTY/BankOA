@@ -2,11 +2,9 @@ package com.meishipintu.bankoa.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +14,6 @@ import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.BranchUserInfo;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
-import com.meishipintu.bankoa.views.BranchSearchActivity;
 import com.meishipintu.bankoa.views.adapter.SimpleTaskListAdapter;
 import com.meishipintu.library.util.ToastUtils;
 
@@ -31,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
