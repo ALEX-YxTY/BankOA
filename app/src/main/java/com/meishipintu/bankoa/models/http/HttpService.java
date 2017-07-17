@@ -187,4 +187,10 @@ public interface HttpService {
     @FormUrlEncoded
     @POST("Home/Api/deleteTask")
     Observable<ResponseBody> deletTaskService(@Field("task_id") String taskId);
+
+    //人员查询接口
+    @FormUrlEncoded
+    @POST("Home/Api/getBranchLevelZeroUserList?user_name=%E5%BC%A0&department=2&level=1 ")
+    Observable<HttpResult<List<UserInfo>>> searchClerkService(@Field("user_name") String content
+            , @Field("department") String departmentId, @Field("level") String level);
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
@@ -683,6 +684,11 @@ public class HttpApi {
     //获取分行人物列表
     public Observable<List<Task>> getBranchTask(int centerBranch, int branch,Integer type,String content) {
         return httpService.getBranchTaskService(centerBranch, branch,type,content).map(new ResultFunction<List<Task>>());
+    }
+
+    //搜索人员信息
+    public Observable<List<UserInfo>> searchClerk(String content,String departmentId,String level){
+        return httpService.searchClerkService(content,departmentId,level).map(new ResultFunction<List<UserInfo>>());
     }
 }
 
