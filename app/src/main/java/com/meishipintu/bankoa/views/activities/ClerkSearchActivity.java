@@ -3,7 +3,9 @@ package com.meishipintu.bankoa.views.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -55,6 +57,9 @@ public class ClerkSearchActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        httpApi = HttpApi.getInstance();
+        subscriptions = new CompositeSubscription();
+        dataList = new ArrayList<>();
         ButterKnife.bind(this);
 
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -86,15 +91,17 @@ public class ClerkSearchActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onNext(List<UserInfo> data) {
-                                        if (dataList.size() == 0) {
+                                        if (data.size() == 0) {
                                             tvEmpty.setVisibility(View.VISIBLE);
                                         } else {
                                             tvEmpty.setVisibility(View.GONE);
                                             dataList.clear();
                                             dataList.addAll(data);
+                                            Log.d("test", "dataList.size:" + dataList.size());
                                             if (adapter == null) {
                                                 adapter = new ClerkListAdapter(ClerkSearchActivity.this
                                                         ,dataList);
+                                                rv.setLayoutManager(new LinearLayoutManager(ClerkSearchActivity.this));
                                                 rv.setAdapter(adapter);
                                             } else {
                                                 adapter.notifyDataSetChanged();
@@ -108,5 +115,11 @@ public class ClerkSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscriptions.clear();
     }
 }

@@ -134,10 +134,10 @@ public class SupervisorActivity extends AppCompatActivity implements SupervisorC
         }
         switch (Integer.parseInt(userInfo.getLevel())) {
             case 2:
-                title = "经理";
+                title = "管理员";
                 break;
             default:
-                title = "业务员";
+                title = "客户经理";
                 break;
         }
         tvJobTitle.setText(department + " " + title);
