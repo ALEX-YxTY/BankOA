@@ -216,7 +216,14 @@ public class BranchTaskActivity extends BasicActivity {
                             tvEmpty.setVisibility(View.GONE);
                             dataList.clear();
                             dataList.addAll(taskList);
-                            adapter.notifyDataSetChanged();
+                            if (adapter == null) {
+                                adapter = new SimpleTaskListAdapter(BranchTaskActivity.this
+                                        , dataList, centerBranchList, branchList);
+                                vp.setLayoutManager(new LinearLayoutManager(BranchTaskActivity.this));
+                                vp.setAdapter(adapter);
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
                 }));
