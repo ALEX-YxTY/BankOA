@@ -193,7 +193,9 @@ public class BranchTaskActivity extends BasicActivity {
 
     private void getTaskInfo(Integer type) {
         dataList.clear();
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(), branchUserInfo.getBranch()
                 , type, null).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -214,7 +216,6 @@ public class BranchTaskActivity extends BasicActivity {
                             tvEmpty.setVisibility(View.VISIBLE);
                         } else {
                             tvEmpty.setVisibility(View.GONE);
-                            dataList.clear();
                             dataList.addAll(taskList);
                             if (adapter == null) {
                                 adapter = new SimpleTaskListAdapter(BranchTaskActivity.this
