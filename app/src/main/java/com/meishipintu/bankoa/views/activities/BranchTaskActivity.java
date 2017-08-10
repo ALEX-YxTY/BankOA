@@ -192,8 +192,8 @@ public class BranchTaskActivity extends BasicActivity {
     }
 
     private void getTaskInfo(Integer type) {
-        dataList.clear();
         if (adapter != null) {
+            dataList.clear();
             adapter.notifyDataSetChanged();
         }
         subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(), branchUserInfo.getBranch()
@@ -215,6 +215,14 @@ public class BranchTaskActivity extends BasicActivity {
                         if (taskList.size() == 0) {
                             tvEmpty.setVisibility(View.VISIBLE);
                         } else {
+                            if (dataList == null) {
+                                dataList = new ArrayList<Task>();
+                                adapter = new SimpleTaskListAdapter(BranchTaskActivity.this
+                                        , dataList, centerBranchList, branchList);
+                                vp.setLayoutManager(new LinearLayoutManager(BranchTaskActivity.this));
+                                vp.setAdapter(adapter);
+                            }
+                            dataList.clear();
                             tvEmpty.setVisibility(View.GONE);
                             dataList.addAll(taskList);
                             if (adapter == null) {
