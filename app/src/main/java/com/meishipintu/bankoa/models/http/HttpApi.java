@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.models.http;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.meishipintu.bankoa.BuildConfig;
 import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.models.entity.BranchUserInfo;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
@@ -26,7 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,10 +49,21 @@ public class HttpApi {
     private HttpService httpService;
 
     private HttpApi() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        if (BuildConfig.DEBUG) {
+            // Log信息拦截器
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            //设置 Debug Log 模式
+            builder.addInterceptor(loggingInterceptor);
+        }
+        OkHttpClient okHttpClient = builder.build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constans.BaseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
                 .build();
         httpService = retrofit.create(HttpService.class);
     }

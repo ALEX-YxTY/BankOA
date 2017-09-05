@@ -98,6 +98,7 @@ public class CommentInfo implements Serializable {
     @Override
     public String toString() {
         return "CommentInfo{" +
+                "commend_user_ed="+commend_user_ed+'\''+
                 "commend_user_owner='" + commend_user_owner + '\'' +
                 ", commend_user_owner_level='" + commend_user_owner_level + '\'' +
                 ", task_id='" + task_id + '\'' +

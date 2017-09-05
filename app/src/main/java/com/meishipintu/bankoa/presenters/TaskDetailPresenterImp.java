@@ -183,6 +183,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
     @Override
     public void addNodeRemarks(String taskId, String taskLevel, String taskContent, String userId) {
+        Log.d("test", "taskId:" + taskId + ", taskLevel:" + taskLevel + ",taskContent:" + taskContent + ", userId:" + userId);
         subscriptions.add(httpApi.addRemark(taskId,taskLevel,taskContent,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -200,6 +201,7 @@ public class TaskDetailPresenterImp implements TaskDetailContract.IPresenter {
 
     @Override
     public void addNodeComment(CommentInfo info) {
+        Log.d("test", "conment:" + info.toString());
         subscriptions.add(httpApi.addComment(info).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
