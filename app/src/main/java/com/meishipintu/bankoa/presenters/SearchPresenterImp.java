@@ -6,6 +6,7 @@ import android.util.Log;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.SearchContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
@@ -66,13 +67,13 @@ public class SearchPresenterImp implements SearchContract.IPresenter {
 
     @Override
     public void getCenterBranch() {
-        List<String> centerBranchList = OaApplication.centerBranchList;
+        List<CenterBranch> centerBranchList = OaApplication.centerBranchList;
         if (centerBranchList == null) {
             subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<List<String>>() {
+                    .subscribe(new Action1<List<CenterBranch>>() {
                         @Override
-                        public void call(List<String> strings) {
+                        public void call(List<CenterBranch> strings) {
                             PreferenceHelper.saveCenterBranch(strings);
                             iView.onCenterBranchGet(strings);
                         }
@@ -83,23 +84,23 @@ public class SearchPresenterImp implements SearchContract.IPresenter {
     }
 
     @Override
-    public void getBranchList(int totalNum) {
-        for(int i=1;i<=totalNum;i++) {
-            final int index = i;
-            Map<Integer, String> branchList = OaApplication.branchList.get(index);
+    public void getBranchList(final List<CenterBranch> centerBranchList) {
+        for(int i=0;i<centerBranchList.size();i++) {
+            Map<Integer, String> branchList = OaApplication.branchList.get(centerBranchList.get(i).getId());
             if (branchList == null) {
-                subscriptions.add(httpApi.getBranchList(i).subscribeOn(Schedulers.io())
+                final int finalI = i;
+                subscriptions.add(httpApi.getBranchList(centerBranchList.get(i).getId()).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Map<Integer, String>>() {
                             @Override
                             public void call(Map<Integer, String> strings) {
-                                PreferenceHelper.saveBranch(index, strings);
-                                OaApplication.branchList.put(index, strings);
-                                iView.onBranchListGet(index, strings);
+                                PreferenceHelper.saveBranch(centerBranchList.get(finalI).getId(), strings);
+                                OaApplication.branchList.put(centerBranchList.get(finalI).getId(), strings);
+                                iView.onBranchListGet(centerBranchList.get(finalI).getId(), strings);
                             }
                         }));
             } else {
-                iView.onBranchListGet(i, branchList);
+                iView.onBranchListGet(centerBranchList.get(i).getId(), branchList);
             }
         }
     }

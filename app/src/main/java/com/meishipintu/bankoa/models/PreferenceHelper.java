@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.meishipintu.bankoa.OaApplication;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.library.util.StringUtils;
 
@@ -101,24 +104,22 @@ public class PreferenceHelper {
     }
 
 
-    public static void saveCenterBranch(List<String> centerBranchList) {
-        StringBuffer sbf = new StringBuffer();
-        for(int i=0;i<centerBranchList.size();i++) {
-            sbf.append(centerBranchList.get(i));
-            if (i != centerBranchList.size() - 1) {
-                sbf.append(",");
-            }
-        }
+    public static void saveCenterBranch(List<CenterBranch> centerBranchList) {
+        Gson gson = new Gson();
+        String result = gson.toJson(centerBranchList);
+        Log.i("test", "list to json:" + result);
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("centerBranch", sbf.toString());
+        editor.putString("centerBranch", result.toString());
         editor.apply();
     }
 
-    public static String[] getCeterBranchList() {
+    public static List<CenterBranch> getCeterBranchList() {
         SharedPreferences sharedPreferences = getSharePreference();
         String centerBranchList = sharedPreferences.getString("centerBranch", null);
         if (centerBranchList != null) {
-            return centerBranchList.split(",");
+            Gson gson = new Gson();
+            List<CenterBranch> list = gson.fromJson(centerBranchList, new TypeToken<List<CenterBranch>>(){}.getType());
+            return list;
         } else {
             return null;
         }

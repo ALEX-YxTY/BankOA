@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.contracts;
 
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
@@ -21,14 +22,14 @@ public interface SearchContract {
 
         void getCenterBranch();
 
-        void getBranchList(int totalNum);
+        void getBranchList(List<CenterBranch> centerBranchList);
     }
 
     interface IView extends BasicView{
 
         void showResult(List<Task> taskList);
 
-        void onCenterBranchGet(List<String> centerBranch);
+        void onCenterBranchGet(List<CenterBranch> centerBranch);
 
         void onBranchListGet(int index, Map<Integer, String> branchList);
     }

@@ -18,6 +18,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerSearchComponent;
 import com.meishipintu.bankoa.contracts.SearchContract;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.SearchMoudule;
@@ -56,7 +57,7 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
     private RecyclerView.Adapter adapter;
     private List<Task> dataList;
 
-    private List<String> centerBranchList;          //储存中心分行名称
+    private List<CenterBranch> centerBranchList;          //储存中心分行名称
     private Map<Integer, Map<Integer, String>> branchList;      //储存支行名称
 
     @Override
@@ -126,9 +127,9 @@ public class SearchActivity extends BasicActivity implements SearchContract.IVie
 
     //from TaskContract.IView
     @Override
-    public void onCenterBranchGet(List<String> centerBranch) {
+    public void onCenterBranchGet(List<CenterBranch> centerBranch) {
         this.centerBranchList = centerBranch;
-        mPresenter.getBranchList(centerBranch.size());
+        mPresenter.getBranchList(centerBranch);
     }
 
     //from TaskContract.IView

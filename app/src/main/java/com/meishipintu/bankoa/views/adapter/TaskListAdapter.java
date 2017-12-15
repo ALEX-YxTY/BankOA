@@ -14,6 +14,7 @@ import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.views.activities.PaymentDetailActivity;
 import com.meishipintu.bankoa.views.activities.PaymentEnterActivity;
@@ -46,11 +47,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
     private String supervisorId = null;     //监管人的uid
     private String supervisorLevel = null;     //监管人的level
 
-    private List<String> centerBranch;              //中心支行列表
+    private List<CenterBranch> centerBranch;              //中心支行列表
     private Map<Integer, Map<Integer,String>> branchList;      //分行列表
 
     public TaskListAdapter(Context context, List<Task> list, String s_uid, String s_level
-            , List<String> centerBranch, Map<Integer, Map<Integer,String>> branchList) {
+            , List<CenterBranch> centerBranch, Map<Integer, Map<Integer,String>> branchList) {
         this.centerBranch = centerBranch;
         this.branchList = branchList;
         this.dataList = list;
@@ -92,13 +93,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         int centerBranchId = Integer.parseInt(task.getCredit_center_branch());
         int branchId = Integer.parseInt(task.getCredit_branch());
 //        Log.d("LoginPresenter", "centerId:" + centerBranchId + ",branchId:" + branchId);
-        String centerBranch = this.centerBranch.get(centerBranchId-1);
+        String cBranch = "";
+        for (CenterBranch centerBranch1 : centerBranch) {
+            if (centerBranch1.getId() == centerBranchId) {
+                cBranch = centerBranch1.getBranch();
+            }
+        }
         String branch = "";
         Map<Integer,String> branchStrings = this.branchList.get(centerBranchId);
         if (branchStrings != null && branchStrings.size() > 0 && branchStrings.get(branchId) != null) {
             branch = "-" + branchStrings.get(branchId);
         }
-        holder.tvRecommendName.setText(centerBranch + branch);
+        holder.tvRecommendName.setText(cBranch + branch);
         if ("1".equals(task.getIs_finish())) {
             holder.tvPercentage.setText("100%");
         } else {

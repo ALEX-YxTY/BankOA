@@ -6,6 +6,7 @@ import android.util.Log;
 import com.meishipintu.bankoa.components.ApplicationComponent;
 import com.meishipintu.bankoa.components.DaggerApplicationComponent;
 import com.meishipintu.bankoa.models.PreferenceHelper;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.modules.ApplicationModule;
 import com.tencent.bugly.Bugly;
@@ -31,7 +32,7 @@ public class OaApplication extends Application {
     private static UserInfo user;
     public static Map<String,JSONObject> nodeNameList;
     public static Map<String, Integer> nodeNumber;
-    public static List<String> centerBranchList;
+    public static List<CenterBranch> centerBranchList;
     public static Map<Integer, Map<Integer, String>> branchList;
     public static JSONObject departmentList;
 
@@ -65,14 +66,13 @@ public class OaApplication extends Application {
         nodeNameList = PreferenceHelper.getNodeNameList();
         nodeNumber = PreferenceHelper.getNodeNum();
         departmentList = PreferenceHelper.getDepartmentList();
-        String[] ceterBranchList = PreferenceHelper.getCeterBranchList();
-        if (ceterBranchList != null) {
-            centerBranchList = Arrays.asList(ceterBranchList);
-        }
+
+        centerBranchList = PreferenceHelper.getCeterBranchList();
+
         branchList = new HashMap<>();
-        if (ceterBranchList != null) {
+        if (centerBranchList != null) {
             for (int i = 0; i < centerBranchList.size(); i ++) {
-                Map<Integer, String> branchList = PreferenceHelper.getBranchList(i + 1);
+                Map<Integer, String> branchList = PreferenceHelper.getBranchList(centerBranchList.get(i).getId());
                 if (branchList != null) {
                     OaApplication.branchList.put(i + 1, branchList);
                 }

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.meishipintu.bankoa.BuildConfig;
 import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.models.entity.BranchUserInfo;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.PaymentDetailItem;
@@ -282,37 +283,13 @@ public class HttpApi {
     }
 
     //获取中心支行列表
-    public Observable<List<String>> getCenterBranchList() {
-        return httpService.getCenterBranchListService().map(new Func1<ResponseBody, List<String>>() {
-            @Override
-            public List<String> call(ResponseBody responseBody) {
-                List<String> result = new ArrayList<>();
-                try {
-                    String resultString = responseBody.string();
-                    JSONObject jsonObject = new JSONObject(resultString);
-                    if (jsonObject.getInt("status") != 1) {
-                        throw new RuntimeException(jsonObject.getString("msg"));
-                    } else {
-                        JSONArray dataArray = jsonObject.getJSONArray("data");
-                        for (int i = 0; i < dataArray.length(); i++) {
-                            result.add(dataArray.getJSONObject(i).getString("branch"));
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    return result;
-                }
-            }
-        });
+    public Observable<List<CenterBranch>> getCenterBranchList() {
+        return httpService.getCenterBranchListService().map(new ResultFunction<List<CenterBranch>>());
     }
 
     //获取支行列表
-    public Observable<Map<Integer,String>> getBranchList(int centerBranch) {
-        return httpService.getBranchListService(centerBranch).map(new Func1<ResponseBody, Map<Integer,String>>() {
+    public Observable<Map<Integer,String>> getBranchList(int centerBranchId) {
+        return httpService.getBranchListService(centerBranchId).map(new Func1<ResponseBody, Map<Integer,String>>() {
             @Override
             public Map<Integer,String> call(ResponseBody responseBody) {
                 Map<Integer,String> resultList = new HashMap<>();

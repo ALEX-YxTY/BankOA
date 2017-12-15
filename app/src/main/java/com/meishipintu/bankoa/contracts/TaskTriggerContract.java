@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.contracts;
 
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
@@ -30,7 +31,7 @@ public interface TaskTriggerContract {
 
     interface IView extends BasicView {
 
-        void showCenteralBranches(String[] districts);
+        void showCenteralBranches(List<CenterBranch> centerBranchList);
 
         void showBranches(Map<Integer, String> branches);
 

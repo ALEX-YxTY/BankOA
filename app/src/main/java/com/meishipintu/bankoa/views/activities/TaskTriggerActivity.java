@@ -15,6 +15,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskTriggrtComponent;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.modules.TaskTriggrtModule;
 import com.meishipintu.bankoa.presenters.TaskTriggerPresenterImp;
@@ -144,17 +145,21 @@ public class TaskTriggerActivity extends BasicActivity implements TaskTriggerCon
 
     //from TaskTriggerContract.IView
     @Override
-    public void showCenteralBranches(final String[] districts) {
-        dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, districts, new CustomNumPickeDialog.OnOkClickListener() {
+    public void showCenteralBranches(final List<CenterBranch> districts) {
+        String[] stringShow = new String[districts.size()];
+        for (int i=0;i<districts.size();i++) {
+            stringShow[i] = districts.get(i).getBranch();
+        }
+        dialog = new CustomNumPickeDialog(this, R.style.DialogNoAction, stringShow, new CustomNumPickeDialog.OnOkClickListener() {
             @Override
             public void onOkClick(int vlueChoose) {
-                if (centerBranch != vlueChoose + 1) {
+                if (centerBranch != districts.get(vlueChoose).getId()) {
                     //与上次选择不同
                     branch = 0;
                     tvBranch.setText("");
                 }
-                centerBranch = vlueChoose + 1;
-                tvCenterBranch.setText(districts[vlueChoose]);
+                centerBranch = districts.get(vlueChoose).getId();
+                tvCenterBranch.setText(districts.get(vlueChoose).getBranch());
                 dialog.dismiss();
             }
         });

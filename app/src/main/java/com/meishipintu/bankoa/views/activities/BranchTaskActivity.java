@@ -12,6 +12,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.models.PreferenceHelper;
 import com.meishipintu.bankoa.models.entity.BranchUserInfo;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
 import com.meishipintu.bankoa.views.adapter.SimpleTaskListAdapter;
@@ -49,7 +50,7 @@ public class BranchTaskActivity extends BasicActivity {
     TextView tvEmpty;
 
     private CompositeSubscription subscriptions;
-    private List<String> centerBranchList;          //储存中心分行名称
+    private List<CenterBranch> centerBranchList;          //储存中心分行名称
     private Map<Integer, Map<Integer, String>> branchList;      //储存支行名称
     private BranchUserInfo branchUserInfo;          //分行信息
     private HttpApi httpApi;
@@ -101,37 +102,37 @@ public class BranchTaskActivity extends BasicActivity {
         if (centerBranchList == null) {
             subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<List<String>>() {
+                    .subscribe(new Action1<List<CenterBranch>>() {
                         @Override
-                        public void call(List<String> strings) {
+                        public void call(List<CenterBranch> strings) {
                             PreferenceHelper.saveCenterBranch(strings);
-                            getBranchList(strings.size());
+                            getBranchList(strings);
                         }
                     }));
         } else {
-            getBranchList(centerBranchList.size());
+            getBranchList(centerBranchList);
         }
     }
 
     //获取各支行列表
-    private void getBranchList(int totalSize) {
+    private void getBranchList(final List<CenterBranch> centerBranches) {
         branchList = new HashMap<>();
-        for (int i = 1; i <= totalSize; i++) {
-            final int index = i;
-            Map<Integer, String> itemList = OaApplication.branchList.get(index);
+        for (int i = 0; i < centerBranches.size(); i++) {
+            Map<Integer, String> itemList = OaApplication.branchList.get(centerBranches.get(i).getId());
             if (itemList == null) {
-                subscriptions.add(httpApi.getBranchList(i).subscribeOn(Schedulers.io())
+                final int finalI = i;
+                subscriptions.add(httpApi.getBranchList(centerBranches.get(i).getId()).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Map<Integer, String>>() {
                             @Override
                             public void call(Map<Integer, String> strings) {
-                                PreferenceHelper.saveBranch(index, strings);
-                                OaApplication.branchList.put(index, strings);
-                                branchList.put(index, strings);
+                                PreferenceHelper.saveBranch(centerBranches.get(finalI).getId(), strings);
+                                OaApplication.branchList.put(centerBranches.get(finalI).getId(), strings);
+                                branchList.put(centerBranches.get(finalI).getId(), strings);
                             }
                         }));
             } else {
-                branchList.put(index, itemList);
+                branchList.put(centerBranches.get(i).getId(), itemList);
             }
         }
         subscriptions.add(httpApi.getBranchTask(branchUserInfo.getCenter_branch(), branchUserInfo.getBranch(), 1, null)

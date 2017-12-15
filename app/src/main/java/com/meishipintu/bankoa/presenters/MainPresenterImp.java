@@ -6,6 +6,7 @@ import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.MainContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.UserInfo;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
@@ -78,23 +79,23 @@ public class MainPresenterImp implements MainContract.IPresenter {
     public void getCenterBranchList() {
         subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<String>>() {
+                .subscribe(new Action1<List<CenterBranch>>() {
                     @Override
-                    public void call(List<String> strings) {
-                        for(int i=0;i<strings.size();i++) {
-                            final int index = i + 1;
-                            subscriptions.add(httpApi.getBranchList(index).subscribeOn(Schedulers.io())
+                    public void call(final List<CenterBranch> centerBranchList) {
+                        for(int i=0;i<centerBranchList.size();i++) {
+                            final int finalI = i;
+                            subscriptions.add(httpApi.getBranchList(centerBranchList.get(i).getId()).subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Action1<Map<Integer,String>>() {
                                         @Override
                                         public void call(Map<Integer,String> strings) {
-                                            PreferenceHelper.saveBranch(index,strings);
-                                            OaApplication.branchList.put(index, strings);
+                                            PreferenceHelper.saveBranch(centerBranchList.get(finalI).getId(),strings);
+                                            OaApplication.branchList.put(centerBranchList.get(finalI).getId(), strings);
                                         }
                                     }));
                         }
-                        PreferenceHelper.saveCenterBranch(strings);
-                        OaApplication.centerBranchList = strings;
+                        PreferenceHelper.saveCenterBranch(centerBranchList);
+                        OaApplication.centerBranchList = centerBranchList;
                     }
                 }));
     }

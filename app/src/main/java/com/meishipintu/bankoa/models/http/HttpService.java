@@ -2,6 +2,7 @@ package com.meishipintu.bankoa.models.http;
 
 import android.support.annotation.Nullable;
 
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.HttpResult;
 import com.meishipintu.bankoa.models.entity.PaymentInfo;
 import com.meishipintu.bankoa.models.entity.RemarkInfo;
@@ -94,7 +95,7 @@ public interface HttpService {
 
     //获取中心支行列表
     @POST("Home/Api/getCenterBranch")
-    Observable<ResponseBody> getCenterBranchListService();
+    Observable<HttpResult<List<CenterBranch>>> getCenterBranchListService();
 
     //获取支行列表
     @FormUrlEncoded

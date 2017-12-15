@@ -18,6 +18,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskComponent;
 import com.meishipintu.bankoa.contracts.TaskContract;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.modules.TaskModule;
 import com.meishipintu.bankoa.presenters.TaskPresenterImp;
@@ -65,7 +66,7 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
     private List<Task> dataList;
     private int checkNow;
 
-    private List<String> centerBranchList;          //储存中心分行名称
+    private List<CenterBranch> centerBranchList;          //储存中心分行名称
     private Map<Integer, Map<Integer,String>> branchList;      //储存支行名称
 
     private String uid;                 //当前显示对象的uid
@@ -159,9 +160,9 @@ public class TaskActivity extends BasicActivity implements TaskContract.IView {
 
     //from TaskContract.IView
     @Override
-    public void onCenterBranchGet(List<String> centerBranch) {
+    public void onCenterBranchGet(List<CenterBranch> centerBranch) {
         this.centerBranchList = centerBranch;
-        mPresenter.getBranchList(centerBranch.size());
+        mPresenter.getBranchList(centerBranch);
     }
 
     //from TaskContract.IView

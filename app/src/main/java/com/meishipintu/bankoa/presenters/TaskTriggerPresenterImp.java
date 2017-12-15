@@ -7,6 +7,7 @@ import com.meishipintu.bankoa.Constans;
 import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.contracts.TaskTriggerContract;
 import com.meishipintu.bankoa.models.PreferenceHelper;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.Task;
 import com.meishipintu.bankoa.models.http.HttpApi;
 
@@ -49,11 +50,11 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
 
     @Override
     public void getCenteralBranches() {
-        List<String> ceterBranchList = OaApplication.centerBranchList;
+        List<CenterBranch> ceterBranchList = OaApplication.centerBranchList;
         if (ceterBranchList == null) {
             subscriptions.add(httpApi.getCenterBranchList().subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<List<String>>() {
+                    .subscribe(new Subscriber<List<CenterBranch>>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -64,18 +65,15 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
                         }
 
                         @Override
-                        public void onNext(List<String> strings) {
+                        public void onNext(List<CenterBranch> strings) {
                             PreferenceHelper.saveCenterBranch(strings);
                             OaApplication.centerBranchList = strings;
-                            String[] stringArr = new String[strings.size()];
-                            strings.toArray(stringArr);
-                            view.showCenteralBranches(stringArr);
+                            view.showCenteralBranches(strings);
                         }
                     }));
         } else {
-            String[] stringArr = new String[ceterBranchList.size()];
-            ceterBranchList.toArray(stringArr);
-            view.showCenteralBranches(stringArr);
+
+            view.showCenteralBranches(ceterBranchList);
         }
     }
 
