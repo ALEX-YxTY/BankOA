@@ -266,6 +266,53 @@
                 <include layout="@layout/item_clerk_2" />
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="18dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="@color/colorTheme" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerVertical="true"
+                        android:textSize="15sp"
+                        android:text="推荐机构中心行及支行客户经理"
+                        android:textColor="@color/colorTheme"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    >
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/edit_text_back" />
+                    <TextView
+                        android:id="@+id/tv_recommend_bank_and_manager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_gray4"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginBottom="11dp"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/rl_remark"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"

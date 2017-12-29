@@ -1,5 +1,6 @@
 package com.meishipintu.bankoa.contracts;
 
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.CommentDetail;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
@@ -9,6 +10,7 @@ import com.meishipintu.bankoa.presenters.BasicPresenter;
 import com.meishipintu.bankoa.views.BasicView;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/5.

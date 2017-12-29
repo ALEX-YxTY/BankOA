@@ -72,7 +72,6 @@ public class TaskTriggerPresenterImp implements TaskTriggerContract.IPresenter {
                         }
                     }));
         } else {
-
             view.showCenteralBranches(ceterBranchList);
         }
     }

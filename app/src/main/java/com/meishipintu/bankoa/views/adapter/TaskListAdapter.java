@@ -3,6 +3,7 @@ package com.meishipintu.bankoa.views.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -90,9 +91,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
         }
         holder.tvApplyMoney.setText(task.getApply_money());
         holder.tvSponsorName.setText(task.getSponsor_name());
+        //获取中心行和支行名称
         int centerBranchId = Integer.parseInt(task.getCredit_center_branch());
         int branchId = Integer.parseInt(task.getCredit_branch());
-//        Log.d("LoginPresenter", "centerId:" + centerBranchId + ",branchId:" + branchId);
         String cBranch = "";
         for (CenterBranch centerBranch1 : centerBranch) {
             if (centerBranch1.getId() == centerBranchId) {
@@ -105,6 +106,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
             branch = "-" + branchStrings.get(branchId);
         }
         holder.tvRecommendName.setText(cBranch + branch);
+
         if ("1".equals(task.getIs_finish())) {
             holder.tvPercentage.setText("100%");
         } else {
@@ -123,7 +125,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListViewHolder> {
                 if ("0".equals(task.getIs_finish())) {
                     intent = new Intent(mContext, TaskDetailActivity.class);
                     intent.putExtra("task", task);
-
                 } else {
                     if (task.getTask_type().equals("3")) {
                         //类型三任务完成后无下级页面

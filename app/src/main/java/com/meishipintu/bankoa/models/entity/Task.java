@@ -31,6 +31,15 @@ public class Task implements Serializable{
     private String repayment_status;    //标准任务还款是否已还完
     private String is_del;              //标注是否已删除
     private String sponsor_name;
+    private String recommendName;       //用来保存推荐支行和中心行string，非接口获取
+
+    public String getRecommendName() {
+        return recommendName;
+    }
+
+    public void setRecommendName(String recommendName) {
+        this.recommendName = recommendName;
+    }
 
     public String getSponsor_name() {
         return sponsor_name;

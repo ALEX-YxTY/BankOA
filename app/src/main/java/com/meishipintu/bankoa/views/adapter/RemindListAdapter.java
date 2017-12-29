@@ -103,7 +103,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<NoticeViewHolder> {
                 } else {
                     //任务在进行中
                     intent = new Intent(context, TaskDetailActivity.class);
-                    intent.putExtra("task", new Task(remind.getTask_id(), remind.getTask_info().getSponsor_id()));
+                    intent.putExtra("task", remind.getTask_info());
                     if (supervisorId != null) {
                         //从监管界面进入
                         intent.putExtra("supervisor_id", supervisorId);

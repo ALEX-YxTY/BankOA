@@ -109,13 +109,13 @@ public class PreferenceHelper {
         String result = gson.toJson(centerBranchList);
         Log.i("test", "list to json:" + result);
         SharedPreferences.Editor editor = getSharePreference().edit();
-        editor.putString("centerBranch", result.toString());
+        editor.putString("centerBranchNew", result.toString());
         editor.apply();
     }
 
     public static List<CenterBranch> getCeterBranchList() {
         SharedPreferences sharedPreferences = getSharePreference();
-        String centerBranchList = sharedPreferences.getString("centerBranch", null);
+        String centerBranchList = sharedPreferences.getString("centerBranchNew", null);
         if (centerBranchList != null) {
             Gson gson = new Gson();
             List<CenterBranch> list = gson.fromJson(centerBranchList, new TypeToken<List<CenterBranch>>(){}.getType());

@@ -23,6 +23,7 @@ import com.meishipintu.bankoa.OaApplication;
 import com.meishipintu.bankoa.R;
 import com.meishipintu.bankoa.components.DaggerTaskDetailComponent;
 import com.meishipintu.bankoa.contracts.TaskDetailContract;
+import com.meishipintu.bankoa.models.entity.CenterBranch;
 import com.meishipintu.bankoa.models.entity.CommentDetail;
 import com.meishipintu.bankoa.models.entity.CommentInfo;
 import com.meishipintu.bankoa.models.entity.NodeInfoNow;
@@ -42,6 +43,7 @@ import com.meishipintu.library.view.CustomAlertDialog2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -85,6 +87,8 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     TextView tvTimeRemain;
     @BindView(R.id.tv_isOutOfTime)
     TextView tvOutOfTime;
+    @BindView(R.id.tv_recommend_bank_and_manager)
+    TextView tvRecommendManager;
     @BindView(R.id.bt_finish)
     Button btFinish;
     @BindView(R.id.bt_enter)
@@ -125,7 +129,6 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
     private Dialog mDialog;
     private CommentDetail commentDetailNow = null;         //当前评论的comment
 
-
     @Inject
     TaskDetailPresenterImp mPresenter;
 
@@ -156,15 +159,32 @@ public class TaskDetailActivity extends BasicActivity implements TaskDetailContr
         });
         DaggerTaskDetailComponent.builder().taskDetailModule(new TaskDetailModule(this))
                 .build().inject(this);
-        initUI();
+        initUI(task);
     }
 
-    private void initUI() {
+    private void initUI(Task task) {
         mPresenter.getTaskInfo(taskId);
         initCommentButton();
         tvSubTitle.setText(R.string.del);
         tvSubTitle.setVisibility(View.VISIBLE);
         tvSubTitle.setTextColor(0xffff6c5d);
+
+        String cBranch = "";
+        int centerBranchId = Integer.parseInt(task.getCredit_center_branch());
+        int branchId = Integer.parseInt(task.getCredit_branch());
+
+        for (CenterBranch centerBranch1 : OaApplication.centerBranchList) {
+            if (centerBranch1.getId() == centerBranchId) {
+                cBranch = centerBranch1.getBranch();
+            }
+        }
+        String branch = "";
+        Map<Integer,String> branchStrings = OaApplication.branchList.get(centerBranchId);
+        if (branchStrings != null && branchStrings.size() > 0 && branchStrings.get(branchId) != null) {
+            branch = "-" + branchStrings.get(branchId);
+        }
+
+        tvRecommendManager.setText(cBranch + branch + ": " + task.getCredit_manager());
     }
 
     //初始化评论按钮

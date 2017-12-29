@@ -130,11 +130,13 @@ public class NoticActivity extends BasicActivity implements NoticContract.IView{
                 onBackPressed();
                 break;
             case R.id.left:
+                Log.d("test", "click");
                 if (checkNow != R.id.left) {
                     checkNow = R.id.left;
                     tvEmpty.setVisibility(View.GONE);
                     vp.removeAllViews();
                     mPresenter.getRemind(true, uid, 1);
+                    Log.d("test", "getRemind");
                     currentPage = 1;
                 }
                 break;
@@ -158,29 +160,30 @@ public class NoticActivity extends BasicActivity implements NoticContract.IView{
     //from NoticeContract.IView
     @Override
     public void showRemind(boolean reload, List<UpClassRemind> remindList) {
+        Log.d("test", "showRemind");
         isLoading = false;
-        if (remindAdapter == null) {
-            this.remindList = new ArrayList<>();
-            remindAdapter = new RemindListAdapter(this, this.remindList, supervisorId
-                    , supervisorLevel, fromMain, readSet);
-            vp.setAdapter(remindAdapter);
-        }
-        if (reload) {
-            //重新载入
-            this.remindList.clear();
-            currentPage = 1;
-            if (remindList.size() == 0) {
-                tvEmpty.setVisibility(View.VISIBLE);
-            }
+        if (remindList.size() == 0) {
+            //无内容
+            tvEmpty.setVisibility(View.VISIBLE);
         } else {
-            if (remindList.size() == 0) {
-                showError("没有更多提醒");
+            //有内容
+            if (remindAdapter == null) {
+                this.remindList = new ArrayList<>();
+                remindAdapter = new RemindListAdapter(this, this.remindList, supervisorId
+                        , supervisorLevel, fromMain, readSet);
+            }
+            if (reload) {
+                //重新载入
+                this.remindList.clear();
+                currentPage = 1;
+                this.remindList.addAll(remindList);
+                vp.setAdapter(remindAdapter);
             } else {
                 currentPage++;
+                this.remindList.addAll(remindList);
+                remindAdapter.notifyDataSetChanged();
             }
         }
-        this.remindList.addAll(remindList);
-        remindAdapter.notifyDataSetChanged();
     }
 
     //from NoticeContract.IView
